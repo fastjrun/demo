@@ -1,1 +1,1 @@
-#demo
+支持spring4+mybatis3的一个脚手架，基于注解分页。移动App后台框架

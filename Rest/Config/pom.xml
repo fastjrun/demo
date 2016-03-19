@@ -1,0 +1,130 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+        <groupId>com.fastjrun.share</groupId>
+        <artifactId>demoSpring4-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+	</parent>
+	<artifactId>demoSpring4-Rest-config</artifactId>
+	<name>demoSpring4-Rest-config</name>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>*.properties</include>
+					<include>*.xml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>log4j.dtd</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<!-- not append assembly id in release file name -->
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptors>
+						<descriptor>target/classes/package.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<finalName>config</finalName>
+	</build>
+	<profiles>
+		<profile>
+			<!-- 本地环境,默认是挡板，个人可以更新；其他环境配置对开发工程师无用 -->
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!--src/main/resources/log4j.xml -->
+				<mainlog>com.fastjrun.demospring4</mainlog>
+				<level.mainlog>debug</level.mainlog>
+				<commonlogFile>/app/demoSpring4/Rest/logs/rest.log</commonlogFile>
+				<errorlogFile>/app/demoSpring4/Rest/logs/error.log</errorlogFile>
+				<!-- src/main/resources/jdbc.properties -->
+				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo?useUnicode=true&amp;characterEncoding=UTF-8</jdbc.url>
+				<jdbc.username>demo</jdbc.username>
+				<jdbc.password>123456</jdbc.password>
+				<jdbc.initialSize>2</jdbc.initialSize>
+				<jdbc.maxIdle>5</jdbc.maxIdle>
+				<jdbc.minIdle>3</jdbc.minIdle>
+				<jdbc.maxActive>10</jdbc.maxActive>
+				<jdbc.maxWait>60000</jdbc.maxWait>
+				<jdbc.defaultAutoCommit>true</jdbc.defaultAutoCommit>
+				<jdbc.logAbandoned>true</jdbc.logAbandoned>
+				<jdbc.testOnReturn>false</jdbc.testOnReturn>
+				<jdbc.testOnBorrow>false</jdbc.testOnBorrow>
+				<jdbc.testWhileIdle>true</jdbc.testWhileIdle>
+				<!-- 进行检测一个连接是有效的SQL语句，比如oracle是select 1 from dual 而 mysql是 select 1 -->
+				<jdbc.validationQuery>select 1</jdbc.validationQuery>
+				<jdbc.removeAbandoned>true</jdbc.removeAbandoned>
+				<jdbc.removeAbandonedTimeout>180</jdbc.removeAbandonedTimeout>
+				<jdbc.timeBetweenEvictionRunsMillis>180000</jdbc.timeBetweenEvictionRunsMillis>
+				<jdbc.numTestsPerEvictionRun>20</jdbc.numTestsPerEvictionRun>
+				<jdbc.minEvictableIdleTimeMillis>180000</jdbc.minEvictableIdleTimeMillis>
+                <!-- src/main/resource/rabbitmq.properties -->
+                <rabbitmq.host>rabbitmqhost</rabbitmq.host>
+                <rabbitmq.port>5672</rabbitmq.port>
+                <rabbitmq.userName>mytest</rabbitmq.userName>
+                <rabbitmq.password>mytest</rabbitmq.password>
+                <rabbitmq.RegisterSuccessNotifyKey>userRegNotify</rabbitmq.RegisterSuccessNotifyKey>
+                <!-- src/main/config/activemq.properties -->
+                <activemq.brokerURL>failover:(tcp://activemqhost:51616)</activemq.brokerURL>
+                <activemq.queueName>User.MiaoQueue</activemq.queueName>
+                <activemq.userName>fastjrun</activemq.userName>
+                <activemq.password>fastjrun</activemq.password>
+                <!-- consumer -->
+                <activemq.maxConnections>10</activemq.maxConnections>
+                <activemq.concurrentConsumers>5</activemq.concurrentConsumers>
+				<!-- src/main/config/redis.properties -->
+                <redis.host>redishost</redis.host>
+                <redis.port>6379</redis.port>
+                <redis.pass>761c166cb9706295</redis.pass>
+                <redis.maxIdle>300</redis.maxIdle>
+                <redis.maxTotal>600</redis.maxTotal>
+                <redis.maxWait>1000</redis.maxWait>
+                <redis.testOnBorrow>true</redis.testOnBorrow>
+                <!-- src/main/config/service.properties -->
+                <userService.invalidDays>30</userService.invalidDays>
+                <userService.errLimits>5</userService.errLimits>
+                <userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 联调环境 -->
+			<id>env-test</id>
+		</profile>
+		<profile>
+			<!-- 演示环境 -->
+			<id>env-display</id>
+		</profile>
+		<profile>
+			<!-- 生产环境 -->
+			<id>env-product</id>
+		</profile>
+	</profiles>
+</project>
+

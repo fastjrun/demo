@@ -1,0 +1,219 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.fastjrun.share</groupId>
+		<artifactId>demoSpring4-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>demoSpring4-batch</artifactId>
+	<dependencies>
+        <!-- activemq -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-pool</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fastjrun.share</groupId>
+			<artifactId>base-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fastjrun.share</groupId>
+			<artifactId>demoSpring4-service-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fastjrun.share</groupId>
+			<artifactId>base-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>applicationContext.xml</include>
+					<include>package.xml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>applicationContext-*.xml</include>
+					<include>*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<!-- not append assembly id in release file name -->
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptors>
+						<descriptor>target/classes/package.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<finalName>batch</finalName>
+	</build>
+	<profiles>
+		<profile>
+			<id>nocheck</id>
+			<properties>
+				<skipTests>true</skipTests>
+				<checkstyle.skip>true</checkstyle.skip>
+				<license.skip>true</license.skip>
+				<notice.skip>true</notice.skip>
+				<versions.skip>true</versions.skip>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 本地环境,默认是挡板，个人可以更新；其他环境配置对开发工程师无用 -->
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- /src/main/resources/applicationContext.xml -->
+				<system.configDir>config</system.configDir>
+				<!-- /src/main/config/log4j.xml -->
+				<mainlog>com.fastjrun.demospring4</mainlog>
+				<level.mainlog>debug</level.mainlog>
+				<!-- src/main/config/batch.properties -->
+				<shutdown.port>2050</shutdown.port>
+				<scheduler.threadCount>5</scheduler.threadCount>
+				<executorService.corePoolSize>5</executorService.corePoolSize>
+				<executorService.maxPoolSize>10</executorService.maxPoolSize>
+				<executorService.queueCapacity>25</executorService.queueCapacity>
+                <executorService.keepAliveSeconds>3000</executorService.keepAliveSeconds>
+				<unLockUserPwdTask.cronExpression>0 * 0/2 * * ?</unLockUserPwdTask.cronExpression>
+                <invalidLoginCredentialTask.cronExpression>0 * 0/2 * * ?</invalidLoginCredentialTask.cronExpression>
+				<!-- src/main/config/jdbc.properties -->
+				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
+				<jdbc.username>demo</jdbc.username>
+				<jdbc.password>123456</jdbc.password>
+				<jdbc.initialSize>2</jdbc.initialSize>
+				<jdbc.maxIdle>5</jdbc.maxIdle>
+				<jdbc.minIdle>3</jdbc.minIdle>
+				<jdbc.maxActive>10</jdbc.maxActive>
+				<jdbc.maxWait>60000</jdbc.maxWait>
+				<jdbc.defaultAutoCommit>true</jdbc.defaultAutoCommit>
+				<jdbc.logAbandoned>true</jdbc.logAbandoned>
+				<jdbc.testOnReturn>false</jdbc.testOnReturn>
+				<jdbc.testOnBorrow>false</jdbc.testOnBorrow>
+				<jdbc.testWhileIdle>true</jdbc.testWhileIdle>
+				<!-- 进行检测一个连接是有效的SQL语句，比如oracle是select 1 from dual 而 mysql是 select 1 -->
+				<jdbc.validationQuery>select 1</jdbc.validationQuery>
+				<jdbc.removeAbandoned>true</jdbc.removeAbandoned>
+				<jdbc.removeAbandonedTimeout>180</jdbc.removeAbandonedTimeout>
+				<jdbc.timeBetweenEvictionRunsMillis>180000</jdbc.timeBetweenEvictionRunsMillis>
+				<jdbc.numTestsPerEvictionRun>20</jdbc.numTestsPerEvictionRun>
+				<jdbc.minEvictableIdleTimeMillis>180000</jdbc.minEvictableIdleTimeMillis>
+                <!-- src/main/config/activemq.properties -->
+                <activemq.brokerURL>failover:(tcp://activemqhost:51616)</activemq.brokerURL>
+                <activemq.queueName>User.MiaoQueue</activemq.queueName>
+                <activemq.userName>fastjrun</activemq.userName>
+                <activemq.password>fastjrun</activemq.password>
+                <!-- consumer -->
+                <activemq.maxConnections>10</activemq.maxConnections>
+                <activemq.concurrentConsumers>5</activemq.concurrentConsumers>
+				<!-- src/main/resource/rabbitmq.properties -->
+				<rabbitmq.host>rabbitmqhost</rabbitmq.host>
+				<rabbitmq.port>5672</rabbitmq.port>
+				<rabbitmq.userName>mytest</rabbitmq.userName>
+				<rabbitmq.password>mytest</rabbitmq.password>
+                <rabbitmq.RegisterSuccessNotifyKey>userRegNotify</rabbitmq.RegisterSuccessNotifyKey>
+				<!-- src/main/config/redis.properties -->
+				<redis.host>redishost</redis.host>
+				<redis.port>6379</redis.port>
+				<redis.pass>761c166cb9706295</redis.pass>
+				<redis.maxIdle>300</redis.maxIdle>
+				<redis.maxTotal>600</redis.maxTotal>
+				<redis.maxWait>1000</redis.maxWait>
+				<redis.testOnBorrow>true</redis.testOnBorrow>
+				<!-- src/main/config/service.properties -->
+				<userService.invalidDays>30</userService.invalidDays>
+				<userService.errLimits>5</userService.errLimits>
+				<userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
+                <!-- src/main/config/service.properties -->
+				<assembly.format>dir</assembly.format>
+			</properties>
+		</profile>
+	</profiles>
+</project>
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="propertyConfigure"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:${system.configDir}/jdbc.properties</value>
+				<value>file:${system.configDir}/redis.properties</value>
+				<value>file:${system.configDir}/activemq.properties</value>
+                <value>file:${system.configDir}/rabbitmq.properties</value>
+                <value>file:${system.configDir}/service.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="codeMsgProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath*:codeMsg.properties</value>
+            </list>
+        </property>
+    </bean>
+	<!-- 加载当前目录下的xml -->
+	<import resource="applicationContext-*.xml" />
+	<!-- 加载Service-Impl -->
+	<import resource="classpath*:applicationContext-service.xml" />
+	<import resource="classpath*:applicationContext-activemq-producer.xml" />
+    <import resource="classpath*:applicationContext-rabbitmq-producer.xml" />
+	<import resource="classpath*:applicationContext-jedis.xml" />
+	<!-- 加载Persistence-Impl -->
+	<import resource="classpath*:applicationContext-persistence.xml" />
+</beans>
