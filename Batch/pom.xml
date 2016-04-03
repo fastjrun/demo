@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
 		<artifactId>demoSpring4-parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>demoSpring4-batch</artifactId>
 	<dependencies>
@@ -160,6 +160,7 @@
 				<executorService.maxPoolSize>10</executorService.maxPoolSize>
 				<executorService.queueCapacity>25</executorService.queueCapacity>
                 <executorService.keepAliveSeconds>3000</executorService.keepAliveSeconds>
+                <baseTask。semaphoreTtotal>300</baseTask。semaphoreTtotal>
 				<unLockUserPwdTask.cronExpression>0 * 0/2 * * ?</unLockUserPwdTask.cronExpression>
                 <invalidLoginCredentialTask.cronExpression>0 * 0/2 * * ?</invalidLoginCredentialTask.cronExpression>
 				<!-- src/main/config/jdbc.properties -->
