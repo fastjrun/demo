@@ -20,8 +20,17 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${mail.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
@@ -60,23 +69,24 @@
 				<versions.skip>true</versions.skip>
 			</properties>
 		</profile>
-        <profile>
-            <id>local</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <!-- src/main/resources/jdbc.properties -->
-                <jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
-                <jdbc.username>demo</jdbc.username>
-                <jdbc.password>123456</jdbc.password>
-            </properties>
-        </profile>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- src/main/resources/jdbc.properties -->
+				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
+				<jdbc.username>demo</jdbc.username>
+				<jdbc.password>123456</jdbc.password>
+			</properties>
+		</profile>
 	</profiles>
 	<properties>
 		<commons-logging.version>1.2</commons-logging.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<log4j.version>1.2.17</log4j.version>
+		<mail.version>1.5.0-b01</mail.version>
 		<junit.version>4.10</junit.version>
 		<springframework.version>4.2.4.RELEASE</springframework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
