@@ -262,7 +262,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
 
     @Override
     public void unlockUserPwd(Date date) {
-        String sql = "update  t_user set loginErrCount =0 and status='1' where status='2'";
+        String sql = "update  t_user set loginErrCount =0,status='1' where status='2'";
         int res = commonDao.update(new Declare(sql));
         log.debug(res);
 
