@@ -227,7 +227,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
 
     @Override
     public User autoLogin(String deviceId, String uuidOld, String uuidNew) {
-        Condition c = new Condition().and("loginCredential = ? and status = 1",
+        Condition c = new Condition().and("loginCredential = ? and status = '1'",
                 uuidOld).and("deviceId = ?", deviceId);
         ConditionHelper.condition(c.toString());
         List<UserLogin> userLogins = baseUserLoginDao.queryForListCondition();
@@ -262,7 +262,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
 
     @Override
     public void unlockUserPwd(Date date) {
-        String sql = "update  t_user set loginErrCount =0 where status='2'";
+        String sql = "update  t_user set loginErrCount =0 and status='1' where status='2'";
         int res = commonDao.update(new Declare(sql));
         log.debug(res);
 
@@ -274,7 +274,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
                 Calendar.DAY_OF_MONTH, this.invalidDays);
         String invalidDateStr = TimeHelper.getFormatDate(invalidDate,
                 TimeHelper.DF17);
-        String sql = "update  t_user_login set status =2 where inValidateTime>='"
+        String sql = "update  t_user_login set status ='2' where inValidateTime>='"
                 + invalidDateStr + "'";
         int res = commonDao.update(new Declare(sql));
         log.debug(res);
