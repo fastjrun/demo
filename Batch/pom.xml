@@ -132,16 +132,6 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>nocheck</id>
-			<properties>
-				<skipTests>true</skipTests>
-				<checkstyle.skip>true</checkstyle.skip>
-				<license.skip>true</license.skip>
-				<notice.skip>true</notice.skip>
-				<versions.skip>true</versions.skip>
-			</properties>
-		</profile>
-		<profile>
 			<!-- 本地环境,默认是挡板，个人可以更新；其他环境配置对开发工程师无用 -->
 			<id>local</id>
 			<activation>

@@ -11,7 +11,7 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
     <fileSets>
         <fileSet>
             <directory>src/main/bin</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory></outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
         <fileSet>
@@ -20,7 +20,7 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
                 <include>*.properties</include>
                 <include>log4j.xml</include>
             </includes>
-            <outputDirectory>/config</outputDirectory>
+            <outputDirectory>config</outputDirectory>
             <filtered>true</filtered>
             <fileMode>0644</fileMode>
         </fileSet>
@@ -29,7 +29,7 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
             <includes>
                 <include>log4j.dtd</include>
             </includes>
-            <outputDirectory>/config</outputDirectory>
+            <outputDirectory>config</outputDirectory>
             <fileMode>0644</fileMode>
         </fileSet>
     </fileSets>

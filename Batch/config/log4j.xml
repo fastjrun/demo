@@ -33,7 +33,7 @@
     </appender>
 
     <appender name="commonlogFile" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="../logs/batch.log" />
+		<param name="File" value="./logs/batch.log" />
 		<param name="Append" value="true" />
 		<param name="threshold" value="debug" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
