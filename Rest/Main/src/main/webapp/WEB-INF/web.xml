@@ -54,20 +54,16 @@ version="2.5">
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     <filter>
-        <filter-name>requestFilter</filter-name>
-        <filter-class>com.fastjrun.web.filter.HttpServletRequestReplacedFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>requestFilter</filter-name>
-        <url-pattern>/base/*</url-pattern>
-    </filter-mapping>
-    <filter>
         <filter-name>jsonFilter</filter-name>
         <filter-class>com.fastjrun.web.filter.JsonFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>jsonFilter</filter-name>
         <url-pattern>/base/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>jsonFilter</filter-name>
+        <url-pattern>/user/*</url-pattern>
     </filter-mapping>
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>

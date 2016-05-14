@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='zh-CN' xml:lang='zh-CN' xmlns='http://www.w3.org/1999/xhtml'>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Language" content="zh-CN"/>
+        <title>fastjrun demo</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="jumbotron">
+            <h2>fastjrun demo</h2>
+        </div>
+
+        <div class="col-md-6 col-md-offset-1">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>登录密码</th>
+                        <th>登录名</th>
+                        <th>昵称</th>
+                        <th>性别</th>
+                        <th>手机号</th>
+                        <th>登录错误次数</th>
+                        <th>上次登录时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <#list model["userList"] as user>
+                    <tr>
+                        <th>${user.loginPwd}</th>
+                        <th>${user.loginName}</th>
+                        <th>${user.nickName}</th>
+                        <th>${user.sex}</th>
+                        <th>${user.mobileNo}</th>
+                        <th>${user.loginErrCount}</th>
+                        <th>${user.lastLoginTime!''}</th>
+                    </tr>
+                    </#list>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

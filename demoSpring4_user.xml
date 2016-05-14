@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bundle>
+    <webControllers>
+        <dtos>
+            <dto class="dto.UserRegisterDTO" remark="用户注册传输对象">
+                <field name="loginName" dataType="java.lang.String" length="12"
+                    canBeNull="false" remark="登录名" />
+                <field name="loginpwd" dataType="java.lang.String" length="64"
+                    canBeNull="false" remark="密码" />
+                <field name="sex" dataType="java.lang.Integer" length="1"
+                    canBeNull="true" remark="性别" />
+                <field name="nickName" dataType="java.lang.String" length="30"
+                    canBeNull="true" remark="昵称" />
+                <field name="mobileNo" dataType="java.lang.String" length="20"
+                    canBeNull="true" remark="手机号" />
+                <field name="email" dataType="java.lang.String" length="30"
+                    canBeNull="false" remark="邮箱" />
+            </dto>
+            <dto class="dto.UserLoginDTO" remark="用户登录亲请求传输对象">
+                <field name="loginName" dataType="java.lang.String" length="12"
+                    canBeNull="false" remark="登录名" />
+                <field name="loginpwd" dataType="java.lang.String" length="64"
+                    canBeNull="false" remark="密码" />
+            </dto>
+            <dto class="dto.UserCredentialDTO" remark="用户凭证对象">
+                <field name="uuid" dataType="java.lang.String" length="64"
+                    canBeNull="false" remark="登录凭证" />
+                <field name="sex" dataType="java.lang.String" length="1"
+                    canBeNull="true" remark="性别" />
+                <field name="nickName" dataType="java.lang.String" length="30"
+                    canBeNull="true" remark="昵称" />
+                <field name="mobileNo" dataType="java.lang.String" length="20"
+                    canBeNull="true" remark="手机号" />
+                <field name="email" dataType="java.lang.String" length="30"
+                    canBeNull="true" remark="邮箱" />
+                <field name="validInDays" dataType="java.lang.Integer" length="11"
+                    canBeNull="false" remark="凭证有效天数" />
+            </dto>
+        </dtos>
+        <webController name="UserWebController" path="/user/">
+            <service name="userServiceWeb" class="UserServiceWeb">
+                <method name="register" return="java.lang.Boolean" path="register"
+                    remark="注册" scope="">
+                    <params>
+                        <param name="userRegisterDTO" dataType="dto.UserLoginDTO"
+                            canBeNull="false" scope="request" remark="用户注册传输对象" />
+                    </params>
+                    <action method="forword" next="/user/login" />
+                </method>
+                <method name="login" return="dto.UserCredentialDTO" path="login"
+                    remark="登录" scope="session">
+                    <params>
+                        <param name="userLoginDTO" dataType="dto.UserLoginDTO"
+                            canBeNull="false" scope="request" remark="用户登录亲请求传输对象" />
+                    </params>
+                    <action method="forword" next="/user/index" />
+                </method>
+            </service>
+        </webController>
+    </webControllers>
+    <restControllers>
+        <restController name="UserRestController" version=""
+            path="/api/user/">
+            <service name="userServiceRest" class="UserServiceRest">
+                <method name="register" version="" path="register" remark="注册">
+                    <request>
+                        <object name="head" new="false"
+                            class="com.fastjrun.packet.BaseRestRequestHead"></object>
+                        <object name="body" new="true"
+                            class="packet.user.RegistserRestRequestBody">
+                            <field name="loginId" dataType="java.lang.String" length="12"
+                                canBeNull="false" remark="登录名" />
+                            <field name="loginpwd" dataType="java.lang.String" length="64"
+                                canBeNull="false" remark="密码" />
+                            <field name="sex" dataType="java.lang.String" length="1"
+                                canBeNull="true" remark="性别" />
+                            <field name="nickName" dataType="java.lang.String" length="30"
+                                canBeNull="true" remark="昵称" />
+                            <field name="mobileNo" dataType="java.lang.String" length="20"
+                                canBeNull="true" remark="手机号" />
+                            <field name="email" dataType="java.lang.String" length="30"
+                                canBeNull="true" remark="手机号" />
+                        </object>
+                    </request>
+                    <response>
+                        <object name="head" new="false"
+                            class="com.fastjrun.packet.BaseRestResponseHead"></object>
+                    </response>
+                </method>
+                <method name="login" version="" path="login" remark="登录">
+                    <request>
+                        <object name="head" new="false"
+                            class="com.fastjrun.packet.BaseRestRequestHead"></object>
+                        <object name="body" new="true" class="packet.user.LoginRestRequestBody">
+                            <field name="loginName" dataType="java.lang.String" length="12"
+                                canBeNull="false" remark="登录名" />
+                            <field name="loginpwd" dataType="java.lang.String" length="64"
+                                canBeNull="false" remark="密码" />
+                        </object>
+                    </request>
+                    <response>
+                        <object name="head" new="false"
+                            class="com.fastjrun.packet.BaseRestResponseHead"></object>
+                        <object name="body" new="true" class="packet.user.LoginRestResponseBody">
+                            <field name="uuid" dataType="java.lang.String" length="64"
+                                canBeNull="false" remark="新登录凭证" />
+                            <field name="sex" dataType="java.lang.String" length="1"
+                                canBeNull="true" remark="性别" />
+                            <field name="nickName" dataType="java.lang.String" length="30"
+                                canBeNull="true" remark="昵称" />
+                            <field name="mobileNo" dataType="java.lang.String" length="20"
+                                canBeNull="true" remark="手机号" />
+                            <field name="email" dataType="java.lang.String" length="30"
+                                canBeNull="true" remark="邮箱" />
+                        </object>
+                    </response>
+                </method>
+                <method name="login" version="v1_1" path="login" remark="登录">
+                    <request>
+                        <object name="head" new="false"
+                            class="com.fastjrun.packet.BaseRestRequestHead"></object>
+                        <object name="body" new="true"
+                            class="packet.user.Loginv1_1RestRequestBody">
+                            <field name="loginName" dataType="java.lang.String" length="12"
+                                canBeNull="false" remark="登录名" />
+                            <field name="loginpwd" dataType="java.lang.String" length="64"
+                                canBeNull="false" remark="密码" />
+                        </object>
+                    </request>
+                    <response>
+                        <object name="head" new="false"
+                            class="com.fastjrun.packet.BaseRestResponseHead"></object>
+                        <object name="body" new="true"
+                            class="packet.user.Loginv1_1RestResponseBody">
+                            <field name="uuid" dataType="java.lang.String" length="64"
+                                canBeNull="false" remark="新登录凭证" />
+                            <field name="sex" dataType="java.lang.String" length="1"
+                                canBeNull="true" remark="性别" />
+                            <field name="nickName" dataType="java.lang.String" length="30"
+                                canBeNull="true" remark="昵称" />
+                            <field name="mobileNo" dataType="java.lang.String" length="20"
+                                canBeNull="true" remark="手机号" />
+                            <field name="email" dataType="java.lang.String" length="30"
+                                canBeNull="true" remark="邮箱" />
+                        </object>
+                    </response>
+                </method>
+                <method name="autoLogin" version="" path="autoLogin" remark="自动登录">
+                    <request>
+                        <object name="head" new="false"
+                            class="com.fastjrun.packet.BaseRestResponseHead"></object>
+                        <object name="body" new="true"
+                            class="packet.user.AutoLoginRestRequestBody">
+                            <field name="uuidOld" dataType="java.lang.String" length="64"
+                                canBeNull="false" remark="旧登录凭证" />
+                        </object>
+                    </request>
+                    <response>
+                        <object name="head" new="false"
+                            class="com.fastjrun.packet.BaseRestRequestHead"></object>
+                        <object name="body" new="true"
+                            class="packet.user.AutoLoginRestResponseBody">
+                            <field name="uuidNew" dataType="java.lang.String" length="64"
+                                canBeNull="false" remark="新登录凭证" />
+                            <field name="sex" dataType="java.lang.String" length="1"
+                                canBeNull="true" remark="性别" />
+                            <field name="nickName" dataType="java.lang.String" length="30"
+                                canBeNull="true" remark="昵称" />
+                            <field name="mobileNo" dataType="java.lang.String" length="20"
+                                canBeNull="true" remark="手机号" />
+                            <field name="email" dataType="java.lang.String" length="30"
+                                canBeNull="true" remark="邮箱" />
+                            <field name="validInDays" dataType="java.lang.Integer"
+                                length="11" canBeNull="false" remark="凭证有效天数" />
+                        </object>
+                    </response>
+                </method>
+            </service>
+        </restController>
+    </restControllers>
+    <taskServices>
+        <taskService name="userServiceTask" class="UserServiceTask">
+            <method name="unlockUserPwd" return="void"
+                remark="密码锁定解锁（普通用户）" taskClass="InvalidLoginCredentialTask">
+                <params>
+                    <param name="date" dataType="java.util.Date" remark="指定日期"
+                        index="0" />
+                </params>
+            </method>
+            <method name="inValidUserLoginCredential" return="void"
+                remark="设置过期登录凭证失效">
+                <params>
+                    <param name="date" dataType="java.util.Date" remark="指定日期"
+                        index="0" />
+                </params>
+            </method>
+        </taskService>
+    </taskServices>
+</bundle>

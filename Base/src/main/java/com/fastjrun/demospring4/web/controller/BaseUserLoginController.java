@@ -6,10 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import com.fastjrun.demospring4.bean.UserLogin;
 import com.fastjrun.demospring4.service.BaseUserLoginService;
-import com.fastjrun.helper.RestHelper;
+import com.fastjrun.helper.RestResponseHelper;
+import com.fastjrun.packet.BaseRestBeanListResponseBody;
+import com.fastjrun.packet.BaseRestBeanResponseBody;
+import com.fastjrun.packet.BaseRestDefaultResponseBody;
+import com.fastjrun.packet.BaseRestResponse;
+import com.fastjrun.packet.BaseRestResponseHead;
 import com.fastjrun.packet.req.CommonRequestId;
 import com.fastjrun.packet.req.RequestHead;
-import com.fastjrun.packet.res.RestResult;
 import com.fastjrun.web.controller.BaseController;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +59,8 @@ public class BaseUserLoginController
         head.setReqTime(reqTime);
         this.processHead(head);
         baseUserLoginService.insert(userLogin);
-        RestResult restResult = RestHelper.getSuccessResult();
-        return restResult;
+        BaseRestResponse<BaseRestDefaultResponseBody> response = RestResponseHelper.getSuccessResult();
+        return response;
     }
 
     @RequestMapping(value = "view/10/{deviceId}/{reqTime}/", method = RequestMethod.GET)
@@ -79,9 +83,15 @@ public class BaseUserLoginController
         head.setReqTime(reqTime);
         this.processHead(head);
         UserLogin userLogin = baseUserLoginService.selectById(requestId.getId());
-        RestResult restResult = RestHelper.getSuccessResult();
-        restResult.bput("bean", userLogin);
-        return restResult;
+        BaseRestResponseHead responseHead = new BaseRestResponseHead();
+        BaseRestBeanResponseBody responseBody = new BaseRestBeanResponseBody();
+        BaseRestResponse<BaseRestBeanResponseBody> response = new BaseRestResponse<BaseRestBeanResponseBody>();
+        responseHead.setCode("0000");
+        responseHead.setMsg("OK");
+        response.setHead(responseHead);
+        responseBody.setAbstractEntity(userLogin);
+        response.setBody(responseBody);
+        return response;
     }
 
     @RequestMapping(value = "delete/10/{deviceId}/{reqTime}/", method = RequestMethod.POST)
@@ -104,8 +114,8 @@ public class BaseUserLoginController
         head.setReqTime(reqTime);
         this.processHead(head);
         baseUserLoginService.deleteById(requestId.getId());
-        RestResult restResult = RestHelper.getSuccessResult();
-        return restResult;
+        BaseRestResponse<BaseRestDefaultResponseBody> response = RestResponseHelper.getSuccessResult();
+        return response;
     }
 
     @RequestMapping(value = "edit/10/{deviceId}/{reqTime}/", method = RequestMethod.POST)
@@ -128,8 +138,8 @@ public class BaseUserLoginController
         head.setReqTime(reqTime);
         this.processHead(head);
         baseUserLoginService.updateById(userLogin);
-        RestResult restResult = RestHelper.getSuccessResult();
-        return restResult;
+        BaseRestResponse<BaseRestDefaultResponseBody> response = RestResponseHelper.getSuccessResult();
+        return response;
     }
 
     @RequestMapping(value = "list/10/{deviceId}/{reqTime}/", method = RequestMethod.POST)
@@ -153,12 +163,18 @@ public class BaseUserLoginController
         this.processHead(head);
         int totalCount = baseUserLoginService.totalCount();
         List<UserLogin> list = baseUserLoginService.queryForLimitList(rowBounds);
-        RestResult restResult = RestHelper.getSuccessResult();
-        restResult.bput("totalCount", totalCount);
+        BaseRestResponseHead responseHead = new BaseRestResponseHead();
+        BaseRestBeanListResponseBody<UserLogin> responseBody = new BaseRestBeanListResponseBody<UserLogin>();
+        BaseRestResponse<BaseRestBeanListResponseBody<UserLogin>> response = new BaseRestResponse<BaseRestBeanListResponseBody<UserLogin>>();
+        responseHead.setCode("0000");
+        responseHead.setMsg("OK");
+        response.setHead(responseHead);
+        responseBody.setTotalCount(totalCount);
         if (list!= null) {
-            restResult.bput("list", list);
+            responseBody.setList(list);
         }
-        return restResult;
+        response.setBody(responseBody);
+        return response;
     }
 
 }

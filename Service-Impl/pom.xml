@@ -79,7 +79,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
-			<artifactId>demoSpring4-restController</artifactId>
+			<artifactId>demoSpring4-bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

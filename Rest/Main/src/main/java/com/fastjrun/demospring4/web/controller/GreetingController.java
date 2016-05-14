@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fastjrun.demospring4.bean.User;
 import com.fastjrun.demospring4.service.BaseUserService;
-import com.fastjrun.helper.RestHelper;
+import com.fastjrun.helper.RestResponseHelper;
+import com.fastjrun.packet.BaseRestBeanListResponseBody;
+import com.fastjrun.packet.BaseRestBeanResponseBody;
+import com.fastjrun.packet.BaseRestDefaultResponseBody;
+import com.fastjrun.packet.BaseRestResponse;
+import com.fastjrun.packet.BaseRestResponseHead;
 import com.fastjrun.packet.req.CommonRequestId;
 import com.fastjrun.packet.req.RequestHead;
-import com.fastjrun.packet.res.RestResult;
 import com.fastjrun.web.controller.BaseController;
 
 @RestController
@@ -28,10 +32,8 @@ public class GreetingController extends BaseController {
     private BaseUserService baseUserService;
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public Object add(@RequestBody @Valid User user,
-            @PathVariable("deviceId") String deviceId,
-            @PathVariable("reqTime") String reqTime,
-            HttpServletRequest httpServletRequest) {
+    public Object add(@RequestBody @Valid User user, @PathVariable("deviceId") String deviceId,
+            @PathVariable("reqTime") String reqTime, HttpServletRequest httpServletRequest) {
         String requestURI = httpServletRequest.getRequestURI();
         String[] pathS = requestURI.split("/");
         String ver = pathS[3];
@@ -44,15 +46,19 @@ public class GreetingController extends BaseController {
         head.setReqTime(reqTime);
         this.processHead(head);
         baseUserService.insert(user);
-        RestResult restResult = RestHelper.getSuccessResult();
-        return restResult;
+        BaseRestResponse<BaseRestDefaultResponseBody> response = new BaseRestResponse<BaseRestDefaultResponseBody>();
+        BaseRestResponseHead responseHead = new BaseRestResponseHead();
+        BaseRestDefaultResponseBody responseBody = new BaseRestDefaultResponseBody();
+        responseHead.setCode("0000");
+        responseHead.setMsg("ok");
+        response.setHead(responseHead);
+        response.setBody(responseBody);
+        return response;
     }
 
     @RequestMapping(value = "view", method = RequestMethod.POST)
-    public Object selectById(@RequestBody @Valid CommonRequestId requestId,
-            @PathVariable("deviceId") String deviceId,
-            @PathVariable("reqTime") String reqTime,
-            HttpServletRequest httpServletRequest) {
+    public Object selectById(@RequestBody @Valid CommonRequestId requestId, @PathVariable("deviceId") String deviceId,
+            @PathVariable("reqTime") String reqTime, HttpServletRequest httpServletRequest) {
         String requestURI = httpServletRequest.getRequestURI();
         String[] pathS = requestURI.split("/");
         String ver = pathS[3];
@@ -64,16 +70,20 @@ public class GreetingController extends BaseController {
         head.setReqTime(reqTime);
         this.processHead(head);
         User user = baseUserService.selectById(requestId.getId());
-        RestResult restResult = RestHelper.getSuccessResult();
-        restResult.bput("bean", user);
-        return restResult;
+        BaseRestResponseHead responseHead = new BaseRestResponseHead();
+        BaseRestBeanResponseBody responseBody = new BaseRestBeanResponseBody();
+        BaseRestResponse<BaseRestBeanResponseBody> response = new BaseRestResponse<BaseRestBeanResponseBody>();
+        responseHead.setCode("0000");
+        responseHead.setMsg("OK");
+        response.setHead(responseHead);
+        responseBody.setAbstractEntity(user);
+        response.setBody(responseBody);
+        return response;
     }
 
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public Object updateById(@RequestBody @Valid User user,
-            @PathVariable("deviceId") String deviceId,
-            @PathVariable("reqTime") String reqTime,
-            HttpServletRequest httpServletRequest) {
+    public Object updateById(@RequestBody @Valid User user, @PathVariable("deviceId") String deviceId,
+            @PathVariable("reqTime") String reqTime, HttpServletRequest httpServletRequest) {
         String requestURI = httpServletRequest.getRequestURI();
         String[] pathS = requestURI.split("/");
         String ver = pathS[3];
@@ -85,15 +95,13 @@ public class GreetingController extends BaseController {
         head.setReqTime(reqTime);
         this.processHead(head);
         baseUserService.updateById(user);
-        RestResult restResult = RestHelper.getSuccessResult();
-        return restResult;
+        BaseRestResponse<BaseRestDefaultResponseBody> response = RestResponseHelper.getSuccessResult();
+        return response;
     }
 
     @RequestMapping(value = "delete", method = RequestMethod.POST)
-    public Object deleteById(@RequestBody @Valid CommonRequestId requestId,
-            @PathVariable("deviceId") String deviceId,
-            @PathVariable("reqTime") String reqTime,
-            HttpServletRequest httpServletRequest) {
+    public Object deleteById(@RequestBody @Valid CommonRequestId requestId, @PathVariable("deviceId") String deviceId,
+            @PathVariable("reqTime") String reqTime, HttpServletRequest httpServletRequest) {
         String requestURI = httpServletRequest.getRequestURI();
         String[] pathS = requestURI.split("/");
         String ver = pathS[3];
@@ -105,15 +113,13 @@ public class GreetingController extends BaseController {
         head.setReqTime(reqTime);
         this.processHead(head);
         baseUserService.deleteById(requestId.getId());
-        RestResult restResult = RestHelper.getSuccessResult();
-        return restResult;
+        BaseRestResponse<BaseRestDefaultResponseBody> response = RestResponseHelper.getSuccessResult();
+        return response;
     }
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
-    public Object queryForList(@RequestBody @Valid RowBounds rowBounds,
-            @PathVariable("deviceId") String deviceId,
-            @PathVariable("reqTime") String reqTime,
-            HttpServletRequest httpServletRequest) {
+    public Object queryForList(@RequestBody @Valid RowBounds rowBounds, @PathVariable("deviceId") String deviceId,
+            @PathVariable("reqTime") String reqTime, HttpServletRequest httpServletRequest) {
         String requestURI = httpServletRequest.getRequestURI();
         String[] pathS = requestURI.split("/");
         String ver = pathS[3];
@@ -126,12 +132,18 @@ public class GreetingController extends BaseController {
         this.processHead(head);
         int totalCount = baseUserService.totalCount();
         List<User> list = baseUserService.queryForLimitList(rowBounds);
-        RestResult restResult = RestHelper.getSuccessResult();
-        restResult.bput("totalCount", totalCount);
+        BaseRestResponseHead responseHead = new BaseRestResponseHead();
+        BaseRestBeanListResponseBody<User> responseBody = new BaseRestBeanListResponseBody<User>();
+        BaseRestResponse<BaseRestBeanListResponseBody<User>> response = new BaseRestResponse<BaseRestBeanListResponseBody<User>>();
+        responseHead.setCode("0000");
+        responseHead.setMsg("OK");
+        response.setHead(responseHead);
+        responseBody.setTotalCount(totalCount);
         if (list != null) {
-            restResult.bput("list", list);
+            responseBody.setList(list);
         }
-        return restResult;
+        response.setBody(responseBody);
+        return response;
     }
 
 }

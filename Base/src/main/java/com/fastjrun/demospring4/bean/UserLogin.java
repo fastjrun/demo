@@ -2,6 +2,7 @@
 package com.fastjrun.demospring4.bean;
 
 import java.io.Serializable;
+import com.fastjrun.common.AbstractEntity;
 
 
 /**
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @author fastjrun
  */
 public class UserLogin
+    extends AbstractEntity
     implements Serializable
 {
 

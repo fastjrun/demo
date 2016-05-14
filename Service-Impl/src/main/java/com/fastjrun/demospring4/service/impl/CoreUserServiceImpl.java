@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.fastjrun.common.CodeMsg;
 import com.fastjrun.common.ServiceException;
 import com.fastjrun.dao.CommonDao;
 import com.fastjrun.demospring4.bean.User;
@@ -48,20 +47,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
     @Override
     public void checkLoign(String userKey) {
         if (!redisTemplate.hasKey(userKey)) {
-            CodeMsg codeMsg = new CodeMsg() {
-                @Override
-                public String getCode() {
-                    return "checkLogin01";
-                }
-
-                @Override
-                public String getMsg() {
-                    // TODO Auto-generated method stub
-                    return "用户未登录";
-                }
-
-            };
-            throw new ServiceException(codeMsg);
+            throw new ServiceException("checkLogin01", "用户未登录");
         }
 
     }
@@ -98,19 +84,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
                 if (!"1".equals(status)) {
                     log.warn(loginName
                             + " login error for lock reason status: " + status);
-                    CodeMsg codeMsg = new CodeMsg() {
-                        @Override
-                        public String getCode() {
-                            return "USERLOGIN02";
-                        }
-
-                        @Override
-                        public String getMsg() {
-                            return "用户已被锁定" + status;
-                        }
-
-                    };
-                    throw new ServiceException(codeMsg);
+                    throw new ServiceException("USERLOGIN02", "用户已被锁定" + status);
                 }
                 int loginErrCount = user.getLoginErrCount();
                 user.setLoginErrCount(++loginErrCount);
@@ -128,35 +102,9 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
                             + "次机会";
                 }
                 baseUserDao.updateById(user);
-                final String errCode2 = errCode;
-                final String errMsg2 = errMsg;
-                CodeMsg codeMsg = new CodeMsg() {
-                    @Override
-                    public String getCode() {
-                        return errCode2;
-                    }
-
-                    @Override
-                    public String getMsg() {
-                        return errMsg2;
-                    }
-
-                };
-                throw new ServiceException(codeMsg);
+                throw new ServiceException(errCode, errMsg);
             } else {
-                CodeMsg codeMsg = new CodeMsg() {
-                    @Override
-                    public String getCode() {
-                        return "USERLOGIN01";
-                    }
-
-                    @Override
-                    public String getMsg() {
-                        // TODO Auto-generated method stub
-                        return "用户名或密码错误";
-                    }
-                };
-                throw new ServiceException(codeMsg);
+                throw new ServiceException("USERLOGIN01", "用户名或密码错误");
             }
         }
     }
@@ -245,19 +193,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
             return user;
         }
         log.warn(" login error for invalid uuid：" + uuidOld);
-        CodeMsg codeMsg = new CodeMsg() {
-            @Override
-            public String getCode() {
-                return "USERAUTOLOGIN01";
-            }
-
-            @Override
-            public String getMsg() {
-                return "用户登录凭证已经失效，请重新登录";
-            }
-
-        };
-        throw new ServiceException(codeMsg);
+        throw new ServiceException("USERAUTOLOGIN01", "用户登录凭证已经失效，请重新登录");
     }
 
     @Override

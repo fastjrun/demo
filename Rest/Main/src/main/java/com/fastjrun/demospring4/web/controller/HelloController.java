@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fastjrun.helper.RestHelper;
-import com.fastjrun.packet.res.RestResult;
+import com.fastjrun.helper.RestResponseHelper;
+import com.fastjrun.packet.BaseRestDefaultResponseBody;
+import com.fastjrun.packet.BaseRestResponse;
 import com.fastjrun.web.controller.BaseController;
 
 @Controller
@@ -22,7 +23,7 @@ public class HelloController extends BaseController {
         @Valid
         String hello, javax.servlet.http.HttpServletRequest httpServletRequest) {
 		log.info(hello);
-        RestResult restResult = RestHelper.getSuccessResult();
-        return restResult;
+        BaseRestResponse<BaseRestDefaultResponseBody> response = RestResponseHelper.getSuccessResult();
+        return response;
     }
 }

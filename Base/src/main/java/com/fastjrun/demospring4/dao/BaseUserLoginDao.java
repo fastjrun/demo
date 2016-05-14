@@ -19,29 +19,29 @@ import org.apache.ibatis.session.RowBounds;
 public interface BaseUserLoginDao {
 
 
-    @Insert("insert into t_user_login(createTime,logOutTime,loginCredential,inValidateTime,userId,deviceId,status) values(#{createTime},#{logOutTime},#{loginCredential},#{inValidateTime},#{userId},#{deviceId},#{status})")
+    @Insert("insert into t_user_login(`createTime`,`logOutTime`,`loginCredential`,`inValidateTime`,`userId`,`deviceId`,`status`) values(#{createTime},#{logOutTime},#{loginCredential},#{inValidateTime},#{userId},#{deviceId},#{status})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     public int insert(UserLogin userLogin);
 
-    @Select("select createTime createTime,logOutTime logOutTime,loginCredential loginCredential,inValidateTime inValidateTime,id id,userId userId,deviceId deviceId,status status from t_user_login where id = #{id} ")
+    @Select("select `createTime` createTime,`logOutTime` logOutTime,`loginCredential` loginCredential,`inValidateTime` inValidateTime,`id` id,`userId` userId,`deviceId` deviceId,`status` status from t_user_login where id = #{id} ")
     @Options(flushCache = true)
     public UserLogin selectById(int id);
 
     @Delete("delete from t_user_login where id = #{id} ")
     public int deleteById(int id);
 
-    @Update("update t_user_login set createTime=#{createTime},logOutTime=#{logOutTime},loginCredential=#{loginCredential},inValidateTime=#{inValidateTime},userId=#{userId},deviceId=#{deviceId},status=#{status} where id = #{id} ")
+    @Update("update t_user_login set `createTime` = #{createTime},`logOutTime` = #{logOutTime},`loginCredential` = #{loginCredential},`inValidateTime` = #{inValidateTime},`userId` = #{userId},`deviceId` = #{deviceId},`status` = #{status} where id = #{id} ")
     public int updateById(UserLogin userLogin);
 
     @Select("select count(*) from t_user_login")
     @Options(flushCache = true)
     public int totalCount();
 
-    @Select("select createTime createTime,logOutTime logOutTime,loginCredential loginCredential,inValidateTime inValidateTime,id id,userId userId,deviceId deviceId,status status from t_user_login")
+    @Select("select `createTime` createTime,`logOutTime` logOutTime,`loginCredential` loginCredential,`inValidateTime` inValidateTime,`id` id,`userId` userId,`deviceId` deviceId,`status` status from t_user_login")
     @Options(flushCache = true)
     public List<UserLogin> queryForList();
 
-    @Select("select createTime createTime,logOutTime logOutTime,loginCredential loginCredential,inValidateTime inValidateTime,id id,userId userId,deviceId deviceId,status status from t_user_login")
+    @Select("select `createTime` createTime,`logOutTime` logOutTime,`loginCredential` loginCredential,`inValidateTime` inValidateTime,`id` id,`userId` userId,`deviceId` deviceId,`status` status from t_user_login")
     @Options(flushCache = true)
     public List<UserLogin> queryForLimitList(RowBounds rowBounds);
 
@@ -49,11 +49,15 @@ public interface BaseUserLoginDao {
     @Options(flushCache = true)
     public int totalCountCondition();
 
-    @Select("select createTime createTime,logOutTime logOutTime,loginCredential loginCredential,inValidateTime inValidateTime,id id,userId userId,deviceId deviceId,status status from t_user_login where 1 = 1 @{condition}")
+    @Select("select `createTime` createTime,`logOutTime` logOutTime,`loginCredential` loginCredential,`inValidateTime` inValidateTime,`id` id,`userId` userId,`deviceId` deviceId,`status` status from t_user_login where 1 = 1 @{condition}")
+    @Options(flushCache = true)
+    public UserLogin selectOneCondition();
+
+    @Select("select `createTime` createTime,`logOutTime` logOutTime,`loginCredential` loginCredential,`inValidateTime` inValidateTime,`id` id,`userId` userId,`deviceId` deviceId,`status` status from t_user_login where 1 = 1 @{condition}")
     @Options(flushCache = true)
     public List<UserLogin> queryForListCondition();
 
-    @Select("select createTime createTime,logOutTime logOutTime,loginCredential loginCredential,inValidateTime inValidateTime,id id,userId userId,deviceId deviceId,status status from t_user_login where 1 = 1 @{condition}")
+    @Select("select `createTime` createTime,`logOutTime` logOutTime,`loginCredential` loginCredential,`inValidateTime` inValidateTime,`id` id,`userId` userId,`deviceId` deviceId,`status` status from t_user_login where 1 = 1 @{condition}")
     @Options(flushCache = true)
     public List<UserLogin> queryForLimitListCondition(RowBounds rowBounds);
 

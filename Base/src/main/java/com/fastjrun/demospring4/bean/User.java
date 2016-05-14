@@ -3,6 +3,7 @@ package com.fastjrun.demospring4.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import com.fastjrun.common.AbstractEntity;
 
 
 /**
@@ -11,6 +12,7 @@ import java.sql.Timestamp;
  * @author fastjrun
  */
 public class User
+    extends AbstractEntity
     implements Serializable
 {
 
