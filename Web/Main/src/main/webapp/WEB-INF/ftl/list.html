@@ -1,20 +1,111 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang='zh-CN' xml:lang='zh-CN' xmlns='http://www.w3.org/1999/xhtml'>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta http-equiv="Content-Language" content="zh-CN"/>
-        <title>fastjrun demo</title>
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link type="text/css" href="css/global.css" rel="stylesheet" />
+        <script type="text/javascript" src="js/MyCalendar/WdatePicker.js"></script>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript">
+            function popWin(url) {//弹出窗口函数
+                var iTop = (window.screen.availHeight - 30 - 400) / 2;
+                var iLeft = (window.screen.availWidth - 10 - 500) / 2;
+                return window.showModalDialog(url, '', 'dialogWidth=500px;dialogHeight=400px;dialogTop=' + iTop + 'px;dialogLeft=' + iLeft + 'px;status=no;center=yes;resizable=no;help=no;');
+            }
+
+            //多选框全选全清函数
+            function checkAll(form) {
+                $(":checkbox").attr("checked", form.chkall.checked);
+            }
+
+            function create() {
+                popWin('emp!create.action?n=' + Math.random());
+                document.searchForm.submit();
+            }
+
+            function change(id) {
+                popWin('emp!change.action?model.id=' + id + '&n=' + Math.random());
+                document.searchForm.submit();
+            }
+
+            function remove() {
+                var num = $(":checkbox:[name='model.ids'][checked=true]").length;
+                if (num == 0) {
+                    alert("请选择要删除的数据！");
+                    return false;
+                }
+                if (confirm("确实要删除这" + num + "条数据吗？")) {
+                    document.form1.submit();
+                }
+            }
+        </script>
     </head>
     <body>
-        <div class="jumbotron">
-            <h2>fastjrun demo</h2>
-        </div>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td class="search"><form action="emp!list.action" method="post" name="searchForm">
+            <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="21"><img src="images/ico07.gif" /></td>
+                    <td width="100%">
+                        <strong>搜索：</strong>&nbsp;
+                                    
+                                    
+                        部门：<s:select name="model.searchDept" list="#request.depts" listKey="deptId" listValue="deptName" headerKey="" headerValue="请选择" theme="simple" />&nbsp;
 
+                        姓名：<s:textfield name="model.searchEmpName" theme="simple"/>&nbsp;
+
+                        性别：<s:select name="model.searchEmpGender" list="#request.genders" headerKey="" headerValue="请选择" theme="simple" />&nbsp;
+
+                        <input type="submit" class="button" value="查 询" />
+                    </td>
+                </tr>
+            </table></form>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td height="20">
+                        <input type="button" class="button" value="删 除" onclick="remove();"/>
+                        <input type="button" class="button" value="新 增"  onclick="create();"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form name="form1" action="emp!remove.action" method="post">
+                        <display:table name="model.resultList" id="data" class="list" pagesize="10" sort="external" requestURI="emp!list.action" cellpadding="4" cellspacing="1">
+                            <display:column headerClass="header" title="<input type='checkbox' name='chkall' onclick='checkAll(this.form);' />">
+                                <input type="checkbox" name="model.ids" value="${data.empId}" />
+                            </display:column>
+                            <display:column property="dept.deptName" title="部门" headerClass="header"/>
+                            <display:column property="empName" title="姓名" headerClass="header"/>
+                            <display:column property="empGenderStr" title="性别" headerClass="header"/>
+                            <display:column property="birthDateStr" title="出生日期" headerClass="header"/>
+                            <display:column property="phone" title="电话" headerClass="header"/>
+                            <display:column property="age" title="年龄" headerClass="header"/>
+                            <display:column headerClass="header" title="操作"><a href="#" onclick="change(${data.empId})">编辑</a>&nbsp;|&nbsp;<a href="emp!delete.action?model.id=${data.empId}">删除</a></display:column>
+                        </display:table>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+        <div class="jumbotron">
+            
+        </div>
         <div class="col-md-6 col-md-offset-1">
+            <a href="">添加</a>
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>
+                        <input type="checkbox" name="myBox" id="chkAll" value="1" checked="checked" />
+                        </th>
+                        </th>
+                        <th>编号</th>
                         <th>登录密码</th>
                         <th>登录名</th>
                         <th>昵称</th>
@@ -22,22 +113,38 @@
                         <th>手机号</th>
                         <th>登录错误次数</th>
                         <th>上次登录时间</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     <#list model["userList"] as user>
                     <tr>
-                        <th>${user.loginPwd}</th>
-                        <th>${user.loginName}</th>
-                        <th>${user.nickName}</th>
-                        <th>${user.sex}</th>
-                        <th>${user.mobileNo}</th>
-                        <th>${user.loginErrCount}</th>
-                        <th>${user.lastLoginTime!''}</th>
+                        <td>
+                        <input type="checkbox" name="myBox" id="chkOne" value="${user.id}" checked="checked" />
+                        </td>
+                        <td>${user.id}</td>
+                        <td>${user.loginPwd}</td>
+                        <td>${user.loginName}</td>
+                        <td>${user.nickName}</td>
+                        <td>${user.sex}</td>
+                        <td>${user.mobileNo}</td>
+                        <td>${user.loginErrCount}</td>
+                        <td>${user.lastLoginTime!''}</td>
+                        <td>编辑 删除</td>
                     </tr>
                     </#list>
                 </tbody>
             </table>
+            <table class="table table-striped">
+                <tr>
+
+                    <td>每页显示10 20 50 100条数据，共9条数据</td>
+                    <td  style="text-align:right">首页 前页 后页 尾页
+                    <input type="text" name="pageIndex" value="1" size="4"/>
+                    Go</td>
+                </tr>
+            </table>
+
         </div>
     </body>
 </html>
