@@ -1,10 +1,14 @@
 package com.fastjrun.demospring4.dao;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 
 import org.apache.ibatis.session.RowBounds;
@@ -132,8 +136,9 @@ public class BaseUserDaoTest extends BaseSpringTestNGTest {
     @Test
     public void testQueryForListConditionMul() {
         final RowBounds rowBounds = new RowBounds(2, 4);
-        final Semaphore semaphore = new Semaphore(100);
+        final Semaphore semaphore = new Semaphore(3);
         ExecutorService executorService = Executors.newCachedThreadPool();
+        List<Future<Boolean>> resultList = new ArrayList<Future<Boolean>>();
         for (int i = 0; i < 1000; i++) {
             try {
                 semaphore.acquire();
@@ -141,8 +146,8 @@ public class BaseUserDaoTest extends BaseSpringTestNGTest {
                 log.warn("can't acquire semaphore", e1);
                 continue;
             }
-            Runnable run = new Runnable() {
-                public void run() {
+            Callable<Boolean> run = new Callable<Boolean>() {
+                public Boolean call() {
                     try {
                         testCondition(rowBounds);
                     } catch (Exception e) {
@@ -151,11 +156,28 @@ public class BaseUserDaoTest extends BaseSpringTestNGTest {
                         // 访问完后，释放
                         semaphore.release();
                     }
-
+                    return true;
                 }
             };
-            executorService.submit(run);
-
+            Future<Boolean> future = executorService.submit(run);
+            resultList.add(future);
+        }
+        Boolean isFinished = false;
+        while (!isFinished) {
+            for (Future<Boolean> fs : resultList) {
+                try {
+                    isFinished = !isFinished && fs.get();
+                    log.debug(isFinished);
+                    if (!isFinished) {
+                        resultList.remove(fs);
+                        break;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

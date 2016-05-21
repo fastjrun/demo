@@ -88,7 +88,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="plugins">
 			<array>
-				<bean class="com.fastjrun.pagehelper.PageHelper">
+				<bean class="com.fastjrun.mybatis.MyPageHelper">
                     <property name="properties">
                         <value>dialect=mysql
                             offsetAsPageNum=true

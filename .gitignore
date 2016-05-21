@@ -1,5 +1,10 @@
+*.bat
+*.log
+*.log.*
 .project
 /.settings
+*/*.log
+*/*.log.*
 */logs
 */target
 */test*
