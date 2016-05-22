@@ -6,7 +6,7 @@
 	<formats>
 		<format>dir</format>
 	</formats>
-	<includeBaseDirectory>true</includeBaseDirectory>
+	<includeBaseDirectory>${package.format}</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
 			<directory>src/main/resources</directory>
