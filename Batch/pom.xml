@@ -5,15 +5,15 @@
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
 		<artifactId>demoSpring4-parent</artifactId>
-        <version>1.1-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>demoSpring4-batch</artifactId>
 	<dependencies>
-        <!-- activemq -->
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-pool</artifactId>
-        </dependency>
+		<!-- activemq -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-pool</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -149,10 +149,10 @@
 				<executorService.corePoolSize>5</executorService.corePoolSize>
 				<executorService.maxPoolSize>10</executorService.maxPoolSize>
 				<executorService.queueCapacity>25</executorService.queueCapacity>
-                <executorService.keepAliveSeconds>3000</executorService.keepAliveSeconds>
-                <baseTask.semaphoreTtotal>300</baseTask.semaphoreTtotal>
+				<executorService.keepAliveSeconds>3000</executorService.keepAliveSeconds>
+				<baseTask.semaphoreTtotal>300</baseTask.semaphoreTtotal>
 				<unLockUserPwdTask.cronExpression>0 * 0/2 * * ?</unLockUserPwdTask.cronExpression>
-                <invalidLoginCredentialTask.cronExpression>0 * 0/2 * * ?</invalidLoginCredentialTask.cronExpression>
+				<invalidLoginCredentialTask.cronExpression>0 * 0/2 * * ?</invalidLoginCredentialTask.cronExpression>
 				<!-- src/main/config/jdbc.properties -->
 				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
 				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
@@ -175,20 +175,20 @@
 				<jdbc.timeBetweenEvictionRunsMillis>180000</jdbc.timeBetweenEvictionRunsMillis>
 				<jdbc.numTestsPerEvictionRun>20</jdbc.numTestsPerEvictionRun>
 				<jdbc.minEvictableIdleTimeMillis>180000</jdbc.minEvictableIdleTimeMillis>
-                <!-- src/main/config/activemq.properties -->
-                <activemq.brokerURL>failover:(tcp://activemqhost:51616)</activemq.brokerURL>
-                <activemq.queueName>User.MiaoQueue</activemq.queueName>
-                <activemq.userName>fastjrun</activemq.userName>
-                <activemq.password>fastjrun</activemq.password>
-                <!-- consumer -->
-                <activemq.maxConnections>10</activemq.maxConnections>
-                <activemq.concurrentConsumers>5</activemq.concurrentConsumers>
+				<!-- src/main/config/activemq.properties -->
+				<activemq.brokerURL>failover:(tcp://activemqhost:51616)</activemq.brokerURL>
+				<activemq.queueName>User.MiaoQueue</activemq.queueName>
+				<activemq.userName>fastjrun</activemq.userName>
+				<activemq.password>fastjrun</activemq.password>
+				<!-- consumer -->
+				<activemq.maxConnections>10</activemq.maxConnections>
+				<activemq.concurrentConsumers>5</activemq.concurrentConsumers>
 				<!-- src/main/resource/rabbitmq.properties -->
 				<rabbitmq.host>rabbitmqhost</rabbitmq.host>
 				<rabbitmq.port>5672</rabbitmq.port>
 				<rabbitmq.userName>mytest</rabbitmq.userName>
 				<rabbitmq.password>mytest</rabbitmq.password>
-                <rabbitmq.RegisterSuccessNotifyKey>userRegNotify</rabbitmq.RegisterSuccessNotifyKey>
+				<rabbitmq.RegisterSuccessNotifyKey>userRegNotify</rabbitmq.RegisterSuccessNotifyKey>
 				<!-- src/main/config/redis.properties -->
 				<redis.host>redishost</redis.host>
 				<redis.port>6379</redis.port>
@@ -201,8 +201,79 @@
 				<userService.invalidDays>30</userService.invalidDays>
 				<userService.errLimits>5</userService.errLimits>
 				<userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
-                <!-- src/main/config/service.properties -->
+				<!-- src/main/config/service.properties -->
 				<assembly.format>dir</assembly.format>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-test</id>
+
+			<properties>
+				<!-- /src/main/resources/applicationContext.xml -->
+				<system.configDir>config</system.configDir>
+				<!-- /src/main/config/log4j.xml -->
+				<mainlog>com.fastjrun.demospring4</mainlog>
+				<level.mainlog>debug</level.mainlog>
+				<!-- src/main/config/batch.properties -->
+				<shutdown.port>2050</shutdown.port>
+				<scheduler.threadCount>5</scheduler.threadCount>
+				<executorService.corePoolSize>5</executorService.corePoolSize>
+				<executorService.maxPoolSize>10</executorService.maxPoolSize>
+				<executorService.queueCapacity>25</executorService.queueCapacity>
+				<executorService.keepAliveSeconds>3000</executorService.keepAliveSeconds>
+				<baseTask.semaphoreTtotal>300</baseTask.semaphoreTtotal>
+				<unLockUserPwdTask.cronExpression>0 * 0/2 * * ?</unLockUserPwdTask.cronExpression>
+				<invalidLoginCredentialTask.cronExpression>0 * 0/2 * * ?</invalidLoginCredentialTask.cronExpression>
+				<!-- src/main/config/jdbc.properties -->
+				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
+				<jdbc.username>demo</jdbc.username>
+				<jdbc.password>123456</jdbc.password>
+				<jdbc.initialSize>2</jdbc.initialSize>
+				<jdbc.maxIdle>5</jdbc.maxIdle>
+				<jdbc.minIdle>3</jdbc.minIdle>
+				<jdbc.maxActive>10</jdbc.maxActive>
+				<jdbc.maxWait>60000</jdbc.maxWait>
+				<jdbc.defaultAutoCommit>true</jdbc.defaultAutoCommit>
+				<jdbc.logAbandoned>true</jdbc.logAbandoned>
+				<jdbc.testOnReturn>false</jdbc.testOnReturn>
+				<jdbc.testOnBorrow>false</jdbc.testOnBorrow>
+				<jdbc.testWhileIdle>true</jdbc.testWhileIdle>
+				<!-- 进行检测一个连接是有效的SQL语句，比如oracle是select 1 from dual 而 mysql是 select 1 -->
+				<jdbc.validationQuery>select 1</jdbc.validationQuery>
+				<jdbc.removeAbandoned>true</jdbc.removeAbandoned>
+				<jdbc.removeAbandonedTimeout>180</jdbc.removeAbandonedTimeout>
+				<jdbc.timeBetweenEvictionRunsMillis>180000</jdbc.timeBetweenEvictionRunsMillis>
+				<jdbc.numTestsPerEvictionRun>20</jdbc.numTestsPerEvictionRun>
+				<jdbc.minEvictableIdleTimeMillis>180000</jdbc.minEvictableIdleTimeMillis>
+				<!-- src/main/config/activemq.properties -->
+				<activemq.brokerURL>failover:(tcp://activemqhost:51616)</activemq.brokerURL>
+				<activemq.queueName>User.MiaoQueue</activemq.queueName>
+				<activemq.userName>fastjrun</activemq.userName>
+				<activemq.password>fastjrun</activemq.password>
+				<!-- consumer -->
+				<activemq.maxConnections>10</activemq.maxConnections>
+				<activemq.concurrentConsumers>5</activemq.concurrentConsumers>
+				<!-- src/main/resource/rabbitmq.properties -->
+				<rabbitmq.host>rabbitmqhost</rabbitmq.host>
+				<rabbitmq.port>5672</rabbitmq.port>
+				<rabbitmq.userName>mytest</rabbitmq.userName>
+				<rabbitmq.password>mytest</rabbitmq.password>
+				<rabbitmq.RegisterSuccessNotifyKey>userRegNotify</rabbitmq.RegisterSuccessNotifyKey>
+				<!-- src/main/config/redis.properties -->
+				<redis.host>redishost</redis.host>
+				<redis.port>6379</redis.port>
+				<redis.pass>761c166cb9706295</redis.pass>
+				<redis.maxIdle>300</redis.maxIdle>
+				<redis.maxTotal>600</redis.maxTotal>
+				<redis.maxWait>1000</redis.maxWait>
+				<redis.testOnBorrow>true</redis.testOnBorrow>
+				<!-- src/main/config/service.properties -->
+				<userService.invalidDays>30</userService.invalidDays>
+				<userService.errLimits>5</userService.errLimits>
+				<userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
+				<!-- src/main/config/service.properties -->
+				<assembly.format>tar.gz</assembly.format>
 			</properties>
 		</profile>
 	</profiles>
