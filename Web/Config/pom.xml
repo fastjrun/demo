@@ -58,6 +58,8 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
+                <!--src/main/resources/package.xml -->
+                <package.format>dir</package.format>
 				<!--src/main/resources/log4j.xml -->
 				<mainlog>com.fastjrun.demospring4</mainlog>
 				<level.mainlog>debug</level.mainlog>
@@ -116,6 +118,63 @@
 		<profile>
 			<!-- 联调环境 -->
 			<id>env-test</id>
+            <properties>
+                <!--src/main/resources/package.xml -->
+                <package.format>tar.gz</package.format>
+                <!--src/main/resources/log4j.xml -->
+                <mainlog>com.fastjrun.demospring4</mainlog>
+                <level.mainlog>debug</level.mainlog>
+                <commonlogFile>/app/demoSpring4/Web/logs/rest.log</commonlogFile>
+                <errorlogFile>/app/demoSpring4/Web/logs/error.log</errorlogFile>
+                <!-- src/main/resources/jdbc.properties -->
+                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+                <jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo?useUnicode=true&amp;characterEncoding=UTF-8</jdbc.url>
+                <jdbc.username>demo</jdbc.username>
+                <jdbc.password>123456</jdbc.password>
+                <jdbc.initialSize>2</jdbc.initialSize>
+                <jdbc.maxIdle>5</jdbc.maxIdle>
+                <jdbc.minIdle>3</jdbc.minIdle>
+                <jdbc.maxActive>10</jdbc.maxActive>
+                <jdbc.maxWait>60000</jdbc.maxWait>
+                <jdbc.defaultAutoCommit>true</jdbc.defaultAutoCommit>
+                <jdbc.logAbandoned>true</jdbc.logAbandoned>
+                <jdbc.testOnReturn>false</jdbc.testOnReturn>
+                <jdbc.testOnBorrow>false</jdbc.testOnBorrow>
+                <jdbc.testWhileIdle>true</jdbc.testWhileIdle>
+                <!-- 进行检测一个连接是有效的SQL语句，比如oracle是select 1 from dual 而 mysql是 select 1 -->
+                <jdbc.validationQuery>select 1</jdbc.validationQuery>
+                <jdbc.removeAbandoned>true</jdbc.removeAbandoned>
+                <jdbc.removeAbandonedTimeout>180</jdbc.removeAbandonedTimeout>
+                <jdbc.timeBetweenEvictionRunsMillis>180000</jdbc.timeBetweenEvictionRunsMillis>
+                <jdbc.numTestsPerEvictionRun>20</jdbc.numTestsPerEvictionRun>
+                <jdbc.minEvictableIdleTimeMillis>180000</jdbc.minEvictableIdleTimeMillis>
+                <!-- src/main/resource/rabbitmq.properties -->
+                <rabbitmq.host>rabbitmqhost</rabbitmq.host>
+                <rabbitmq.port>5672</rabbitmq.port>
+                <rabbitmq.userName>mytest</rabbitmq.userName>
+                <rabbitmq.password>mytest</rabbitmq.password>
+                <rabbitmq.RegisterSuccessNotifyKey>userRegNotify</rabbitmq.RegisterSuccessNotifyKey>
+                <!-- src/main/config/activemq.properties -->
+                <activemq.brokerURL>failover:(tcp://activemqhost:51616)</activemq.brokerURL>
+                <activemq.queueName>User.MiaoQueue</activemq.queueName>
+                <activemq.userName>fastjrun</activemq.userName>
+                <activemq.password>fastjrun</activemq.password>
+                <!-- consumer -->
+                <activemq.maxConnections>10</activemq.maxConnections>
+                <activemq.concurrentConsumers>5</activemq.concurrentConsumers>
+                <!-- src/main/config/redis.properties -->
+                <redis.host>redishost</redis.host>
+                <redis.port>6379</redis.port>
+                <redis.pass>761c166cb9706295</redis.pass>
+                <redis.maxIdle>300</redis.maxIdle>
+                <redis.maxTotal>600</redis.maxTotal>
+                <redis.maxWait>1000</redis.maxWait>
+                <redis.testOnBorrow>true</redis.testOnBorrow>
+                <!-- src/main/config/service.properties -->
+                <userService.invalidDays>30</userService.invalidDays>
+                <userService.errLimits>5</userService.errLimits>
+                <userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
+            </properties>
 		</profile>
 		<profile>
 			<!-- 演示环境 -->
