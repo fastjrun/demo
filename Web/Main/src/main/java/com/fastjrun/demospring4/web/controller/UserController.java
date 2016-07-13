@@ -15,21 +15,23 @@ import com.fastjrun.demospring4.bean.User;
 import com.fastjrun.demospring4.service.BaseUserService;
 
 @Controller
+@RequestMapping(value = "/user")
 public class UserController {
     @Autowired
     BaseUserService baseUserService;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
-
         return "index";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String showUserList(@ModelAttribute("model") ModelMap model) {
         RowBounds rowBounds = new RowBounds(0, 10);
-        List<User> userList = baseUserService.queryForLimitList(rowBounds);
-        model.addAttribute("userList", userList);
+        List<User> list = baseUserService.queryForLimitList(rowBounds);
+        Integer totalCount = new Integer(baseUserService.totalCount());
+        model.addAttribute("userList", list);
+        model.addAttribute("vpiym", totalCount);
         return "list";
     }
 

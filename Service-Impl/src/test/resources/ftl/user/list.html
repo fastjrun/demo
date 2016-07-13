@@ -57,7 +57,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <#list  model["userList"] as user>
+                    <#list list as user>
                     <tr>
                         <td>
                         <input type="checkbox" name="myBox" id="chkOne" value="${user.id}" checked="checked" />
@@ -70,7 +70,7 @@
                         <td>${user.mobileNo}</td>
                         <td>${user.loginErrCount}</td>
                         <td>${user.lastLoginTime!''}</td>
-                        <td>编辑 删除<${vpiym}></td>
+                        <td>编辑 删除${totalCount}</td>
                     </tr>
                     </#list>
                 </tbody>
@@ -78,12 +78,15 @@
             <table class="table table-striped">
                 <tr>
 
-                    <td>每页显示10 20 50 100条数据，<${vpiym}>条数据</td>
+                    <td>每页显示10 20 50 100条数据，共${totalCount}条数据</td>
                     <td  style="text-align:right">首页 前页 后页 尾页
                     <input type="text" name="pageIndex" value="1" size="4"/>
                     Go</td>
                 </tr>
             </table>
+sdfdsf dsfsdf${totalCount}
+        <#assign foo=true/> 
+${foo?string("yes", "no")}
         </div>
     </body>
 </html>

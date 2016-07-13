@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
 		<artifactId>demoSpring4-parent</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+        <version>1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>demoSpring4-util</artifactId>
 	<dependencies>
@@ -41,6 +41,10 @@
 			<groupId>com.fastjrun.share</groupId>
 			<artifactId>base-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
 		</dependency>
 	</dependencies>
 	<build>

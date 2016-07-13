@@ -45,8 +45,7 @@ public class SendMailUtil {
      * @param mailSubject
      * @param mailBody
      */
-    public void sendTextMail(String fromNickName, String to,
-            String mailSubject, String mailBody) {
+    public void sendTextMail(String fromNickName, String to, String mailSubject, String mailBody) {
         SimpleMailMessage mail = new SimpleMailMessage();
         String nickNameEncode = fromNickName;
         try {
@@ -70,6 +69,35 @@ public class SendMailUtil {
     }
 
     /**
+     * 发送html的邮件
+     * 
+     * 
+     * @param fromNickName
+     * @param to
+     * @param mailSubject
+     * @param mailBody
+     * @throws MessagingException
+     */
+    public void sendHtmlMail(String fromNickName, String to, String mailSubject, String mailBody)
+            throws MessagingException {
+        MimeMessage msg = javaMailSender.createMimeMessage();
+        String nickNameEncode = fromNickName;
+        try {
+            nickNameEncode = MimeUtility.encodeText(fromNickName);
+        } catch (UnsupportedEncodingException e) {
+            log.warn(fromNickName + " can not be encoded", e);
+        }
+
+        MimeMessageHelper helper = new MimeMessageHelper(msg, true, "utf-8");
+        helper.setFrom(nickNameEncode + this.from);
+        helper.setTo(to);
+        helper.setText(mailBody, true);
+        helper.setSubject(mailSubject);
+        helper.setSentDate(new Date());
+        javaMailSender.send(msg);
+    }
+
+    /**
      * 发送添加附件的邮件
      * 
      * 
@@ -81,9 +109,8 @@ public class SendMailUtil {
      *            附件（绝对路径）
      * @throws MessagingException
      */
-    public void sendAttachMentMail(String fromNickName, String to,
-            String mailSubject, String mailBody, String attachMentFilePath)
-            throws MessagingException {
+    public void sendAttachMentMail(String fromNickName, String to, String mailSubject, String mailBody,
+            String attachMentFilePath) throws MessagingException {
         MimeMessage msg = javaMailSender.createMimeMessage();
         String nickNameEncode = fromNickName;
         try {
