@@ -74,7 +74,7 @@ public class UserServiceImpl extends BaseService implements UserServiceRest, Use
         Condition c = new Condition().and("loginName=? and mobileNo = ?", loginName, mobileNo);
         ConditionHelper.condition(c.toString());
         List<User> list = baseUserDao.queryForListCondition();
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             return RestResponseHelper.getFailResult("USERREGISTER01", "用户已存在");
         } else {
             Timestamp curTimestamp = new Timestamp(System.currentTimeMillis());
