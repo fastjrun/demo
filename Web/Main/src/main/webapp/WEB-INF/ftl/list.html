@@ -6,6 +6,92 @@
     </head>
     <body>
         <div class="container-fluid" id="main-container">
+            <div class="panel panel-default ">
+                <div class="panel-heading">
+                    这里是head区
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="center"><label>
+                                <input type="checkbox" id="zcheckbox" />
+                                <span class="lbl"></span></label></th>
+                            <th>id</th>
+                            <th>登录密码</th>
+                            <th>登录名</th>
+                            <th>昵称</th>
+                            <th>性别</th>
+                            <th><i class="icon-envelope"></i>手机号</th>
+                            <th><i class="icon-time hidden-phone"></i>登录错误次数</th>
+                            <th>上次登录时间</th>
+                            <th class="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <#list userList as user>
+                        <!-- 开始循环 -->
+                        <tr>
+                            <td class='center' style="width: 30px;">
+                            <input type='checkbox' name='ids' value="${user.id}" id="${user.mobileNo}" alt="${user.mobileNo}"/>
+                            <span class="lbl"></span></label></td>
+                            <td>${user.id}</td>
+                            <td>${user.loginPwd}</td>
+                            <td>${user.loginName}</td>
+                            <td>${user.nickName}</td>
+                            <td>${user.sex}</td>
+                            <td>${user.mobileNo}</td>
+                            <td>${user.loginErrCount}</td>
+                            <td>${user.lastLoginTime!''}</td>
+                            <td style="width: 60px;">
+                            <div class='hidden-phone visible-desktop btn-group'>
+                                <a class='btn btn-mini btn-info' title="编辑" onclick="editUser('${user.USER_ID }');"><i class='icon-edit'></i></a>
+                                <a class='btn btn-mini btn-danger' title="删除" onclick="delUser('${user.USER_ID }','${user.USERNAME }');"><i class='icon-trash'></i></a>
+                            </div></td>
+                        </tr>
+                        </#list>
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <ul class="pagination">
+                            <li class="disabled">
+                                <span>Prev</span>
+                            </li>
+                            <li class="active">
+                                <a href="#">1 <span class="sr-only">(current) </span></a>
+                            </li>
+                            <li>
+                                <a href="#">2</a>
+                            </li>
+                            <li>
+                                <a href="#">3</a>
+                            </li>
+                            <li>
+                                <a href="#">4</a>
+                            </li>
+                            <li class="disabled">
+                                <span>...</span>
+                            </li>
+                            <li>
+                                <a href="#">14</a>
+                            </li>
+                            <li>
+                                <a href="#">15</a>
+                            </li>
+                            <li>
+                                <a href="#">16</a>
+                            </li>
+                            <li>
+                                <a href="#">17</a>
+                            </li>
+                            <li>
+                                <a href="#">Next</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
             <div id="page-content" class="clearfix">
 
@@ -15,45 +101,6 @@
 
                         <table id="table_report" class="table table-striped table-bordered table-hover">
 
-                            <thead>
-                                <tr>
-                                    <th class="center"><label>
-                                        <input type="checkbox" id="zcheckbox" />
-                                        <span class="lbl"></span></label></th>
-                                    <th>id</th>
-                                    <th>登录密码</th>
-                                    <th>登录名</th>
-                                    <th>昵称</th>
-                                    <th>性别</th>
-                                    <th><i class="icon-envelope"></i>手机号</th>
-                                    <th><i class="icon-time hidden-phone"></i>登录错误次数</th>
-                                    <th>上次登录时间</th>
-                                    <th class="center">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <#list userList as user>
-                                <!-- 开始循环 -->
-                                <tr>
-                                    <td class='center' style="width: 30px;">
-                                    <input type='checkbox' name='ids' value="${user.id}" id="${user.mobileNo}" alt="${user.mobileNo}"/>
-                                    <span class="lbl"></span></label></td>
-                                    <td>${user.id}</td>
-                                    <td>${user.loginPwd}</td>
-                                    <td>${user.loginName}</td>
-                                    <td>${user.nickName}</td>
-                                    <td>${user.sex}</td>
-                                    <td>${user.mobileNo}</td>
-                                    <td>${user.loginErrCount}</td>
-                                    <td>${user.lastLoginTime!''}</td>
-                                    <td style="width: 60px;">
-                                    <div class='hidden-phone visible-desktop btn-group'>
-                                        <a class='btn btn-mini btn-info' title="编辑" onclick="editUser('${user.USER_ID }');"><i class='icon-edit'></i></a>
-                                        <a class='btn btn-mini btn-danger' title="删除" onclick="delUser('${user.USER_ID }','${user.USERNAME }');"><i class='icon-trash'></i></a>
-                                    </div></td>
-                                </tr>
-                                </#list>
-                            </tbody>
                         </table>
 
                         <div class="page-header position-relative">
@@ -93,116 +140,117 @@
         <script type="text/javascript">
 //新增
 function add(){
-     var diag = new top.Dialog();
-     diag.Drag=true;
-     diag.Title ="新增";
-     diag.URL = '${rc.getContextPath()}/user/initadd.do';
-     diag.Width = 600;
-     diag.Height = 900;
-     diag.CancelEvent = function(){ //关闭事件
-        diag.close();
-     };
-     diag.show();
+var diag = new top.Dialog();
+diag.Drag=true;
+diag.Title ="新增";
+diag.URL = '${rc.getContextPath()}/user/initadd.do';
+diag.Width = 600;
+diag.Height = 900;
+diag.OKEvent = function(){diag.close();};//点击确定后调用的方法
+diag.OKEvent = function(){Dialog.alert("用户名不能为空");};//点击确定后调用的方法
+diag.CancelEvent = function(){ //关闭事件
+diag.close();
+};
+diag.show();
 }
 
 //修改
 function editUser(user_id){
-     top.jzts();
-     var diag = new top.Dialog();
-     diag.Drag=true;
-     diag.Title ="资料";
-     diag.URL = '<%=basePath%>user/goEditU.do?USER_ID='+user_id;
-     diag.Width = 225;
-     diag.Height = 415;
-     diag.CancelEvent = function(){ //关闭事件
-         if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-            nextPage(${page.currentPage});
-        }
-        diag.close();
-     };
-     diag.show();
+top.jzts();
+var diag = new top.Dialog();
+diag.Drag=true;
+diag.Title ="资料";
+diag.URL = '<%=basePath%>user/goEditU.do?USER_ID='+user_id;
+diag.Width = 225;
+diag.Height = 415;
+diag.CancelEvent = function(){ //关闭事件
+if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+nextPage(${page.currentPage});
+}
+diag.close();
+};
+diag.show();
 }
 
 //删除
 function delUser(userId,msg){
-    bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
-        if(result) {
-            top.jzts();
-            var url = "<%=basePath%>user/deleteU.do?USER_ID="+userId+"&tm="+new Date().getTime();
-            $.get(url,function(data){
-                nextPage(${page.currentPage});
-            });
-        }
-    });
+bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
+if(result) {
+top.jzts();
+var url = "<%=basePath%>user/deleteU.do?USER_ID="+userId+"&tm="+new Date().getTime();
+$.get(url,function(data){
+nextPage(${page.currentPage});
+});
+}
+});
 }
 
 //批量操作
 function makeAll(msg){
-    bootbox.confirm(msg, function(result) {
-        if(result) {
-            var str = '';
-            var emstr = '';
-            var phones = '';
-            for(var i=0;i < document.getElementsByName('ids').length;i++)
-            {
-                  if(document.getElementsByName('ids')[i].checked){
-                    if(str=='') str += document.getElementsByName('ids')[i].value;
-                    else str += ',' + document.getElementsByName('ids')[i].value;
-                    
-                    if(emstr=='') emstr += document.getElementsByName('ids')[i].id;
-                    else emstr += ';' + document.getElementsByName('ids')[i].id;
-                    
-                    if(phones=='') phones += document.getElementsByName('ids')[i].alt;
-                    else phones += ';' + document.getElementsByName('ids')[i].alt;
-                  }
-            }
-            if(str==''){
-                bootbox.dialog("您没有选择任何内容!", 
-                    [
-                      {
-                        "label" : "关闭",
-                        "class" : "btn-small btn-success",
-                        "callback": function() {
-                            //Example.show("great success");
-                            }
-                        }
-                     ]
-                );
-                
-                $("#zcheckbox").tips({
-                    side:3,
-                    msg:'点这里全选',
-                    bg:'#AE81FF',
-                    time:8
-                });
-                
-                return;
-            }else{
-                if(msg == '确定要删除选中的数据吗?'){
-                    top.jzts();
-                    $.ajax({
-                        type: "POST",
-                        url: '<%=basePath%>user/deleteAllU.do?tm='+new Date().getTime(),
-                        data: {USER_IDS:str},
-                        dataType:'json',
-                        //beforeSend: validateData,
-                        cache: false,
-                        success: function(data){
-                             $.each(data.list, function(i, list){
-                                    nextPage(${page.currentPage});
-                             });
-                        }
-                    });
-                }else if(msg == '确定要给选中的用户发送邮件吗?'){
-                    sendEmail(emstr);
-                }else if(msg == '确定要给选中的用户发送短信吗?'){
-                    sendSms(phones);
-                }
-                
-                
-            }
-        }
-    });
+bootbox.confirm(msg, function(result) {
+if(result) {
+var str = '';
+var emstr = '';
+var phones = '';
+for(var i=0;i < document.getElementsByName('ids').length;i++)
+{
+if(document.getElementsByName('ids')[i].checked){
+if(str=='') str += document.getElementsByName('ids')[i].value;
+else str += ',' + document.getElementsByName('ids')[i].value;
+
+if(emstr=='') emstr += document.getElementsByName('ids')[i].id;
+else emstr += ';' + document.getElementsByName('ids')[i].id;
+
+if(phones=='') phones += document.getElementsByName('ids')[i].alt;
+else phones += ';' + document.getElementsByName('ids')[i].alt;
+}
+}
+if(str==''){
+bootbox.dialog("您没有选择任何内容!",
+[
+{
+"label" : "关闭",
+"class" : "btn-small btn-success",
+"callback": function() {
+//Example.show("great success");
+}
+}
+]
+);
+
+$("#zcheckbox").tips({
+side:3,
+msg:'点这里全选',
+bg:'#AE81FF',
+time:8
+});
+
+return;
+}else{
+if(msg == '确定要删除选中的数据吗?'){
+top.jzts();
+$.ajax({
+type: "POST",
+url: '<%=basePath%>user/deleteAllU.do?tm='+new Date().getTime(),
+data: {USER_IDS:str},
+dataType:'json',
+//beforeSend: validateData,
+cache: false,
+success: function(data){
+$.each(data.list, function(i, list){
+nextPage(${page.currentPage});
+});
+}
+});
+}else if(msg == '确定要给选中的用户发送邮件吗?'){
+sendEmail(emstr);
+}else if(msg == '确定要给选中的用户发送短信吗?'){
+sendSms(phones);
+}
+
+}
+}
+});
 }
 $(function() {
 //复选框

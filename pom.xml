@@ -300,7 +300,7 @@
 	</profiles>
 	<properties>
 		<base-common.version>1.1</base-common.version>
-		<MybatisEx.version>1.0</MybatisEx.version>
+		<MybatisEx.version>1.1</MybatisEx.version>
 		<base-test.version>1.1</base-test.version>
 		<activemq.version>5.13.1</activemq.version>
 		<spring-rabbit.version>1.5.3.RELEASE</spring-rabbit.version>
