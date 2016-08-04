@@ -29,8 +29,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String showUserList(Model model, @RequestParam(required = false, defaultValue = "0") int offset,
-            @RequestParam(required = false, defaultValue = "30") int limit) {
+    public String showUserList(Model model,
+            @RequestParam(required = false, defaultValue = "0") int offset,
+            @RequestParam(required = false, defaultValue = "5") int limit) {
         RowBounds rowBounds = new RowBounds(offset, limit);
         List<User> list = baseUserService.queryForLimitList(rowBounds);
         int totalCount = baseUserService.totalCount();
@@ -39,39 +40,38 @@ public class UserController {
         return "list";
     }
 
-    @RequestMapping(value = "/mylist", method = RequestMethod.GET)
-    public ModelAndView home() {
-        RowBounds rowBounds = new RowBounds(0, 10);
-        List<User> list = baseUserService.queryForLimitList(rowBounds);
-        Integer totalCount = new Integer(baseUserService.totalCount());
-
-        ModelAndView mav = new ModelAndView("list");
-        mav.addObject("userList", list);
-        mav.addObject("vpiym", totalCount);
-
-        return mav;
-    }
-
-    @RequestMapping(value = "/initadd", method = RequestMethod.GET)
-    public String init2add(@ModelAttribute("user") User user) {
-
-        return "add";
-    }
-
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
-
+    public String add(@ModelAttribute("user") User user,
+            RedirectAttributes redirectAttributes) {
         if (user != null) {
-
             baseUserService.insert(user);
-            redirectAttributes.addFlashAttribute("user", user);
-            redirectAttributes.addFlashAttribute("message", "操作成功");
         }
-        return "redirect:/success.do";
+        return "redirect:list.do";
+    }
+    
+
+
+    @RequestMapping(value = "/addAjax", method = RequestMethod.POST)
+    public String add(@ModelAttribute("user") User user,
+            RedirectAttributes redirectAttributes) {
+        if (user != null) {
+            baseUserService.insert(user);
+        }
+        return "redirect:list.do";
     }
 
-    @RequestMapping(value = "success", method = RequestMethod.GET)
-    public String showCustomer(@ModelAttribute("user") User user) {
-        return "success";
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String detail(Model model,
+            @RequestParam(required = true) int id) {
+        User user=baseUserService.selectById(id);
+        model.addAttribute("user", user);
+        return "detail";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String delete(Model model,
+            @RequestParam(required = true) int id) {
+        baseUserService.deleteById(id);
+        return "redirect:list.do";
     }
 }
