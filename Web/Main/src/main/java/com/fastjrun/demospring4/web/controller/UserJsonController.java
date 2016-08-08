@@ -1,7 +1,9 @@
 
 package com.fastjrun.demospring4.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fastjrun.demospring4.bean.User;
 import com.fastjrun.demospring4.service.BaseUserService;
-import com.fastjrun.packet.BaseRestBeanListResponseBody;
-import com.fastjrun.packet.BaseRestResponse;
-import com.fastjrun.packet.BaseRestResponseHead;
 import com.fastjrun.web.controller.BaseController;
 
 /**
@@ -34,18 +33,10 @@ public class UserJsonController extends BaseController {
         int totalCount = baseUserService.totalCount();
         RowBounds rowBounds = new RowBounds(offset, limit);
         List<User> list = baseUserService.queryForLimitList(rowBounds);
-        BaseRestResponseHead responseHead = new BaseRestResponseHead();
-        BaseRestBeanListResponseBody<User> responseBody = new BaseRestBeanListResponseBody<User>();
-        BaseRestResponse<BaseRestBeanListResponseBody<User>> response = new BaseRestResponse<BaseRestBeanListResponseBody<User>>();
-        responseHead.setCode("0000");
-        responseHead.setMsg("OK");
-        response.setHead(responseHead);
-        responseBody.setTotalCount(totalCount);
-        if (list != null) {
-            responseBody.setList(list);
-        }
-        response.setBody(responseBody);
-        return response;
+        Map<String, Object> restMap = new HashMap<String, Object>();
+        restMap.put("total", totalCount);
+        restMap.put("rows", list);
+        return restMap;
     }
 
 }

@@ -168,7 +168,7 @@
 			onclick="exporyAll();">
 			<span class="glyphicon glyphicon-arrow-down"></span> 导出历史数据到excel
 		</button>
-		<table id="dtb" data-toggle="table" data-url="/json/user/list/10"
+		<table id="dtb" data-toggle="table" data-url="json/user/list.do"
 			class="table table-hover" data-show-columns="true" data-search="true"
 			data-show-refresh="true" data-show-toggle="true"
 			data-show-export="true"
@@ -179,12 +179,11 @@
 			<thead>
 				<tr>
 					<th data-field="id" data-formatter="hideIdFormatter" class="hide"></th>
-					<th data-field="name" data-align="left">姓名</th>
+					<th data-field="loginName" data-align="left">姓名</th>
 					<th data-field="sex" data-align="center">性别</th>
-					<th data-field="age">年龄</th>
-					<th data-field="phone">手机号</th>
-					<th data-field="deliveryaddress">收货地址</th>
-					<th data-field="adddate">添加时间</th>
+					<th data-field="mobileNo">手机号</th>
+					<th data-field="createTime">创建时间</th>
+					<th data-field="email">邮箱</th>
 					<th data-field="operate" data-formatter="operateFormatter"
 						data-events="operateEvents">操作</th>
 				</tr>
