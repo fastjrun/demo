@@ -33,10 +33,4 @@ public class UserDaoTest extends BaseSpringTestNGTest {
         userDao.insertNoStatusAndLastRecordLoginErrTime(user);
     }
 
-    @Test
-    public void testSelectById() {
-        int user = userDao.selectById(1, 2);
-        log.info(user);
-    }
-
 }

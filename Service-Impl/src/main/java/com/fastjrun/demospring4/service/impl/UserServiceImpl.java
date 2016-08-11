@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.fastjrun.demospring4.bean.User;
 import com.fastjrun.demospring4.dao.BaseUserDao;
+import com.fastjrun.demospring4.dao.UserDao;
 import com.fastjrun.demospring4.packet.user.AutoLoginRestRequestBody;
 import com.fastjrun.demospring4.packet.user.AutoLoginRestResponseBody;
 import com.fastjrun.demospring4.packet.user.LoginRestRequestBody;
@@ -25,6 +26,7 @@ import com.fastjrun.demospring4.packet.user.Loginv1_1RestRequestBody;
 import com.fastjrun.demospring4.packet.user.Loginv1_1RestResponseBody;
 import com.fastjrun.demospring4.packet.user.RegistserRestRequestBody;
 import com.fastjrun.demospring4.service.CoreUserService;
+import com.fastjrun.demospring4.service.UserServiceAjax;
 import com.fastjrun.demospring4.service.UserServiceRest;
 import com.fastjrun.demospring4.service.UserServiceTask;
 import com.fastjrun.helper.RestResponseHelper;
@@ -38,9 +40,11 @@ import com.fastjrun.packet.BaseRestResponseHead;
 import com.fastjrun.service.impl.BaseService;
 
 @Service
-public class UserServiceImpl extends BaseService implements UserServiceRest, UserServiceTask {
+public class UserServiceImpl extends BaseService implements UserServiceRest, UserServiceTask, UserServiceAjax {
     @Autowired
     private BaseUserDao baseUserDao;
+    @Autowired
+    private UserDao userDao;
     @Autowired
     private CoreUserService coreUserService;
     @Autowired
@@ -196,6 +200,13 @@ public class UserServiceImpl extends BaseService implements UserServiceRest, Use
         responseBody.setMobileNo(user.getMobileNo());
         response.setBody(responseBody);
         return response;
+    }
+
+    @Override
+    public int updateUserInfoById(String loginName, String sex, String mobileNo, String email, Integer id) {
+        int res = userDao.updateUserInfoById(loginName, sex, mobileNo, email, id);
+        return res;
+
     }
 
 }

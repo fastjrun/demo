@@ -22,14 +22,12 @@
 
 
             window.operateEvents = {
-                'click .like' : function(e, value, row, index) {
-                    alert('You click like icon, row: ' + JSON.stringify(row));
-                    console.log(value, row, index);
-                },
                 'click .edit' : function(e, value, row, index) {
-                    alert($("[data-index=" + index + "]").find('td').eq(3).html());
-                    //alert($("[data-index="+index+"]").find('td').eq(3).text());
+                    $("#id").val($("[data-index=" + index + "]").find('td').eq(0).children().first().val());
+                    $("#loginName").val($("[data-index=" + index + "]").find('td').eq(1).text());
+                    $("#sex").val($("[data-index=" + index + "]").find('td').eq(2).text());
                     $("#mobileNo").val($("[data-index=" + index + "]").find('td').eq(3).text());
+                    $("#email").val($("[data-index=" + index + "]").find('td').eq(5).text());
                     $("#edituc").modal("show");
                     //alert('You click edit icon, row: ' + JSON.stringify(row));
                     //console.log(value, row, index);
@@ -64,17 +62,22 @@
                 return params;
             }
 
-            function saveUcode() {
+            function saveU() {
                 //alert($("#waiteduc").val());
                 //alert($("#waitph").val());
-                $.post('user/edit', {
-                    "phone" : $("#waitph").val(),
-                    "uc" : $("#waiteduc").val()
+                $.post('json/user/doUpdate.do', {
+                    "id" : $("#id").val(),
+                    "loginName" : $("#loginName").val(),
+                    "sex" : $("#sex").val(),
+                    "mobileNo" : $("#mobileNo").val(),
+                    "email" : $("#email").val()
                 }, function() {
-                    //alert('保存成功!');
+                    alert('保存成功!');
                     $("#edituc").modal('hide');
-                    $("#waiteduc").val('');
-                    $("#waitph").val('');
+                    $("#loginName").val('');
+                    $("#sex").val('');
+                    $("#mobileNo").val('');
+                    $("#email").val('');
                     refreshTable();
                 });
             }
@@ -139,6 +142,8 @@
                             <h4 class="modal-title" id="myModalLabel">编辑当前用户的资料</h4>
                         </div>
                         <div class="modal-body">
+                            <input id="id" type="hidden" class="form-control" value=""
+                            pattern="" required="required" />
                             姓名
                             <input id="loginName" type="text" class="form-control" value=""
                             pattern="" required="required" />
@@ -147,9 +152,6 @@
                             pattern="" required="required" />
                             手机号
                             <input id="mobileNo" type="text" class="form-control" value=""
-                            pattern="" required="required" />
-                            创建时间
-                            <input id="createTime" type="text" class="form-control" value=""
                             pattern="" required="required" />
                             邮箱
                             <input id="email" type="text" class="form-control" value=""
@@ -160,7 +162,7 @@
                                 取消
                             </button>
                             <button type="button" class="btn btn-primary"
-                            onclick="saveUcode();">
+                            onclick="saveU();">
                                 保存
                             </button>
                         </div>

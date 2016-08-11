@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fastjrun.demospring4.bean.User;
 import com.fastjrun.demospring4.dao.UserDao;
 import com.fastjrun.demospring4.service.BaseUserService;
+import com.fastjrun.demospring4.service.UserServiceAjax;
 import com.fastjrun.web.controller.BaseController;
 
 /**
@@ -26,6 +27,9 @@ public class UserJsonController extends BaseController {
 
     @Autowired
     private BaseUserService baseUserService;
+
+    @Autowired
+    private UserServiceAjax userServiceAjax;
 
     @Autowired
     private UserDao userDao;
@@ -43,8 +47,10 @@ public class UserJsonController extends BaseController {
     }
 
     @RequestMapping(value = "doUpdate")
-    public Object doUpdate(@RequestParam(required = false, defaultValue = "1") User user) {
-        int res = baseUserService.updateById(user);
+    public Object doUpdate(@RequestParam(required = true) String loginName, @RequestParam(required = true) String sex,
+            @RequestParam(required = true) String mobileNo, @RequestParam(required = true) String email,
+            @RequestParam(required = true) Integer id) {
+        int res = userServiceAjax.updateUserInfoById(loginName, sex, mobileNo, email, id);
         Map<String, Object> restMap = new HashMap<String, Object>();
         if (res > 0) {
             restMap.put("status", "success");

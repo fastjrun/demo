@@ -1,12 +1,9 @@
 package com.fastjrun.demospring4.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.annotations.Update;
 
 import com.fastjrun.demospring4.bean.User;
 
@@ -16,12 +13,8 @@ public interface UserDao {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     public int insertNoStatusAndLastRecordLoginErrTime(User user);
 
-    @Select("select * from t_user where id = #{id} and sex=#{sex} ")
-    @Options(flushCache = true)
-    public int selectByIdAndSex(@Param("id") long id, @Param("sex") int sex);
-
-    @Select("select `id` id,`createTime` createTime,`sex` sex,`mobileNo` mobileNo,`loginName` loginName,`id` id,`email` email from t_user")
-    @Options(flushCache = true)
-    public List<User> queryForLimitList(RowBounds rowBounds);
+    @Update("update t_user set `sex` = #{sex},`mobileNo` = #{mobileNo},`loginName` = #{loginName},`email` = #{email} where id = #{id} ")
+    public int updateUserInfoById(@Param("loginName") String loginName, @Param("sex") String sex,
+            @Param("mobileNo") String mobileNo, @Param("email") String email, @Param("id") Integer id);
 
 }
