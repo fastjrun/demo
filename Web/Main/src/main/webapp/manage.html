@@ -108,6 +108,7 @@
             </div>
         </nav>
         <div class="container-fluid">
+            <a href="" data-toggle="modal" data-target="#myModal" id="ModalSignUp">Sign Up</a><a href="" data-toggle="modal" data-target="#myModal" id="ModalLogin">Log In</a>
             <table id="dtb" data-toggle="table" data-url="json/user/list.do"
             class="table table-hover" data-show-columns="true" data-search="true"
             data-show-refresh="true" data-show-toggle="true"
@@ -169,6 +170,17 @@
                     </div>
                 </div>
             </div>
+            <!--this creates a div to hold the remote content, which also is the first div tag from Bootstrap's modal code-->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"></div>
+            <!--script to load url with the remote content-->
+            <script>
+                $('#ModalSignUp').click(function() {
+                    $('#myModal').load('./_include-modal/signup.php');
+                });
+                $('#ModalLogin').click(function() {
+                    $('#myModal').load('./_include-modal/login.php');
+                });
+            </script>
         </div>
     </body>
 </html>
