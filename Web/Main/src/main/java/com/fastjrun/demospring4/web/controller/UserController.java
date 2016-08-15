@@ -56,6 +56,14 @@ public class UserController {
         return "detail";
     }
 
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String edit(Model model,
+            @RequestParam(required = true) int id) {
+        User user=baseUserService.selectById(id);
+        model.addAttribute("user", user);
+        return "detail";
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String delete(Model model,
             @RequestParam(required = true) int id) {

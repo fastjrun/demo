@@ -13,8 +13,7 @@ public interface UserDao {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     public int insertNoStatusAndLastRecordLoginErrTime(User user);
 
-    @Update("update t_user set `sex` = #{sex},`mobileNo` = #{mobileNo},`loginName` = #{loginName},`email` = #{email} where id = #{id} ")
-    public int updateUserInfoById(@Param("loginName") String loginName, @Param("sex") String sex,
-            @Param("mobileNo") String mobileNo, @Param("email") String email, @Param("id") Integer id);
+    @Update("update t_user set `loginPwd` = #{loginPwd},`nickName` = #{nickName},`sex` = #{sex},`mobileNo` = #{mobileNo},`loginName` = #{loginName},`email` = #{email} where id = #{id} ")
+    public int updateUserInfoById(User user);
 
 }

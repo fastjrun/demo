@@ -1,14 +1,19 @@
 package com.fastjrun.demospring4.service.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
@@ -40,7 +45,8 @@ import com.fastjrun.packet.BaseRestResponseHead;
 import com.fastjrun.service.impl.BaseService;
 
 @Service
-public class UserServiceImpl extends BaseService implements UserServiceRest, UserServiceTask, UserServiceAjax {
+public class UserServiceImpl extends BaseService implements UserServiceRest,
+        UserServiceTask, UserServiceAjax {
     @Autowired
     private BaseUserDao baseUserDao;
     @Autowired
@@ -68,14 +74,16 @@ public class UserServiceImpl extends BaseService implements UserServiceRest, Use
     }
 
     @Override
-    public BaseRestResponse<BaseRestDefaultResponseBody> register(BaseRestRequest<RegistserRestRequestBody> request) {
+    public BaseRestResponse<BaseRestDefaultResponseBody> register(
+            BaseRestRequest<RegistserRestRequestBody> request) {
         String loginPwd = request.getBody().getLoginpwd();
         String loginName = request.getBody().getLoginId();
         String nickName = request.getBody().getNickName();
         Integer sex = Integer.parseInt(request.getBody().getSex());
         String mobileNo = request.getBody().getMobileNo();
         String email = request.getBody().getEmail();
-        Condition c = new Condition().and("loginName=? and mobileNo = ?", loginName, mobileNo);
+        Condition c = new Condition().and("loginName=? and mobileNo = ?",
+                loginName, mobileNo);
         ConditionHelper.condition(c.toString());
         List<User> list = baseUserDao.queryForListCondition();
         if (!list.isEmpty()) {
@@ -105,16 +113,19 @@ public class UserServiceImpl extends BaseService implements UserServiceRest, Use
     }
 
     @Override
-    public BaseRestResponse<LoginRestResponseBody> login(BaseRestRequest<LoginRestRequestBody> request) {
+    public BaseRestResponse<LoginRestResponseBody> login(
+            BaseRestRequest<LoginRestRequestBody> request) {
         String loginName = request.getBody().getLoginName();
         String loginPwd = request.getBody().getLoginpwd();
         String deviceId = request.getHead().getDeviceId();
         String uuid = UUID.getUUID();
-        final User user = this.coreUserService.login(loginName, loginPwd, deviceId, uuid);
+        final User user = this.coreUserService.login(loginName, loginPwd,
+                deviceId, uuid);
         try {
             MessageCreator messageCreator = new MessageCreator() {
                 @Override
-                public Message createMessage(Session session) throws JMSException {
+                public Message createMessage(Session session)
+                        throws JMSException {
                     return session.createObjectMessage(user);
                 }
             };
@@ -138,16 +149,19 @@ public class UserServiceImpl extends BaseService implements UserServiceRest, Use
     }
 
     @Override
-    public BaseRestResponse<Loginv1_1RestResponseBody> loginv1_1(BaseRestRequest<Loginv1_1RestRequestBody> request) {
+    public BaseRestResponse<Loginv1_1RestResponseBody> loginv1_1(
+            BaseRestRequest<Loginv1_1RestRequestBody> request) {
         String loginName = request.getBody().getLoginName();
         String loginPwd = request.getBody().getLoginpwd();
         String deviceId = request.getHead().getDeviceId();
         String uuid = UUID.getUUID();
-        final User user = this.coreUserService.login(loginName, loginPwd, deviceId, uuid);
+        final User user = this.coreUserService.login(loginName, loginPwd,
+                deviceId, uuid);
         try {
             MessageCreator messageCreator = new MessageCreator() {
                 @Override
-                public Message createMessage(Session session) throws JMSException {
+                public Message createMessage(Session session)
+                        throws JMSException {
                     return session.createObjectMessage(user);
                 }
             };
@@ -171,15 +185,18 @@ public class UserServiceImpl extends BaseService implements UserServiceRest, Use
     }
 
     @Override
-    public BaseRestResponse<AutoLoginRestResponseBody> autoLogin(BaseRestRequest<AutoLoginRestRequestBody> request) {
+    public BaseRestResponse<AutoLoginRestResponseBody> autoLogin(
+            BaseRestRequest<AutoLoginRestRequestBody> request) {
         String uuidOld = request.getBody().getUuidOld();
         String deviceId = request.getHead().getDeviceId();
         String uuidNew = UUID.getUUID();
-        final User user = this.coreUserService.autoLogin(deviceId, uuidOld, uuidNew);
+        final User user = this.coreUserService.autoLogin(deviceId, uuidOld,
+                uuidNew);
         try {
             MessageCreator messageCreator = new MessageCreator() {
                 @Override
-                public Message createMessage(Session session) throws JMSException {
+                public Message createMessage(Session session)
+                        throws JMSException {
                     return session.createObjectMessage(user);
                 }
             };
@@ -203,10 +220,51 @@ public class UserServiceImpl extends BaseService implements UserServiceRest, Use
     }
 
     @Override
-    public int updateUserInfoById(String loginName, String sex, String mobileNo, String email, Integer id) {
-        int res = userDao.updateUserInfoById(loginName, sex, mobileNo, email, id);
-        return res;
+    public int updateById(User user) {
+        return userDao.updateUserInfoById(user);
 
     }
 
+    @Override
+    public int insert(User user) {
+        return baseUserDao.insert(user);
+    }
+
+    @Override
+    public User selectById(Integer id) {
+        return baseUserDao.selectById(id.intValue());
+    }
+
+    @Override
+    public int deleteById(Integer id) {
+        return baseUserDao.deleteById(id.intValue());
+    }
+
+    @Override
+    public List<Map<String, Object>> queryForLimitList(RowBounds rowBounds) {
+        List<User> list = baseUserDao.queryForLimitList(rowBounds);
+        List<Map<String, Object>> restList = new ArrayList<Map<String, Object>>();
+        Iterator<User> itera = list.iterator();
+        while (itera.hasNext()) {
+            User user = itera.next();
+            Map<String, Object> restMap = new HashMap<String, Object>();
+            restMap.put("loginPwd", user.getLoginPwd());
+            restMap.put("nickName", user.getNickName());
+            restMap.put("sex", user.getSex());
+            restMap.put("mobileNo", user.getMobileNo());
+            restMap.put("loginErrCount", user.getLoginErrCount());
+            restMap.put("lastLoginTime", user.getLastLoginTime());
+            restMap.put("createTime", user.getCreateTime());
+            restMap.put("loginName", user.getLoginName());
+            restMap.put("lastModifyTime", user.getLastModifyTime());
+            restMap.put("id", user.getId());
+            restMap.put("email", user.getEmail());
+            restMap.put("lastRecordLoginErrTime",
+                    user.getLastRecordLoginErrTime());
+            restMap.put("status", user.getStatus());
+            restList.add(restMap);
+        }
+
+        return restList;
+    }
 }

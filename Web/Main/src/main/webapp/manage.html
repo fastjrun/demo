@@ -13,110 +13,31 @@
         <script src="http://cdn.bootcss.com/bootstrap-table/1.10.0/locale/bootstrap-table-zh-CN.min.js"></script>
         <script type="text/javascript">
             function operateFormatter(value, row, index) {
-                return ['<a class="edit ml10" style="color:black;" href="javascript:void(0)" title="编辑">', '<span class="glyphicon glyphicon-edit"></span>', '</a>&emsp;', '<a class="remove ml10" style="color:black;" href="javascript:void(0)" title="删除">', '<i class="glyphicon glyphicon-remove"></i>', '</a>'].join('');
+                var id = row["id"];
+                return ['<a class="edit ml10" style="color:black;" href="javascript:void(0)" onclick="view_person(' + id + ')" title="查看">', '<span class="glyphicon glyphicon-eye-open"></span>', '</a>&emsp;', '<a class="edit ml10" style="color:black;"  href="javascript:void(0)" onclick="edit_person(' + id + ')"  title="编辑">', '<span class="glyphicon glyphicon-edit"></span>', '</a>&emsp;', '<a class="remove ml10" style="color:black;"  href="javascript:void(0)" onclick="delete_person(' + id + ')"  title="删除">', '<i class="glyphicon glyphicon-remove"></i>', '</a>'].join('');
             }
 
             function hideIdFormatter(value, row, index) {
                 return "<input type='hidden' value=" + value + " name='id' />";
             }
 
-
-            window.operateEvents = {
-                'click .edit' : function(e, value, row, index) {
-                    $("#id").val($("[data-index=" + index + "]").find('td').eq(0).children().first().val());
-                    $("#loginName").val($("[data-index=" + index + "]").find('td').eq(1).text());
-                    $("#sex").val($("[data-index=" + index + "]").find('td').eq(2).text());
-                    $("#mobileNo").val($("[data-index=" + index + "]").find('td').eq(3).text());
-                    $("#email").val($("[data-index=" + index + "]").find('td').eq(5).text());
-                    $("#edituc").modal("show");
-                    //alert('You click edit icon, row: ' + JSON.stringify(row));
-                    //console.log(value, row, index);
-                },
-                'click .remove' : function(e, value, row, index) {
-                    //alert('You click remove icon, row: ' + JSON.stringify(row));
-                    var delid = $("[data-index=" + index + "]").find('td').eq(0).children().first().val();
-                    if (confirm("确定删除该条记录吗？" + delid)) {
-                        $.getJSON('json/user/doDelete.do', {
-                            "id" : delid
-                        }, function(data) {
-                            $("#dtb").bootstrapTable('refresh');
-                        });
-                    }
-                    console.log(value, row, index);
-                }
-            };
-
             function refreshTable() {
                 $("table").bootstrapTable('refresh', {
                     url : $("table").attr('data-url')
                 });
             }
-
-            function makeparmter(params) {
-                params.queryby = $("#queryby").val();
-                var ret = '';
-                for (var i in params) {
-                    ret += i + ':' + params[i];
-                }
-                //alert(ret);
-                return params;
-            }
-
-            function saveU() {
-                //alert($("#waiteduc").val());
-                //alert($("#waitph").val());
-                $.post('json/user/doUpdate.do', {
-                    "id" : $("#id").val(),
-                    "loginName" : $("#loginName").val(),
-                    "sex" : $("#sex").val(),
-                    "mobileNo" : $("#mobileNo").val(),
-                    "email" : $("#email").val()
-                }, function() {
-                    alert('保存成功!');
-                    $("#edituc").modal('hide');
-                    $("#loginName").val('');
-                    $("#sex").val('');
-                    $("#mobileNo").val('');
-                    $("#email").val('');
-                    refreshTable();
-                });
-            }
         </script>
     </head>
     <body>
-        <nav class="navbar navbar-inverse" role="navigation">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#"></a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <p class="navbar-text">
-                            后台管理
-                        </p>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right"></ul>
-                </div>
-            </div>
-        </nav>
         <div class="container-fluid">
-            <a href="" data-toggle="modal" data-target="#myModal" id="ModalSignUp">Sign Up</a><a href="" data-toggle="modal" data-target="#myModal" id="ModalLogin">Log In</a>
+            <button class="btn btn-success" onclick="add_person()">
+                <i class="glyphicon glyphicon-plus"></i> 添加用户
+            </button>
             <table id="dtb" data-toggle="table" data-url="json/user/list.do"
-            class="table table-hover" data-show-columns="true" data-search="true"
+            class="table table-hover" data-show-columns="true"
             data-show-refresh="true" data-show-toggle="true"
-            data-show-export="true"
-            data-export-types="['json', 'xml', 'csv', 'txt', 'sql', 'excel']"
             data-height="450" data-side-pagination="server"
-            data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]"
-            data-query-params="makeparmter">
+            data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]">
                 <thead>
                     <tr>
                         <th data-field="id" data-formatter="hideIdFormatter" class="hide"></th>
@@ -125,61 +46,237 @@
                         <th data-field="mobileNo">手机号</th>
                         <th data-field="createTime">创建时间</th>
                         <th data-field="email">邮箱</th>
-                        <th data-field="operate" data-formatter="operateFormatter"
-                        data-events="operateEvents">操作</th>
+                        <th data-field="operate" data-formatter="operateFormatter">操作</th>
                     </tr>
                 </thead>
             </table>
-
-            <div class="modal fade" id="edituc" tabindex="-1" role="dialog"
-            aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="modal_form" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <h4 class="modal-title" id="myModalLabel">编辑当前用户的资料</h4>
+                            <h3 class="modal-title">Person Form</h3>
                         </div>
-                        <div class="modal-body">
-                            <input id="id" type="hidden" class="form-control" value=""
-                            pattern="" required="required" />
-                            姓名
-                            <input id="loginName" type="text" class="form-control" value=""
-                            pattern="" required="required" />
-                            性别
-                            <input id="sex" type="text" class="form-control" value=""
-                            pattern="" required="required" />
-                            手机号
-                            <input id="mobileNo" type="text" class="form-control" value=""
-                            pattern="" required="required" />
-                            邮箱
-                            <input id="email" type="text" class="form-control" value=""
-                            pattern="" required="required" />
+                        <div class="modal-body form">
+                            <form action="#" id="form" class="form-horizontal">
+                                <input id="id" type="hidden" value="" name="id"/>
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">姓名</label>
+                                        <div class="col-md-9">
+                                            <input id="loginName" name="loginName" type="text" class="form-control" value=""
+                                            pattern="" required="required" />
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">昵称</label>
+                                        <div class="col-md-9">
+                                            <input id="nickName" name="nickName" type="text" class="form-control" value=""
+                                            pattern="" required="required" />
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">密码</label>
+                                        <div class="col-md-9">
+                                            <input id="loginPwd" name="loginPwd" type="text" class="form-control" value=""
+                                            pattern="" required="required" />
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">性别</label>
+                                        <div class="col-md-9">
+                                            <select id="sex" name="sex" class="form-control">
+                                                <option value="1">男</option>
+                                                <option value="2">女</option>
+                                            </select>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">手机号</label>
+                                        <div class="col-md-9">
+                                            <input id="mobileNo" name="mobileNo" type="text" class="form-control" value=""
+                                            pattern="" required="required" />
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">邮箱</label>
+                                        <div class="col-md-9">
+                                            <input id="email" name="email" type="text" class="form-control" value=""
+                                            pattern="" required="required" />
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
-                                取消
+                            <button type="button" id="btnSave" onclick="save()" class="btn btn-primary">
+                                Save
                             </button>
-                            <button type="button" class="btn btn-primary"
-                            onclick="saveU();">
-                                保存
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                Cancel
                             </button>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!--this creates a div to hold the remote content, which also is the first div tag from Bootstrap's modal code-->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"></div>
-            <!--script to load url with the remote content-->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
             <script>
-                $('#ModalSignUp').click(function() {
-                    $('#myModal').load('./_include-modal/signup.php');
-                });
-                $('#ModalLogin').click(function() {
-                    $('#myModal').load('./_include-modal/login.php');
-                });
+                function add_person() {
+                    save_method = 'add';
+                    $('#form')[0].reset();
+                    // reset form on modals
+                    $('.form-group').removeClass('has-error');
+                    // clear error class
+                    $('.help-block').empty();
+                    // clear error string
+                    $('#modal_form').modal('show');
+                    // show bootstrap modal
+                    $('.modal-title').text('添加用户');
+                            $('#btnSave').show();
+                    // Set Title to Bootstrap modal title
+                }
+
+                function edit_person(id) {
+                    save_method = 'update';
+                    $('#form')[0].reset();
+                    // reset form on modals
+                    $('.form-group').removeClass('has-error');
+                    // clear error class
+                    $('.help-block').empty();
+                    // clear error string
+
+                    //Ajax Load data from ajax
+                    $.ajax({
+                        url : "json/user/view.do?id=" + id,
+                        type : "GET",
+                        dataType : "JSON",
+                        success : function(data) {
+                            $('[name="id"]').val(data.id);
+                            $('[name="loginName"]').val(data.loginName);
+                            $('[name="loginPwd"]').val(data.loginPwd);
+                            $('[name="nickName"]').val(data.nickName);
+                            $('[name="sex"]').val(data.sex);
+                            $('[name="mobileNo"]').val(data.mobileNo);
+                            $('[name="email"]').val(data.email);
+                            $('#modal_form').modal('show');
+                            // show bootstrap modal when complete loaded
+                            $('.modal-title').text('编辑用户资料');
+                            $('#btnSave').show();
+                            $('#btnSave').attr('disabled', false);
+                            // Set title to Bootstrap modal title
+
+                        },
+                        error : function(jqXHR, textStatus, errorThrown) {
+                            alert('Error get data from ajax');
+                        }
+                    });
+                }
+
+                function view_person(id) {
+                    save_method = 'view';
+                    $('#form')[0].reset();
+                    // reset form on modals
+                    $('.form-group').removeClass('has-error');
+                    // clear error class
+                    $('.help-block').empty();
+                    // clear error string
+
+                    //Ajax Load data from ajax
+                    $.ajax({
+                        url : "json/user/view.do?id=" + id,
+                        type : "GET",
+                        dataType : "JSON",
+                        success : function(data) {
+                            $('[name="id"]').val(data.id);
+                            $('[name="loginName"]').val(data.loginName);
+                            $('[name="loginPwd"]').val(data.loginPwd);
+                            $('[name="nickName"]').val(data.nickName);
+                            $('[name="sex"]').val(data.sex);
+                            $('[name="mobileNo"]').val(data.mobileNo);
+                            $('[name="email"]').val(data.email);
+                            $('#modal_form').modal('show');
+                            // show bootstrap modal when complete loaded
+                            $('.modal-title').text('用户资料详细');
+                            $('#btnSave').hide();
+                            // Set title to Bootstrap modal title
+
+                        },
+                        error : function(jqXHR, textStatus, errorThrown) {
+                            alert('Error get data from ajax');
+                        }
+                    });
+                }
+
+                function save() {
+                    $('#btnSave').text('saving...');
+                    //change button text
+                    $('#btnSave').attr('disabled', true);
+                    //set button disable
+                    var url;
+
+                    if (save_method == 'add') {
+                        url = "json/user/doAdd.do";
+                    } else {
+                        url = "json/user/doUpdate.do";
+                    }
+
+                    // ajax adding data to database
+                    $.ajax({
+                        url : url,
+                        type : "POST",
+                        data : $('#form').serialize(),
+                        dataType : "JSON",
+                        success : function(data) {
+
+                            if (data.status)//if success close modal and reload ajax table
+                            {
+                                $('#modal_form').modal('hide');
+                                refreshTable();
+                            }
+
+                            $('#btnSave').text('save');
+                            //change button text
+                            $('#btnSave').attr('disabled', false);
+                            //set button enable
+
+                        },
+                        error : function(jqXHR, textStatus, errorThrown) {
+                            alert('Error adding / update data');
+                            $('#btnSave').text('save');
+                            //change button text
+                            $('#btnSave').attr('disabled', false);
+                            //set button enable
+
+                        }
+                    });
+                }
+
+                function delete_person(id) {
+                    if (confirm('Are you sure delete this data?')) {
+                        // ajax delete data to database
+                        $.ajax({
+                            url : "json/user/doDelete.do?id=" + id,
+                            type : "POST",
+                            dataType : "JSON",
+                            success : function(data) {
+                                //if success reload ajax table
+                                $('#modal_form').modal('hide');
+                                refreshTable();
+                            },
+                            error : function(jqXHR, textStatus, errorThrown) {
+                                alert('Error deleting data');
+                            }
+                        });
+
+                    }
+                }
             </script>
         </div>
     </body>

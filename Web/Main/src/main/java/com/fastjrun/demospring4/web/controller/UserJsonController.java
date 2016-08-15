@@ -1,6 +1,6 @@
-
 package com.fastjrun.demospring4.web.controller;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,22 +35,43 @@ public class UserJsonController extends BaseController {
     private UserDao userDao;
 
     @RequestMapping(value = "list")
-    public Object queryForList(@RequestParam(required = false, defaultValue = "1") Integer offset,
-            @RequestParam(required = false, defaultValue = "10") Integer limit) {
+    public Object queryForList(
+            @RequestParam(required = false, defaultValue = "0") Integer offset,
+            @RequestParam(required = false, defaultValue = "5") Integer limit) {
         int totalCount = baseUserService.totalCount();
-        RowBounds rowBounds = new RowBounds(offset, limit);
-        List<User> list = baseUserService.queryForLimitList(rowBounds);
+        Integer offsetPage = offset / limit + 1;
+        offsetPage = offsetPage > 1 ? offsetPage : 1;
+        RowBounds rowBounds = new RowBounds(offsetPage, limit);
+        List<Map<String, Object>> list = userServiceAjax
+                .queryForLimitList(rowBounds);
         Map<String, Object> restMap = new HashMap<String, Object>();
         restMap.put("total", totalCount);
         restMap.put("rows", list);
         return restMap;
     }
 
-    @RequestMapping(value = "doUpdate")
-    public Object doUpdate(@RequestParam(required = true) String loginName, @RequestParam(required = true) String sex,
-            @RequestParam(required = true) String mobileNo, @RequestParam(required = true) String email,
-            @RequestParam(required = true) Integer id) {
-        int res = userServiceAjax.updateUserInfoById(loginName, sex, mobileNo, email, id);
+    @RequestMapping(value = "doAdd")
+    public Object doAdd(@RequestParam(required = true) String loginName,
+            @RequestParam(required = true) String loginPwd,
+            @RequestParam(required = true) String nickName,
+            @RequestParam(required = true) Integer sex,
+            @RequestParam(required = true) String mobileNo,
+            @RequestParam(required = true) String email) {
+
+        Timestamp curTimestamp = new Timestamp(System.currentTimeMillis());
+        User user = new User();
+        user.setCreateTime(curTimestamp);
+        user.setEmail(email);
+        user.setLastModifyTime(curTimestamp);
+        user.setLoginName(loginName);
+        user.setLoginPwd(loginPwd);
+        user.setMobileNo(mobileNo);
+        user.setNickName(nickName);
+        user.setSex(sex);
+        user.setStatus("1");
+        user.setLastRecordLoginErrTime(null);
+        user.setLoginErrCount(new Integer(0));
+        int res = userServiceAjax.insert(user);
         Map<String, Object> restMap = new HashMap<String, Object>();
         if (res > 0) {
             restMap.put("status", "success");
@@ -60,9 +81,43 @@ public class UserJsonController extends BaseController {
         return restMap;
     }
 
+    @RequestMapping(value = "doUpdate")
+    public Object doUpdate(@RequestParam(required = true) String loginName,
+            @RequestParam(required = true) String loginPwd,
+            @RequestParam(required = true) String nickName,
+            @RequestParam(required = true) Integer sex,
+            @RequestParam(required = true) String mobileNo,
+            @RequestParam(required = true) String email,
+            @RequestParam(required = true) Integer id) {
+        Timestamp curTimestamp = new Timestamp(System.currentTimeMillis());
+        User user = new User();
+        user.setEmail(email);
+        user.setLastModifyTime(curTimestamp);
+        user.setLoginName(loginName);
+        user.setLoginPwd(loginPwd);
+        user.setMobileNo(mobileNo);
+        user.setNickName(nickName);
+        user.setSex(sex);
+        user.setId(id);
+        int res = userServiceAjax.updateById(user);
+        Map<String, Object> restMap = new HashMap<String, Object>();
+        if (res > 0) {
+            restMap.put("status", "success");
+        } else {
+            restMap.put("status", "fail");
+        }
+        return restMap;
+    }
+
+    @RequestMapping(value = "view")
+    public Object view(@RequestParam(required = true) Integer id) {
+        User data = userServiceAjax.selectById(id);
+        return data;
+    }
+
     @RequestMapping(value = "doDelete")
     public Object doDelete(@RequestParam(required = true) Integer id) {
-        int res = baseUserService.deleteById(id.intValue());
+        int res = userServiceAjax.deleteById(id);
         Map<String, Object> restMap = new HashMap<String, Object>();
         if (res > 0) {
             restMap.put("status", "success");
