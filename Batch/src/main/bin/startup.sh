@@ -7,4 +7,4 @@ for file in ${lib}/*.jar;
     do classpath=${classpath}:$file; 
 done
 
-$JAVA_HOME/bin/java -Xms${jvm.ms} -Xmx${jvm.mx} -Dfile.encoding=utf-8 -Dorg.apache.activemq.SERIALIZABLE_PACKAGES="*" -classpath ${classpath} com.fastjrun.demospring4.BatchInit startup 
+java -Xms${jvm.ms} -Xmx${jvm.mx} -Dfile.encoding=utf-8 -Dorg.apache.activemq.SERIALIZABLE_PACKAGES="*" -classpath ${classpath} com.fastjrun.demospring4.BatchInit startup 
