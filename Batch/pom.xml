@@ -143,6 +143,9 @@
 				<!-- /src/main/config/log4j.xml -->
 				<mainlog>com.fastjrun.demospring4</mainlog>
 				<level.mainlog>debug</level.mainlog>
+                <!-- src/main/bin/startup.sh -->
+                <jvm.ms>128M</jvm.ms>
+                <jvm.mx>128M</jvm.mx>
 				<!-- src/main/config/batch.properties -->
 				<shutdown.port>2050</shutdown.port>
 				<scheduler.threadCount>5</scheduler.threadCount>
@@ -207,13 +210,15 @@
 		</profile>
 		<profile>
 			<id>env-test</id>
-
 			<properties>
 				<!-- /src/main/resources/applicationContext.xml -->
 				<system.configDir>config</system.configDir>
 				<!-- /src/main/config/log4j.xml -->
 				<mainlog>com.fastjrun.demospring4</mainlog>
 				<level.mainlog>debug</level.mainlog>
+                <!-- src/main/bin/startup.sh -->
+                <jvm.ms>256M</jvm.ms>
+                <jvm.mx>512M</jvm.mx>
 				<!-- src/main/config/batch.properties -->
 				<shutdown.port>2050</shutdown.port>
 				<scheduler.threadCount>5</scheduler.threadCount>
