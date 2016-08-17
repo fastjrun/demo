@@ -48,6 +48,7 @@
 				<includes>
 					<include>log4j.properties</include>
 					<include>package.xml</include>
+                    <include>testdata/*.properties</include>
 				</includes>
 			</resource>
 		</resources>
@@ -113,7 +114,7 @@
 				<env-local.name>local</env-local.name>
 				<env-test.name>notest</env-test.name>
 				<env-testing.name>notest</env-testing.name>
-				<testdata.filePath>src/main/testdata/local.properties</testdata.filePath>
+				<testdata.filePath>/testdata/local.properties</testdata.filePath>
 			</properties>
 		</profile>
 		<profile>
@@ -125,7 +126,7 @@
 				<env-local.name>notest</env-local.name>
 				<env-test.name>env-test</env-test.name>
 				<env-testing.name>notest</env-testing.name>
-				<testdata.filePath>src/main/testdata/test.properties</testdata.filePath>
+				<testdata.filePath>/testdata/test.properties</testdata.filePath>
 			</properties>
 		</profile>
         <profile>
@@ -137,7 +138,7 @@
                 <env-local.name>notest</env-local.name>
                 <env-test.name>notest</env-test.name>
                 <env-testing.name>env-testing</env-testing.name>
-                <testdata.filePath>src/main/testdata/testing.properties</testdata.filePath>
+                <testdata.filePath>/testdata/testing.properties</testdata.filePath>
             </properties>
         </profile>
 	</profiles>

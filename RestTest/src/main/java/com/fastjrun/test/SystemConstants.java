@@ -23,7 +23,7 @@ public class SystemConstants {
             e.printStackTrace();
         }
         try {
-            InputStream inParam = new FileInputStream(SystemConstants.TESTDATA_PATH);
+            InputStream inParam = SystemConstants.class.getResourceAsStream(SystemConstants.TESTDATA_PATH);
             propParams.load(inParam);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
