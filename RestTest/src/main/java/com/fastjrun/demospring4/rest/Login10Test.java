@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.json.JSONObject;
+
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.demospring4.test.BaseITest;
-import com.demospring4.test.SystemConstants;
-import com.fastjrun.demospring4.packet.req.Login10Request;
+import com.fastjrun.demospring4.packet.user.LoginRestRequestBody;
 import com.fastjrun.helper.TimeHelper;
-
-import net.sf.json.JSONObject;
+import com.fastjrun.test.BaseITest;
+import com.fastjrun.test.SystemConstants;
 
 public class Login10Test extends BaseITest {
-    String txUrl = "/user/login/10/authtest/";
+    String txUrl = "/api/user/login/authtest/";
 
     @DataProvider(name = "success")
     public Object[][] success(Method m) {
@@ -45,10 +45,10 @@ public class Login10Test extends BaseITest {
     @Test(groups = { "local", "env-test", "env-testing", "env-prod" }, dataProvider = "success", threadPoolSize = 4)
     @Parameters({ "loginName", "loginpwd" })
     public void success(String loginName, String loginPwd) {
-        Login10Request request = new Login10Request();
-        request.setLoginName(loginName);
-        request.setLoginpwd(loginPwd);
-        JSONObject reqObject = JSONObject.fromObject(request);
+        LoginRestRequestBody requestBody = new LoginRestRequestBody();
+        requestBody.setLoginName(loginName);
+        requestBody.setLoginpwd(loginPwd);
+        JSONObject reqObject = JSONObject.fromObject(requestBody);
         String reqStr = reqObject.toString();
         log.debug(reqStr);
         String reqTime = TimeHelper.getCurrentTime(TimeHelper.DF17);

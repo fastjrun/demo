@@ -1,30 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="backertest">
-	<test name="${env-local.name}" parallel="classes" thread-count="2">
-		<groups>
-			<run>
-				<include name="local" />
-			</run>
-		</groups>
-		<classes>
-			<class name="com.fastjrun.demospring4.rest.Register10Test" />
-			<class name="com.fastjrun.demospring4.rest.Login10Test" />
-			<class name="com.fastjrun.demospring4.rest.AutoLogin10Test" />
-	    </classes>
-	</test>
-	<test name="${env-test.name}" parallel="classes" thread-count="2">
-		<groups>
-			<run>
-				<include name="env-test" />
-			</run>
-		</groups>
-	</test>
-	<test name="${env-testing.name}" parallel="classes" thread-count="2">
-		<groups>
-			<run>
-				<include name="env-testing" />
-			</run>
-		</groups>
-	</test>
+    <test name="${env-local.name}" parallel="classes" thread-count="2">
+        <groups>
+            <run>
+                <include name="local" />
+            </run>
+        </groups>
+        <classes>
+            <class name="com.fastjrun.demospring4.rest.Register10Test" />
+            <class name="com.fastjrun.demospring4.rest.Login10Test" />
+            <class name="com.fastjrun.demospring4.rest.AutoLogin10Test" />
+        </classes>
+    </test>
+    <test name="${env-test.name}" parallel="classes" thread-count="2">
+        <groups>
+            <run>
+                <include name="env-test" />
+            </run>
+        </groups>
+        <classes>
+            <class name="com.fastjrun.demospring4.rest.Register10Test" />
+            <class name="com.fastjrun.demospring4.rest.Login10Test" />
+            <class name="com.fastjrun.demospring4.rest.AutoLogin10Test" />
+        </classes>
+    </test>
+    <test name="${env-testing.name}" parallel="classes" thread-count="2">
+        <groups>
+            <run>
+                <include name="env-testing" />
+            </run>
+        </groups>
+        <classes>
+            <class name="com.fastjrun.demospring4.rest.Register10Test" />
+            <class name="com.fastjrun.demospring4.rest.Login10Test" />
+            <class name="com.fastjrun.demospring4.rest.AutoLogin10Test" />
+        </classes>
+    </test>
 </suite>

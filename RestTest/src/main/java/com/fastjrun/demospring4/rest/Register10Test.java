@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.json.JSONObject;
+
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.demospring4.test.BaseITest;
-import com.demospring4.test.SystemConstants;
-import com.fastjrun.demospring4.packet.req.Register10Request;
+import com.fastjrun.demospring4.packet.user.RegistserRestRequestBody;
 import com.fastjrun.helper.TimeHelper;
-
-import net.sf.json.JSONObject;
+import com.fastjrun.test.BaseITest;
+import com.fastjrun.test.SystemConstants;
 
 public class Register10Test extends BaseITest {
-    String txUrl = "/user/register/10/authtest/";
+    String txUrl = "/api/user/register/autotest/";
 
     @DataProvider(name = "success")
     public Object[][] success(Method m) {
@@ -43,16 +43,17 @@ public class Register10Test extends BaseITest {
     }
 
     @Test(groups = { "local", "env-test", "env-testing", "env-prod" }, dataProvider = "success", threadPoolSize = 4)
-    @Parameters({ "email", "loginName", "loginpwd", "mobileNo", "nickName", "sex" })
-    public void success(String email, String loginName, String loginpwd, String mobileNo, String nickName, String sex) {
-        Register10Request request = new Register10Request();
-        request.setEmail(email);
-        request.setLoginName(loginName);
-        request.setLoginpwd(loginpwd);
-        request.setMobileNo(mobileNo);
-        request.setNickName(nickName);
-        request.setSex(Integer.valueOf(sex));
-        JSONObject reqObject = JSONObject.fromObject(request);
+    @Parameters({ "email", "loginName", "loginpwd", "mobileNo", "nickName",
+            "sex" })
+    public void success(String email, String loginName, String loginpwd,
+            String mobileNo, String nickName, String sex) {
+        RegistserRestRequestBody requestBody = new RegistserRestRequestBody();
+        requestBody.setEmail(email);
+        requestBody.setLoginpwd(loginpwd);
+        requestBody.setMobileNo(mobileNo);
+        requestBody.setNickName(nickName);
+        requestBody.setSex(sex);
+        JSONObject reqObject = JSONObject.fromObject(requestBody);
         String reqStr = reqObject.toString();
         log.debug(reqStr);
         String reqTime = TimeHelper.getCurrentTime(TimeHelper.DF17);

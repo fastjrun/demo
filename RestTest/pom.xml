@@ -24,7 +24,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
-			<artifactId>demoSpring4-restController</artifactId>
+			<artifactId>demoSpring4-bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -120,7 +120,7 @@
 			<id>env-test</id>
 			<properties>
 				<!-- src/main/resources/service.properties -->
-				<system.interfaceUrlPrefix>http://192.168.1.253/demo-Rest</system.interfaceUrlPrefix>
+				<system.interfaceUrlPrefix>http://192.168.5.240:8082/demo-Rest</system.interfaceUrlPrefix>
 				<!-- testng group -->
 				<env-local.name>notest</env-local.name>
 				<env-test.name>env-test</env-test.name>
@@ -128,17 +128,17 @@
 				<testdata.filePath>src/main/testdata/test.properties</testdata.filePath>
 			</properties>
 		</profile>
-		<profile>
-			<id>env-testing</id>
-			<properties>
-				<!-- src/main/resources/service.properties -->
-				<system.interfaceUrlPrefix>http://192.168.1.1/demo-Rest</system.interfaceUrlPrefix>
-				<!-- testng group -->
-				<env-local.name>notest</env-local.name>
-				<env-test.name>notest</env-test.name>
-				<env-testing.name>env-testing</env-testing.name>
-				<testdata.filePath>src/main/testdata/testing.properties</testdata.filePath>
-			</properties>
-		</profile>
+        <profile>
+            <id>env-testing</id>
+            <properties>
+                <!-- src/main/resources/service.properties -->
+                <system.interfaceUrlPrefix>http://192.168.5.240:8082/demo-Rest</system.interfaceUrlPrefix>
+                <!-- testng group -->
+                <env-local.name>notest</env-local.name>
+                <env-test.name>notest</env-test.name>
+                <env-testing.name>env-testing</env-testing.name>
+                <testdata.filePath>src/main/testdata/testing.properties</testdata.filePath>
+            </properties>
+        </profile>
 	</profiles>
 </project>

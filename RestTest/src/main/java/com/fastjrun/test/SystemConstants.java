@@ -1,4 +1,4 @@
-package com.demospring4.test;
+package com.fastjrun.test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

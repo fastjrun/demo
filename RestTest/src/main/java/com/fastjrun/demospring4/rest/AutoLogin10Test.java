@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.json.JSONObject;
+
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.demospring4.test.BaseITest;
-import com.demospring4.test.SystemConstants;
-import com.fastjrun.demospring4.packet.req.Autologin10Request;
+import com.fastjrun.demospring4.packet.user.AutoLoginRestRequestBody;
 import com.fastjrun.helper.TimeHelper;
-
-import net.sf.json.JSONObject;
+import com.fastjrun.test.BaseITest;
+import com.fastjrun.test.SystemConstants;
 
 public class AutoLogin10Test extends BaseITest {
-    String txUrl = "/user/autologin/10/authtest/";
+    String txUrl = "/api/user/autologin/10/authtest/";
 
     @DataProvider(name = "success")
     public Object[][] success(Method m) {
@@ -45,9 +45,9 @@ public class AutoLogin10Test extends BaseITest {
     @Test(groups = { "local", "env-test", "env-testing", "env-prod" }, dataProvider = "success", threadPoolSize = 4)
     @Parameters({ "uuidOld" })
     public void success(String uuidOld) {
-        Autologin10Request request = new Autologin10Request();
-        request.setUuidOld(uuidOld);
-        JSONObject reqObject = JSONObject.fromObject(request);
+        AutoLoginRestRequestBody requestBody = new AutoLoginRestRequestBody();
+        requestBody.setUuidOld(uuidOld);
+        JSONObject reqObject = JSONObject.fromObject(requestBody);
         String reqStr = reqObject.toString();
         log.debug(reqStr);
         String reqTime = TimeHelper.getCurrentTime(TimeHelper.DF17);
