@@ -1,4 +1,3 @@
-
 package com.fastjrun.demospring4.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,36 +23,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
  * 
  * @author robin
  */
 @RestController
 @RequestMapping("/api/user/")
-public class UserRestController
-    extends BaseController
-{
+public class UserRestController extends BaseController {
 
     @Autowired
     private UserServiceRest userServiceRest;
 
     @RequestMapping(value = "register/{deviceId}/{reqTime}", method = RequestMethod.POST)
-    public Object register(
-        @PathVariable("deviceId")
-        String deviceId,
-        @PathVariable("reqTime")
-        String reqTime,
-        @RequestBody
-        @Valid
-        RegistserRestRequestBody requestBody, HttpServletRequest httpServletRequest) {
+    public Object register(@PathVariable("deviceId") String deviceId,
+            @PathVariable("reqTime") String reqTime,
+            @RequestBody @Valid RegistserRestRequestBody requestBody,
+            HttpServletRequest httpServletRequest) {
         BaseRestRequest<RegistserRestRequestBody> request = new BaseRestRequest<RegistserRestRequestBody>();
         BaseRestRequestHead requestHead = new BaseRestRequestHead();
         requestHead.setDeviceId(deviceId);
-        requestHead.setTxTime(reqTime);
+        requestHead.setTxTime(Long.valueOf(reqTime).longValue());
         request.setHead(requestHead);
         request.setBody(requestBody);
-        BaseRestResponse<BaseRestDefaultResponseBody> response = this.userServiceRest.register(request);
+        BaseRestResponse<BaseRestDefaultResponseBody> response = this.userServiceRest
+                .register(request);
         JSONObject object = JSONObject.fromObject(response);
         java.lang.String reqStr = object.toString();
         log.debug(reqStr);
@@ -61,21 +54,18 @@ public class UserRestController
     }
 
     @RequestMapping(value = "login/{deviceId}/{reqTime}", method = RequestMethod.POST)
-    public Object login(
-        @PathVariable("deviceId")
-        String deviceId,
-        @PathVariable("reqTime")
-        String reqTime,
-        @RequestBody
-        @Valid
-        LoginRestRequestBody requestBody, HttpServletRequest httpServletRequest) {
+    public Object login(@PathVariable("deviceId") String deviceId,
+            @PathVariable("reqTime") String reqTime,
+            @RequestBody @Valid LoginRestRequestBody requestBody,
+            HttpServletRequest httpServletRequest) {
         BaseRestRequest<LoginRestRequestBody> request = new BaseRestRequest<LoginRestRequestBody>();
         BaseRestRequestHead requestHead = new BaseRestRequestHead();
         requestHead.setDeviceId(deviceId);
-        requestHead.setTxTime(reqTime);
+        requestHead.setTxTime(Long.valueOf(reqTime).longValue());
         request.setHead(requestHead);
         request.setBody(requestBody);
-        BaseRestResponse<LoginRestResponseBody> response = this.userServiceRest.login(request);
+        BaseRestResponse<LoginRestResponseBody> response = this.userServiceRest
+                .login(request);
         JSONObject object = JSONObject.fromObject(response);
         java.lang.String reqStr = object.toString();
         log.debug(reqStr);
@@ -83,21 +73,18 @@ public class UserRestController
     }
 
     @RequestMapping(value = "login/v1_1/{deviceId}/{reqTime}", method = RequestMethod.POST)
-    public Object loginv1_1(
-        @PathVariable("deviceId")
-        String deviceId,
-        @PathVariable("reqTime")
-        String reqTime,
-        @RequestBody
-        @Valid
-        Loginv1_1RestRequestBody requestBody, HttpServletRequest httpServletRequest) {
+    public Object loginv1_1(@PathVariable("deviceId") String deviceId,
+            @PathVariable("reqTime") String reqTime,
+            @RequestBody @Valid Loginv1_1RestRequestBody requestBody,
+            HttpServletRequest httpServletRequest) {
         BaseRestRequest<Loginv1_1RestRequestBody> request = new BaseRestRequest<Loginv1_1RestRequestBody>();
         BaseRestRequestHead requestHead = new BaseRestRequestHead();
         requestHead.setDeviceId(deviceId);
-        requestHead.setTxTime(reqTime);
+        requestHead.setTxTime(Long.valueOf(reqTime).longValue());
         request.setHead(requestHead);
         request.setBody(requestBody);
-        BaseRestResponse<Loginv1_1RestResponseBody> response = this.userServiceRest.loginv1_1(request);
+        BaseRestResponse<Loginv1_1RestResponseBody> response = this.userServiceRest
+                .loginv1_1(request);
         JSONObject object = JSONObject.fromObject(response);
         java.lang.String reqStr = object.toString();
         log.debug(reqStr);
@@ -105,21 +92,18 @@ public class UserRestController
     }
 
     @RequestMapping(value = "autoLogin/{deviceId}/{reqTime}", method = RequestMethod.POST)
-    public Object autoLogin(
-        @PathVariable("deviceId")
-        String deviceId,
-        @PathVariable("reqTime")
-        String reqTime,
-        @RequestBody
-        @Valid
-        AutoLoginRestRequestBody requestBody, HttpServletRequest httpServletRequest) {
+    public Object autoLogin(@PathVariable("deviceId") String deviceId,
+            @PathVariable("reqTime") String reqTime,
+            @RequestBody @Valid AutoLoginRestRequestBody requestBody,
+            HttpServletRequest httpServletRequest) {
         BaseRestRequest<AutoLoginRestRequestBody> request = new BaseRestRequest<AutoLoginRestRequestBody>();
         BaseRestRequestHead requestHead = new BaseRestRequestHead();
         requestHead.setDeviceId(deviceId);
-        requestHead.setTxTime(reqTime);
+        requestHead.setTxTime(Long.valueOf(reqTime).longValue());
         request.setHead(requestHead);
         request.setBody(requestBody);
-        BaseRestResponse<AutoLoginRestResponseBody> response = this.userServiceRest.autoLogin(request);
+        BaseRestResponse<AutoLoginRestResponseBody> response = this.userServiceRest
+                .autoLogin(request);
         JSONObject object = JSONObject.fromObject(response);
         java.lang.String reqStr = object.toString();
         log.debug(reqStr);

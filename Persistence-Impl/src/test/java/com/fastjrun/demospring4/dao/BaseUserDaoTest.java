@@ -46,25 +46,25 @@ public class BaseUserDaoTest extends BaseSpringTestNGTest {
 
     @Test
     public void testSelectById() {
-        User user = baseUserDao.selectById(2);
+        User user = baseUserDao.selectById(38);
         log.info(user);
     }
 
     @Test
     public void testUpdateById() {
-        User user = baseUserDao.selectById(1);
+        User user = baseUserDao.selectById(38);
         log.info(user);
         Timestamp curDate = new Timestamp(System.currentTimeMillis());
         user.setCreateTime(curDate);
         user.setLastModifyTime(curDate);
         baseUserDao.updateById(user);
-        User user2 = baseUserDao.selectById(1);
+        User user2 = baseUserDao.selectById(38);
         log.info(user2);
     }
 
     @Test
     public void testDeleteById() {
-        User user = baseUserDao.selectById(1);
+        User user = baseUserDao.selectById(38);
         log.info(user);
         int res = baseUserDao.deleteById(1);
         log.info(res);

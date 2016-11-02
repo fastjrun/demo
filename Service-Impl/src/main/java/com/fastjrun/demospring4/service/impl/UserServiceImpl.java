@@ -37,7 +37,6 @@ import com.fastjrun.demospring4.service.UserServiceTask;
 import com.fastjrun.helper.RestResponseHelper;
 import com.fastjrun.helper.UUID;
 import com.fastjrun.mybatis.ConditionHelper;
-import com.fastjrun.mybatis.declare.Condition;
 import com.fastjrun.packet.BaseRestDefaultResponseBody;
 import com.fastjrun.packet.BaseRestRequest;
 import com.fastjrun.packet.BaseRestResponse;
@@ -82,9 +81,8 @@ public class UserServiceImpl extends BaseService implements UserServiceRest,
         Integer sex = Integer.parseInt(request.getBody().getSex());
         String mobileNo = request.getBody().getMobileNo();
         String email = request.getBody().getEmail();
-        Condition c = new Condition().and("loginName=? and mobileNo = ?",
-                loginName, mobileNo);
-        ConditionHelper.condition(c.toString());
+        ConditionHelper.condition("and loginName='" + loginName
+                + "' or mobileNo = '" + mobileNo + "'");
         List<User> list = baseUserDao.queryForListCondition();
         if (!list.isEmpty()) {
             return RestResponseHelper.getFailResult("USERREGISTER01", "用户已存在");

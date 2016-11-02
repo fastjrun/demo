@@ -47,7 +47,7 @@ public class UserServiceRestImplTest extends BaseSpringTestNGTest {
         BaseRestRequest<LoginRestRequestBody> request = new BaseRestRequest<LoginRestRequestBody>();
         BaseRestRequestHead head = new BaseRestRequestHead();
         LoginRestRequestBody body = new LoginRestRequestBody();
-        body.setLoginName("test4");
+        body.setLoginName("test9");
         body.setLoginpwd("22222");
         String deviceId = "servicetest";
         head.setDeviceId(deviceId);
@@ -64,7 +64,7 @@ public class UserServiceRestImplTest extends BaseSpringTestNGTest {
         BaseRestRequest<AutoLoginRestRequestBody> request = new BaseRestRequest<AutoLoginRestRequestBody>();
         BaseRestRequestHead head = new BaseRestRequestHead();
         AutoLoginRestRequestBody body = new AutoLoginRestRequestBody();
-        body.setUuidOld("26024de14f0b496c8b0a4282c1d9b897");
+        body.setUuidOld("97740a1f03c54bb7b6d849a1feaa3dbd");
         String deviceId = "servicetest";
         head.setDeviceId(deviceId);
         request.setHead(head);

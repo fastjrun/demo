@@ -43,12 +43,6 @@ public class AutoLoginRestResponseBody
      */
     @NotNull(message = "email is null")
     private String email;
-    /**
-     * 凭证有效天数
-     * 
-     */
-    @NotNull(message = "validInDays is null")
-    private Integer validInDays;
 
     public String getUuidNew() {
         return this.uuidNew;
@@ -88,14 +82,6 @@ public class AutoLoginRestResponseBody
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Integer getValidInDays() {
-        return this.validInDays;
-    }
-
-    public void setValidInDays(Integer validInDays) {
-        this.validInDays = validInDays;
     }
 
 }

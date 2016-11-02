@@ -20,7 +20,6 @@ import com.fastjrun.demospring4.service.CoreUserService;
 import com.fastjrun.helper.Check;
 import com.fastjrun.helper.TimeHelper;
 import com.fastjrun.mybatis.ConditionHelper;
-import com.fastjrun.mybatis.declare.Condition;
 import com.fastjrun.mybatis.declare.Declare;
 import com.fastjrun.service.impl.BaseService;
 
@@ -55,9 +54,10 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
     @Override
     public User login(String loginName, String loginPwd, String deviceId,
             String uuid) {
-        Condition c = new Condition();
-        c.and("(loginName=? or mobileNo=?) and loginPwd=? and status='1' and loginErrCount<5",
-                loginName, loginName, loginPwd);
+        StringBuilder c = new StringBuilder();
+        c.append("and loginName='").append(loginName).append("'");
+        c.append(" and loginPwd='").append(loginPwd).append("'");
+        c.append(" and status='1' and loginErrCount<5");
         ConditionHelper.condition(c.toString());
         List<User> users = baseUserDao.queryForListCondition();
         if (!Check.isEmpty(users) && users.size() > 0) {
@@ -71,8 +71,8 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
             this.setRedisUser(user, uuid, deviceId);
             return user;
         } else {
-            c = new Condition();
-            c.and("(loginName=? or mobileNo=?)", loginName, loginName);
+            c = new StringBuilder();
+            c.append("and loginName='").append(loginName).append("'");
             ConditionHelper.condition(c.toString());
             List<User> userWithLoginNames = baseUserDao.queryForListCondition();
             if (!Check.isEmpty(userWithLoginNames)
@@ -132,9 +132,10 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
         if (redisTemplate.hasKey(key)) {
             redisTemplate.delete(key);
         }
-        Condition cLogin = new Condition();
-        cLogin.and("loginCredential=? and deviceId=?", uuid, deviceId);
-        ConditionHelper.condition(cLogin.toString());
+        StringBuilder c = new StringBuilder();
+        c.append("and loginCredential='").append(uuid).append("'");
+        c.append(" and deviceId='").append(deviceId).append("'");
+        ConditionHelper.condition(c.toString());
         List<UserLogin> userLogins = baseUserLoginDao.queryForListCondition();
         if (!Check.isEmpty(userLogins) && userLogins.size() > 0) {
             UserLogin userLogin = userLogins.get(0);
@@ -175,8 +176,10 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
 
     @Override
     public User autoLogin(String deviceId, String uuidOld, String uuidNew) {
-        Condition c = new Condition().and("loginCredential = ? and status = '1'",
-                uuidOld).and("deviceId = ?", deviceId);
+        StringBuilder c = new StringBuilder();
+        c.append("and loginCredential='").append(uuidOld).append("'");
+        c.append("and status = '1'");
+        c.append(" and deviceId='").append(deviceId).append("'");
         ConditionHelper.condition(c.toString());
         List<UserLogin> userLogins = baseUserLoginDao.queryForListCondition();
         if (!Check.isEmpty(userLogins) && userLogins.size() > 0) {
