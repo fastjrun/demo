@@ -11,11 +11,11 @@
 	<packaging>war</packaging>
 	<name>demoSpring4-Rest</name>
 	<dependencies>
-        <!-- activemq -->
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-pool</artifactId>
-        </dependency>
+		<!-- activemq -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-pool</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -106,11 +106,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>com.fastjrun.share</groupId>
-            <artifactId>demoSpring4-service-impl</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.fastjrun.share</groupId>
+			<artifactId>demoSpring4-service-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -171,6 +171,25 @@
 					</webResources>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<urls>
+						<!-- src/main/resources/applicationContext.xml -->
+						<url>file:${runtime.env}</url>
+					</urls>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<profiles>
@@ -181,8 +200,15 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<!-- src/main/resources/applicationContext.xml -->
+                <runtime.env>profiles/env-test.properties</runtime.env>
 				<system.configDir>/app/demoSpring4/Rest/config</system.configDir>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 测试环境 -->
+			<id>env-test</id>
+			<properties>
+				<runtime.env>profiles/env-test.properties</runtime.env>
 			</properties>
 		</profile>
 	</profiles>
