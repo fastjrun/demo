@@ -15,10 +15,6 @@
 			<artifactId>pagehelper</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.fastjrun</groupId>
-			<artifactId>mybatis-helper</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>

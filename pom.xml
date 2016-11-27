@@ -221,11 +221,6 @@
 				<version>${base-test.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.fastjrun</groupId>
-				<artifactId>mybatis-helper</artifactId>
-				<version>${mybatis-helper.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>javax.validation</groupId>
 				<artifactId>validation-api</artifactId>
 				<version>${javax.validation.version}</version>
@@ -315,7 +310,6 @@
 	</profiles>
 	<properties>
 		<base-common.version>1.3-SNAPSHOT</base-common.version>
-		<mybatis-helper.version>1.3-SNAPSHOT</mybatis-helper.version>
 		<base-test.version>1.3-SNAPSHOT</base-test.version>
 		<activemq.version>5.13.1</activemq.version>
 		<spring-rabbit.version>1.5.3.RELEASE</spring-rabbit.version>
@@ -348,10 +342,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<modules>
+        <module>Common</module>
+        <module>Util</module>
 		<module>Base</module>
-		<module>Util</module>
+        <module>Persistence-Impl</module>
 		<module>Bundle</module>
-		<module>Persistence-Impl</module>
 		<module>Service-Impl</module>
+        <module>Batch</module>
+        <module>Rest/Config</module>
+        <module>Rest/Main</module>
 	</modules>
 </project>
