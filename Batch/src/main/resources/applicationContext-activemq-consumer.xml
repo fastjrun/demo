@@ -34,7 +34,7 @@
 		</constructor-arg>
 	</bean>
 <bean id="loginSuccessNotifyListener"
-        class="com.fastjrun.demospring4.listener.LoginSuccessNotifyListener" />
+        class="com.fastjrun.demo.listener.LoginSuccessNotifyListener" />
 	<!-- 消息监听器 -->
 	<bean id="queueListener"
 		class="org.springframework.jms.listener.adapter.MessageListenerAdapter">

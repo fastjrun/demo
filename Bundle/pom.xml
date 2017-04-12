@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.fastjrun.share</groupId> 
-        <artifactId>demoSpring4-parent</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <artifactId>demo-parent</artifactId>
+        <version>1.3-SNAPSHOT</version>
     </parent> 
-	<artifactId>demoSpring4-bundle</artifactId>
+	<artifactId>demo-bundle</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -57,6 +57,26 @@
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+                <groupId>com.fastjrun.codeg</groupId>
+                <artifactId>ciAgent-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>initialize phase</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>bundlegc</goal>
+                        </goals>
+                        <configuration>
+                            <bundleFile>demo_user.xml</bundleFile>
+                            <bundleDir>Bundle</bundleDir>
+                            <projectDir>.</projectDir>
+                            <packagePrefix>com.fastjrun.demo.</packagePrefix>
+                            <tmpWorkSpace>/tmp/ciAgent</tmpWorkSpace>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>

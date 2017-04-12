@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
-		<artifactId>demoSpring4-parent</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<artifactId>demo-parent</artifactId>
+		<version>1.3-SNAPSHOT</version>
 	</parent>
-	<artifactId>demoSpring4-batch</artifactId>
+	<artifactId>demo-batch</artifactId>
 	<dependencies>
 		<!-- activemq -->
 		<dependency>
@@ -60,7 +60,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
-			<artifactId>demoSpring4-service-impl</artifactId>
+			<artifactId>demo-service-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -141,7 +141,7 @@
 				<!-- /src/main/resources/applicationContext.xml -->
 				<system.configDir>config</system.configDir>
 				<!-- /src/main/config/log4j.xml -->
-				<mainlog>com.fastjrun.demospring4</mainlog>
+				<mainlog>com.fastjrun.demo</mainlog>
 				<level.mainlog>debug</level.mainlog>
                 <!-- src/main/bin/startup.sh -->
                 <jvm.ms>128M</jvm.ms>
@@ -160,7 +160,7 @@
 				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
 				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
 				<jdbc.username>demo</jdbc.username>
-				<jdbc.password>demo123456</jdbc.password>
+				<jdbc.password>123456</jdbc.password>
 				<jdbc.initialSize>2</jdbc.initialSize>
 				<jdbc.maxIdle>5</jdbc.maxIdle>
 				<jdbc.minIdle>3</jdbc.minIdle>
@@ -214,7 +214,7 @@
 				<!-- /src/main/resources/applicationContext.xml -->
 				<system.configDir>config</system.configDir>
 				<!-- /src/main/config/log4j.xml -->
-				<mainlog>com.fastjrun.demospring4</mainlog>
+				<mainlog>com.fastjrun.demo</mainlog>
 				<level.mainlog>debug</level.mainlog>
                 <!-- src/main/bin/startup.sh -->
                 <jvm.ms>256M</jvm.ms>
@@ -233,7 +233,7 @@
 				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
 				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
 				<jdbc.username>demo</jdbc.username>
-				<jdbc.password>demo123456</jdbc.password>
+				<jdbc.password>123456</jdbc.password>
 				<jdbc.initialSize>2</jdbc.initialSize>
 				<jdbc.maxIdle>5</jdbc.maxIdle>
 				<jdbc.minIdle>3</jdbc.minIdle>

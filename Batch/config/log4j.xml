@@ -51,7 +51,7 @@
         <level value="WARN" />
     </logger>   
     
-    <logger name="com.fastjrun.demospring4" additivity="false">
+    <logger name="com.fastjrun.demo" additivity="false">
         <level value="debug" />
         <appender-ref ref="commonlogFile" />
         <appender-ref ref="console" />

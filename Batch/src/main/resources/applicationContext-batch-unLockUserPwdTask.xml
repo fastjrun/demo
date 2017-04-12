@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="unLockUserPwdTask" class="com.fastjrun.demospring4.task.UnLockUserPwdTask">
+	<bean id="unLockUserPwdTask" class="com.fastjrun.demo.task.UnLockUserPwdTask">
 	</bean>
 
 	<bean id="unLockUserPwdTaskJob"

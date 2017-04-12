@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
-		<artifactId>demoSpring4-parent</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<artifactId>demo-parent</artifactId>
+		<version>1.3-SNAPSHOT</version>
 	</parent>
-	<artifactId>demoSpring4-service-impl</artifactId>
+	<artifactId>demo-service-impl</artifactId>
 	<dependencies>
 		<!-- activemq -->
 		<dependency>
@@ -74,17 +74,17 @@
 		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
-			<artifactId>demoSpring4-persistence-impl</artifactId>
+			<artifactId>demo-persistence-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
-			<artifactId>demoSpring4-bundle</artifactId>
+			<artifactId>demo-bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
-			<artifactId>demoSpring4-util</artifactId>
+			<artifactId>demo-util</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

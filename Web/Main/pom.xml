@@ -3,13 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
-		<artifactId>demoSpring4-parent</artifactId>
-		<version>1.1-SNAPSHOT</version>
+		<artifactId>demo-parent</artifactId>
+		<version>1.3-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
-	<artifactId>demoSpring4-Web</artifactId>
+	<artifactId>demo-Web</artifactId>
 	<packaging>war</packaging>
-	<name>demoSpring4-Web</name>
 	<dependencies>
         <!-- activemq -->
         <dependency>
@@ -108,7 +107,7 @@
 		</dependency>
         <dependency>
             <groupId>com.fastjrun.share</groupId>
-            <artifactId>demoSpring4-service-impl</artifactId>
+            <artifactId>demo-service-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 		<dependency>
@@ -186,7 +185,7 @@
 			</activation>
 			<properties>
 				<!-- src/main/resources/applicationContext.xml -->
-				<system.configDir>/app/demoSpring4/Web/config</system.configDir>
+				<system.configDir>/app/demo/Web/config</system.configDir>
 			</properties>
 		</profile>
 	</profiles>

@@ -94,14 +94,12 @@
 						</value>
 					</property>
 				</bean>
-                <bean class="com.fastjrun.mybatis.ConditionHelper">
-                </bean>
 			</array>
 		</property>
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 		<property name="basePackage"
-			value="com.fastjrun.dao;com.fastjrun.demospring4.dao"></property>
+			value="com.fastjrun.dao;com.fastjrun.demo.dao"></property>
 	</bean>
 </beans>

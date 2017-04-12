@@ -20,7 +20,7 @@
 		exclusive="false" name="RegisterSuccessNotify.queue" />
 
 	<!-- exchange queue binging key 绑定 -->
-	<rabbit:direct-exchange name="demoSrping4.queue.exchange"
+	<rabbit:direct-exchange name="demo.queue.exchange"
 		durable="true" auto-delete="false">
 		<rabbit:bindings>
 			<rabbit:binding queue="RegisterSuccessNotify.queue"
@@ -32,7 +32,7 @@
 		class="org.springframework.amqp.support.converter.SerializerMessageConverter"></bean>
 
 	<!-- spring template声明 -->
-	<rabbit:template id="rabbitTemplate" exchange="demoSrping4.queue.exchange"
+	<rabbit:template id="rabbitTemplate" exchange="demo.queue.exchange"
 		routing-key="${rabbitmq.RegisterSuccessNotifyKey}" connection-factory="connectionFactory"
 		message-converter="serializerMessageConverter" />
 </beans>

@@ -106,7 +106,7 @@ public class DESedeCodec {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String source = "岂向苍天";
+		String source = "快嘉网";
 		System.out.println("原文: " + source);
 
 		String key = initkey();

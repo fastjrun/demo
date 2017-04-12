@@ -11,7 +11,7 @@ setlocal enabledelayedexpansion
 
 FOR /R %lib% %%f IN (*.jar) DO set classpath=%%f;!classpath!
 
-"%JAVA_HOME%\bin\java" -Dorg.apache.activemq.SERIALIZABLE_PACKAGES="*" com.fastjrun.demospring4.BatchInit startup
+"%JAVA_HOME%\bin\java" -Dorg.apache.activemq.SERIALIZABLE_PACKAGES="*" com.fastjrun.demo.BatchInit startup
 
 endlocal
 goto exit

@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
-		<artifactId>demoSpring4-parent</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<artifactId>demo-parent</artifactId>
+		<version>1.3-SNAPSHOT</version>
 	</parent>
-	<artifactId>demoSpring4-persistence-impl</artifactId>
+	<artifactId>demo-persistence-impl</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
@@ -56,7 +56,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
-			<artifactId>demoSpring4-base</artifactId>
+			<artifactId>demo-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
