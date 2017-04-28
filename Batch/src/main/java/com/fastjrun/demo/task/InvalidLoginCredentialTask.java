@@ -11,13 +11,13 @@ import com.fastjrun.task.BaseTask;
 public class InvalidLoginCredentialTask extends BaseTask {
 
     @Autowired
-    UserServiceTask userService;
+    UserServiceTask userServiceTask;
 
     @Override
     public void process() throws TaskException {
         log.info("UnLockUserPwd Task starts");
         Date now = new Date();
-        this.userService.inValidUserLoginCredential(now);
+        this.userServiceTask.inValidUserLoginCredential(now);
         log.info("UnLockUserPwd Task ends");
 
     }

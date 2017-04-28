@@ -11,13 +11,13 @@ import com.fastjrun.task.BaseTask;
 public class UnLockUserPwdTask extends BaseTask {
 
     @Autowired
-    UserServiceTask userServiceTest;
+    UserServiceTask userServiceTask;
 
     @Override
     public void process() throws TaskException {
         log.info("UnLockUserPwd Task starts");
         Date now = new Date();
-        this.userServiceTest.unlockUserPwd(now);
+        this.userServiceTask.unlockUserPwd(now);
         log.info("UnLockUserPwd Task ends");
 
     }
