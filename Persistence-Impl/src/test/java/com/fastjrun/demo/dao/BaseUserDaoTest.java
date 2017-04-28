@@ -154,7 +154,7 @@ public class BaseUserDaoTest extends BaseSpringTestNGTest {
                     try {
                         testCondition(rowBounds);
                     } catch (Exception e) {
-                        log.warn("BatchInsertYongle Task for", e);
+                        log.warn("BatchInsert Task for", e);
                     } finally {
                         // 访问完后，释放
                         semaphore.release();
