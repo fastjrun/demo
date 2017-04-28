@@ -2,6 +2,8 @@
 *.log
 *.log.*
 .project
+Base/src
+Bundle/src
 /.settings
 */*.log
 */*.log.*
