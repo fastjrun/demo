@@ -6,7 +6,7 @@
 	<groupId>com.fastjrun.share</groupId>
 	<artifactId>demo-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.3-SNAPSHOT</version>
+	<version>1.4-SNAPSHOT</version>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>mycompany-snapshots</id>
@@ -314,9 +314,9 @@
 		</profile>
 	</profiles>
 	<properties>
-		<base-common.version>1.4</base-common.version>
-		<base-test.version>1.4</base-test.version>
-		<ciAgent-plugin.version>1.0-SNAPSHOT</ciAgent-plugin.version>
+		<base-common.version>1.5-SNAPSHOT</base-common.version>
+		<base-test.version>1.5-SNAPSHOT</base-test.version>
+		<ciAgent-plugin.version>1.1-SNAPSHOT</ciAgent-plugin.version>
 		<activemq.version>5.13.1</activemq.version>
 		<spring-rabbit.version>1.5.3.RELEASE</spring-rabbit.version>
 		<jedis.version>2.4.2</jedis.version>
@@ -336,7 +336,7 @@
 		<aopalliance.version>1.0</aopalliance.version>
 		<aspectjweaver.version>1.8.0</aspectjweaver.version>
 		<log4j.version>1.2.17</log4j.version>
-		<testng.version>6.8.21</testng.version>
+		<testng.version>6.9.13.6</testng.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<jackson.version>2.6.3</jackson.version>
 		<json-lib.version>2.4</json-lib.version>

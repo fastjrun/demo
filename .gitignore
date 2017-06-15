@@ -1,6 +1,7 @@
 *.bat
 *.log
 *.log.*
+pom.xml.versionsBackup
 .project
 Base/src
 Bundle/src
@@ -13,7 +14,10 @@ Bundle/src
 */.settings
 */.classpath
 */.project
+*/pom.xml.versionsBackup
 */*/target
 */*/.settings
 */*/.classpath
 */*/.project
+*/*/pom.xml.versionsBackup
+
