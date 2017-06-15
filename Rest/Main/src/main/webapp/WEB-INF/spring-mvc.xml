@@ -19,6 +19,7 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+    <bean class="com.fastjrun.swagger.SwaggerConfig"/>
 	<bean id="jacksonObjectMapper" class="com.fastjrun.util.JsonMapper" />
 	<!-- 自动扫描且只扫描@RestController -->
 	<context:component-scan base-package="com.fastjrun.web;com.fastjrun.demo.web"
@@ -30,5 +31,7 @@
 		<context:include-filter type="annotation"
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
+	
+	<mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger-ui/"/>
 
 </beans>
