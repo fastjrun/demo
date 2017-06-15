@@ -9,11 +9,6 @@
 	</parent>
 	<artifactId>demo-batch</artifactId>
 	<dependencies>
-		<!-- activemq -->
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-pool</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -27,14 +22,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -86,16 +73,16 @@
 			<resource>
 				<directory>${basedir}/src/main/resources</directory>
 				<includes>
-					<include>applicationContext.xml</include>
-					<include>package.xml</include>
+					<include>prop/*.properties</include>
+					<include>log4j.properties</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>
 			<resource>
 				<directory>${basedir}/src/main/resources</directory>
 				<includes>
+					<include>applicationContext.xml</include>
 					<include>applicationContext-*.xml</include>
-					<include>*.properties</include>
 				</includes>
 			</resource>
 		</resources>
@@ -108,27 +95,73 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
 				<configuration>
-					<!-- not append assembly id in release file name -->
-					<appendAssemblyId>false</appendAssemblyId>
-					<descriptors>
-						<descriptor>target/classes/package.xml</descriptor>
-					</descriptors>
+					<files>
+						<file>src/main/profiles/${runtime.env}/jdbc.properties</file>
+						<file>src/main/profiles/${runtime.env}/service.properties</file>
+						<file>src/main/profiles/${runtime.env}/batch.properties</file>
+					</files>
 				</configuration>
 				<executions>
 					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
+						<phase>initialize</phase>
 						<goals>
-							<goal>single</goal>
+							<goal>read-project-properties</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<finalName>batch</finalName>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.fastjrun.demo.BatchInit</mainClass>
+								</transformer>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/spring.handlers</resource>
+								</transformer>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/spring.schemas</resource>
+								</transformer>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/spring.tooling</resource>
+								</transformer>
+							</transformers>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
+						</configuration>
+
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
-		<finalName>batch</finalName>
 	</build>
 	<profiles>
 		<profile>
@@ -138,25 +171,22 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<!-- /src/main/resources/applicationContext.xml -->
-				<system.configDir>config</system.configDir>
-				<!-- /src/main/config/log4j.xml -->
-				<mainlog>com.fastjrun.demo</mainlog>
-				<level.mainlog>debug</level.mainlog>
-                <!-- src/main/bin/startup.sh -->
-                <jvm.ms>128M</jvm.ms>
-                <jvm.mx>128M</jvm.mx>
-				<!-- src/main/config/batch.properties -->
-				<shutdown.port>2050</shutdown.port>
+				<runtime.env>local</runtime.env>
+				<!-- src/main/resource/log4j.properties -->
+				<commonlogFile>./logs/batch.log</commonlogFile>
+				<level.commonlogFile>debug</level.commonlogFile>
+				<errorLogFile>./logs/batch_error.log</errorLogFile>
+				<!-- src/main/resource/prop/batch.properties -->
+				<scheduler.autoStartup>false</scheduler.autoStartup>
 				<scheduler.threadCount>5</scheduler.threadCount>
 				<executorService.corePoolSize>5</executorService.corePoolSize>
 				<executorService.maxPoolSize>10</executorService.maxPoolSize>
 				<executorService.queueCapacity>25</executorService.queueCapacity>
 				<executorService.keepAliveSeconds>3000</executorService.keepAliveSeconds>
-				<baseTask.semaphoreTtotal>300</baseTask.semaphoreTtotal>
+				<baseTask.semaphoreTotal>300</baseTask.semaphoreTotal>
 				<unLockUserPwdTask.cronExpression>0 * 0/2 * * ?</unLockUserPwdTask.cronExpression>
-				<invalidLoginCredentialTask.cronExpression>0 * 0/2 * * ?</invalidLoginCredentialTask.cronExpression>
-				<!-- src/main/config/jdbc.properties -->
+				<invalidLoginCredentialTask.cronExpression>0 * * * * ?</invalidLoginCredentialTask.cronExpression>
+				<!-- src/main/resource/prop/jdbc.properties -->
 				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
 				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
 				<jdbc.username>demo</jdbc.username>
@@ -178,107 +208,33 @@
 				<jdbc.timeBetweenEvictionRunsMillis>180000</jdbc.timeBetweenEvictionRunsMillis>
 				<jdbc.numTestsPerEvictionRun>20</jdbc.numTestsPerEvictionRun>
 				<jdbc.minEvictableIdleTimeMillis>180000</jdbc.minEvictableIdleTimeMillis>
-				<!-- src/main/config/activemq.properties -->
-				<activemq.brokerURL>failover:(tcp://activemqhost:51616)</activemq.brokerURL>
-				<activemq.queueName>User.MiaoQueue</activemq.queueName>
-				<activemq.userName>fastjrun</activemq.userName>
-				<activemq.password>fastjrun</activemq.password>
-				<!-- consumer -->
-				<activemq.maxConnections>10</activemq.maxConnections>
-				<activemq.concurrentConsumers>5</activemq.concurrentConsumers>
-				<!-- src/main/resource/rabbitmq.properties -->
-				<rabbitmq.host>rabbitmqhost</rabbitmq.host>
-				<rabbitmq.port>5672</rabbitmq.port>
-				<rabbitmq.userName>mytest</rabbitmq.userName>
-				<rabbitmq.password>mytest</rabbitmq.password>
-				<rabbitmq.RegisterSuccessNotifyKey>userRegNotify</rabbitmq.RegisterSuccessNotifyKey>
-				<!-- src/main/config/redis.properties -->
-				<redis.host>redishost</redis.host>
-				<redis.port>6379</redis.port>
-				<redis.pass>761c166cb9706295</redis.pass>
-				<redis.maxIdle>300</redis.maxIdle>
-				<redis.maxTotal>600</redis.maxTotal>
-				<redis.maxWait>1000</redis.maxWait>
-				<redis.testOnBorrow>true</redis.testOnBorrow>
-				<!-- src/main/config/service.properties -->
+				<!-- src/main/resource/prop/service.properties -->
 				<userService.invalidDays>30</userService.invalidDays>
 				<userService.errLimits>5</userService.errLimits>
 				<userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
-				<!-- src/main/config/service.properties -->
-				<assembly.format>dir</assembly.format>
+
 			</properties>
 		</profile>
 		<profile>
+			<!-- 测试环境 -->
 			<id>env-test</id>
 			<properties>
-				<!-- /src/main/resources/applicationContext.xml -->
-				<system.configDir>config</system.configDir>
-				<!-- /src/main/config/log4j.xml -->
-				<mainlog>com.fastjrun.demo</mainlog>
-				<level.mainlog>debug</level.mainlog>
-                <!-- src/main/bin/startup.sh -->
-                <jvm.ms>256M</jvm.ms>
-                <jvm.mx>512M</jvm.mx>
-				<!-- src/main/config/batch.properties -->
-				<shutdown.port>2050</shutdown.port>
-				<scheduler.threadCount>5</scheduler.threadCount>
-				<executorService.corePoolSize>5</executorService.corePoolSize>
-				<executorService.maxPoolSize>10</executorService.maxPoolSize>
-				<executorService.queueCapacity>25</executorService.queueCapacity>
-				<executorService.keepAliveSeconds>3000</executorService.keepAliveSeconds>
-				<baseTask.semaphoreTtotal>300</baseTask.semaphoreTtotal>
-				<unLockUserPwdTask.cronExpression>0 * 0/2 * * ?</unLockUserPwdTask.cronExpression>
-				<invalidLoginCredentialTask.cronExpression>0 * 0/2 * * ?</invalidLoginCredentialTask.cronExpression>
-				<!-- src/main/config/jdbc.properties -->
-				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
-				<jdbc.username>demo</jdbc.username>
-				<jdbc.password>123456</jdbc.password>
-				<jdbc.initialSize>2</jdbc.initialSize>
-				<jdbc.maxIdle>5</jdbc.maxIdle>
-				<jdbc.minIdle>3</jdbc.minIdle>
-				<jdbc.maxActive>10</jdbc.maxActive>
-				<jdbc.maxWait>60000</jdbc.maxWait>
-				<jdbc.defaultAutoCommit>true</jdbc.defaultAutoCommit>
-				<jdbc.logAbandoned>true</jdbc.logAbandoned>
-				<jdbc.testOnReturn>false</jdbc.testOnReturn>
-				<jdbc.testOnBorrow>false</jdbc.testOnBorrow>
-				<jdbc.testWhileIdle>true</jdbc.testWhileIdle>
-				<!-- 进行检测一个连接是有效的SQL语句，比如oracle是select 1 from dual 而 mysql是 select 1 -->
-				<jdbc.validationQuery>select 1</jdbc.validationQuery>
-				<jdbc.removeAbandoned>true</jdbc.removeAbandoned>
-				<jdbc.removeAbandonedTimeout>180</jdbc.removeAbandonedTimeout>
-				<jdbc.timeBetweenEvictionRunsMillis>180000</jdbc.timeBetweenEvictionRunsMillis>
-				<jdbc.numTestsPerEvictionRun>20</jdbc.numTestsPerEvictionRun>
-				<jdbc.minEvictableIdleTimeMillis>180000</jdbc.minEvictableIdleTimeMillis>
-				<!-- src/main/config/activemq.properties -->
-				<activemq.brokerURL>failover:(tcp://activemqhost:51616)</activemq.brokerURL>
-				<activemq.queueName>User.MiaoQueue</activemq.queueName>
-				<activemq.userName>fastjrun</activemq.userName>
-				<activemq.password>fastjrun</activemq.password>
-				<!-- consumer -->
-				<activemq.maxConnections>10</activemq.maxConnections>
-				<activemq.concurrentConsumers>5</activemq.concurrentConsumers>
-				<!-- src/main/resource/rabbitmq.properties -->
-				<rabbitmq.host>rabbitmqhost</rabbitmq.host>
-				<rabbitmq.port>5672</rabbitmq.port>
-				<rabbitmq.userName>mytest</rabbitmq.userName>
-				<rabbitmq.password>mytest</rabbitmq.password>
-				<rabbitmq.RegisterSuccessNotifyKey>userRegNotify</rabbitmq.RegisterSuccessNotifyKey>
-				<!-- src/main/config/redis.properties -->
-				<redis.host>redishost</redis.host>
-				<redis.port>6379</redis.port>
-				<redis.pass>761c166cb9706295</redis.pass>
-				<redis.maxIdle>300</redis.maxIdle>
-				<redis.maxTotal>600</redis.maxTotal>
-				<redis.maxWait>1000</redis.maxWait>
-				<redis.testOnBorrow>true</redis.testOnBorrow>
-				<!-- src/main/config/service.properties -->
-				<userService.invalidDays>30</userService.invalidDays>
-				<userService.errLimits>5</userService.errLimits>
-				<userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
-				<!-- src/main/config/service.properties -->
-				<assembly.format>tar.gz</assembly.format>
+				<!-- src/main/resource/log4j.properties -->
+				<commonlogFile>./logs/batch.log</commonlogFile>
+				<level.commonlogFile>debug</level.commonlogFile>
+				<errorLogFile>./logs/batch_error.log</errorLogFile>
+				<runtime.env>env-test</runtime.env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 生产环境 -->
+			<id>env-prod</id>
+			<properties>
+				<!-- src/main/resource/log4j.properties -->
+				<commonlogFile>./logs/batch.log</commonlogFile>
+				<level.commonlogFile>info</level.commonlogFile>
+				<errorLogFile>./logs/batch_error.log</errorLogFile>
+				<runtime.env>env-prod</runtime.env>
 			</properties>
 		</profile>
 	</profiles>

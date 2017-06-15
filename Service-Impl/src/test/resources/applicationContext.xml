@@ -11,9 +11,6 @@
 			<list>
 				<value>classpath:service.properties</value>
 				<value>classpath:jdbc.properties</value>
-				<value>classpath:redis.properties</value>
-				<value>classpath:activemq.properties</value>
-				<value>classpath:rabbitmq.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -21,8 +18,5 @@
 	<import resource="applicationContext-*.xml" />
 	<!-- 加载其他spring文件 -->
 	<import resource="classpath*:applicationContext-persistence.xml" />
-	<import resource="classpath*:applicationContext-activemq-producer.xml" />
-	<import resource="classpath*:applicationContext-rabbitmq-producer.xml" />
-	<import resource="classpath*:applicationContext-jedis.xml" />
 	<import resource="classpath*:applicationContext-service.xml" />
 </beans>

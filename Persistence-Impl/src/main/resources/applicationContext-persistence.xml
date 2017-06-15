@@ -96,10 +96,11 @@
 				</bean>
 			</array>
 		</property>
+		<property name="mapperLocations" value="classpath*:mappers/**/*.xml" />
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 		<property name="basePackage"
-			value="com.fastjrun.dao;com.fastjrun.demo.dao"></property>
+			value="com.fastjrun.demo.mapper;com.fastjrun.dao;com.fastjrun.demo.dao"></property>
 	</bean>
 </beans>

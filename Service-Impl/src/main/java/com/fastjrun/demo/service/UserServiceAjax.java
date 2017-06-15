@@ -5,11 +5,11 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 
-import com.fastjrun.demo.bean.User;
+import com.fastjrun.demo.entity.User;
 
 public interface UserServiceAjax {
 
-    public List<Map<String,Object>> queryForLimitList(RowBounds rowBounds);
+    public List<Map<String, Object>> queryForLimitList(RowBounds rowBounds);
 
     public int updateById(User user);
 

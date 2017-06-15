@@ -2,21 +2,17 @@ package com.fastjrun.demo.service;
 
 import java.util.Date;
 
-import com.fastjrun.demo.bean.User;
+import com.fastjrun.demo.entity.User;
 
 public interface CoreUserService {
 
-    public void checkLoign(String userKey);
+    public void checkLoign(String uuid,String deviceId);
 
     public User autoLogin(String deviceId,String uuidOld,String uuidNew);
 
     public User login(String loginName, String loginPwd, String deviceId,String uuid);
 
     public void logOut(String uuid, String deviceId);
-
-    public User getRedisUser(String uuid,String deviceId);
-
-    public void setRedisUser(User user, String uuid,String deviceId);    
     
     public void unlockUserPwd(Date date);
 

@@ -41,10 +41,6 @@
 			<artifactId>json-lib</artifactId>
 			<classifier>jdk15</classifier>
 		</dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -72,11 +68,14 @@
                             <goal>bundlegc</goal>
                         </goals>
                         <configuration>
-                            <bundleFile>demo_user.xml</bundleFile>
-                            <bundleDir>Bundle</bundleDir>
-                            <projectDir>.</projectDir>
-                            <packagePrefix>com.fastjrun.demo.</packagePrefix>
-                            <tmpWorkSpace>/tmp/ciAgent</tmpWorkSpace>
+                            <accessKey>${accessKey}</accessKey>
+                            <accessKeySn>${accessKeySn}</accessKeySn>
+                            <apiUrlPre>${apiUrlPre}</apiUrlPre>
+                            <bundleFile>${bundleFile}</bundleFile>
+                            <bundleDir>${bundleDir}</bundleDir>
+                            <projectDir>${projectDir}</projectDir>
+                            <packagePrefix>${packagePrefix}</packagePrefix>
+                            <tmpWorkSpace>${tmpWorkSpace}</tmpWorkSpace>
                         </configuration>
                     </execution>
                 </executions>

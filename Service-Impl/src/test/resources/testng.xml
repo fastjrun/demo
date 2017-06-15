@@ -3,10 +3,10 @@
 <suite name="service">
 	<test name="userServiceRest" preserve-order="true">
 		<classes>
-			<class name="com.fastjrun.demospring4.service.impl.UserServiceRestImplTest" >
+			<class name="com.fastjrun.demo.service.impl.UserServiceRestImplTest" >
 				<methods>
-					<include name="testRegister10" />
-					<include name="testLogin10" />
+					<include name="testRegister" />
+					<include name="testLogin" />
 				</methods>
 			</class>
 		</classes>

@@ -43,6 +43,29 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>com.fastjrun.codeg</groupId>
+				<artifactId>ciAgent-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>initialize phase</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>basegc</goal>
+						</goals>
+						<configuration>
+							<accessKey>${accessKey}</accessKey>
+							<accessKeySn>${accessKeySn}</accessKeySn>
+							<apiUrlPre>${apiUrlPre}</apiUrlPre>
+							<pdmFileName>${pdmFileName}</pdmFileName>
+							<baseDir>${baseDir}</baseDir>
+							<projectDir>${projectDir}</projectDir>
+							<packagePrefix>${packagePrefix}</packagePrefix>
+							<tmpWorkSpace>${tmpWorkSpace}</tmpWorkSpace>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
@@ -55,26 +78,6 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
-                <groupId>com.fastjrun.codeg</groupId>
-                <artifactId>ciAgent-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>initialize phase</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>basegc</goal>
-                        </goals>
-                        <configuration>
-                            <pdmFileName>demo.pdm</pdmFileName>
-                            <baseDir>Base</baseDir>
-                            <projectDir>.</projectDir>
-                            <packagePrefix>com.fastjrun.demo.</packagePrefix>
-                            <tmpWorkSpace>/tmp/ciAgent</tmpWorkSpace>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
 		</plugins>
 	</build>
 </project>

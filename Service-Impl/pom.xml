@@ -10,20 +10,6 @@
 	</parent>
 	<artifactId>demo-service-impl</artifactId>
 	<dependencies>
-		<!-- activemq -->
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-pool</artifactId>
-		</dependency>
-		<!-- rabbitmq -->
-		<dependency>
-			<groupId>org.springframework.amqp</groupId>
-			<artifactId>spring-rabbit</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -37,14 +23,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -63,10 +41,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jms</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
@@ -107,10 +81,7 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>jdbc.properties</include>
-					<include>redis.properties</include>
 					<include>service.properties</include>
-					<include>rabbitmq.properties</include>
-					<include>activemq.properties</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>
@@ -119,8 +90,7 @@
 				<includes>
 					<include>applicationContext-*.xml</include>
 					<include>log4j.properties</include>
-                    <include>freemarker.properties</include>
-					<include>freemarker/**</include>
+					<include>codeMsg.properties</include>
 				</includes>
 			</resource>
 		</resources>
@@ -128,10 +98,8 @@
 			<testResource>
 				<directory>${basedir}/src/test/resources</directory>
 				<includes>
-                    <include>applicationContext.xml</include>
-					<include>applicationContext-test.xml</include>
-                    <include>testng.xml</include>
-					<include>ftl/**</include>
+					<include>applicationContext.xml</include>
+					<include>testng.xml</include>
 				</includes>
 			</testResource>
 		</testResources>
@@ -141,8 +109,9 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<excludes>
-						<exclude>applicationContext.xml</exclude>
-						<exclude>*.properties</exclude>
+						<exclude>log4j.properties</exclude>
+						<exclude>jdbc.properties</exclude>
+						<exclude>service.properties</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -180,28 +149,6 @@
 				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
 				<jdbc.username>demo</jdbc.username>
 				<jdbc.password>123456</jdbc.password>
-				<!-- src/main/resource/rabbitmq.properties -->
-				<rabbitmq.host>rabbitmqhost</rabbitmq.host>
-				<rabbitmq.port>5672</rabbitmq.port>
-				<rabbitmq.userName>mytest</rabbitmq.userName>
-				<rabbitmq.password>mytest</rabbitmq.password>
-				<rabbitmq.RegisterSuccessNotifyKey>userRegNotify</rabbitmq.RegisterSuccessNotifyKey>
-				<!-- src/main/config/activemq.properties -->
-				<activemq.brokerURL>failover:(tcp://activemqhost:51616)</activemq.brokerURL>
-				<activemq.queueName>User.MiaoQueue</activemq.queueName>
-				<activemq.userName>fastjrun</activemq.userName>
-				<activemq.password>fastjrun</activemq.password>
-				<!-- consumer -->
-				<activemq.maxConnections>10</activemq.maxConnections>
-				<activemq.concurrentConsumers>5</activemq.concurrentConsumers>
-				<!-- src/main/config/redis.properties -->
-				<redis.host>redishost</redis.host>
-				<redis.port>6379</redis.port>
-				<redis.pass>761c166cb9706295</redis.pass>
-				<redis.maxIdle>300</redis.maxIdle>
-				<redis.maxTotal>600</redis.maxTotal>
-				<redis.maxWait>1000</redis.maxWait>
-				<redis.testOnBorrow>true</redis.testOnBorrow>
 				<!-- src/main/config/service.properties -->
 				<userService.invalidDays>30</userService.invalidDays>
 				<userService.errLimits>5</userService.errLimits>

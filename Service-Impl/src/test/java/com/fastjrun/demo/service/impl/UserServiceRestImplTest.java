@@ -1,21 +1,20 @@
 package com.fastjrun.demo.service.impl;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
-import com.fastjrun.demo.packet.user.AutoLoginRestRequestBody;
-import com.fastjrun.demo.packet.user.AutoLoginRestResponseBody;
-import com.fastjrun.demo.packet.user.LoginRestRequestBody;
-import com.fastjrun.demo.packet.user.LoginRestResponseBody;
-import com.fastjrun.demo.packet.user.RegistserRestRequestBody;
+import com.fastjrun.demo.packet.app.AutoLoginRestRequestBody;
+import com.fastjrun.demo.packet.app.LoginRestRequestBody;
+import com.fastjrun.demo.packet.app.LoginRestResponseBody;
+import com.fastjrun.demo.packet.app.RegistserRestRequestBody;
 import com.fastjrun.demo.service.UserServiceRest;
-import com.fastjrun.packet.BaseRestDefaultResponseBody;
-import com.fastjrun.packet.BaseRestRequest;
-import com.fastjrun.packet.BaseRestRequestHead;
-import com.fastjrun.packet.BaseRestResponse;
+import com.fastjrun.packet.BaseAppRequest;
+import com.fastjrun.packet.BaseAppRequestHead;
+import com.fastjrun.packet.BaseDefaultResponseBody;
+import com.fastjrun.packet.BaseResponse;
 import com.fastjrun.test.BaseSpringTestNGTest;
-
-import net.sf.json.JSONObject;
 
 public class UserServiceRestImplTest extends BaseSpringTestNGTest {
 
@@ -24,28 +23,29 @@ public class UserServiceRestImplTest extends BaseSpringTestNGTest {
 
     @Test
     public void testRegister() {
-        BaseRestRequest<RegistserRestRequestBody> request = new BaseRestRequest<RegistserRestRequestBody>();
-        BaseRestRequestHead head = new BaseRestRequestHead();
+        BaseAppRequest<RegistserRestRequestBody> request = new BaseAppRequest<RegistserRestRequestBody>();
+        BaseAppRequestHead head = new BaseAppRequestHead();
         RegistserRestRequestBody body = new RegistserRestRequestBody();
         body.setEmail("test1@sohu.com");
-        body.setLoginId("test1");
+        body.setLoginId("test12");
         body.setLoginpwd("22222");
-        body.setMobileNo("199222336441");
+        body.setMobileNo("199222336452");
         body.setNickName("走起");
         body.setSex("1");
         String deviceId = "servicetest";
         head.setDeviceId(deviceId);
         request.setHead(head);
         request.setBody(body);
-        BaseRestResponse<BaseRestDefaultResponseBody> result = userServiceRest.register(request);
+        BaseResponse<BaseDefaultResponseBody> result = userServiceRest
+                .register(request);
         JSONObject jsonObject = JSONObject.fromObject(result);
         log.info(jsonObject);
     }
 
     @Test
     public void testLogin() {
-        BaseRestRequest<LoginRestRequestBody> request = new BaseRestRequest<LoginRestRequestBody>();
-        BaseRestRequestHead head = new BaseRestRequestHead();
+        BaseAppRequest<LoginRestRequestBody> request = new BaseAppRequest<LoginRestRequestBody>();
+        BaseAppRequestHead head = new BaseAppRequestHead();
         LoginRestRequestBody body = new LoginRestRequestBody();
         body.setLoginName("test1");
         body.setLoginpwd("22222");
@@ -53,23 +53,25 @@ public class UserServiceRestImplTest extends BaseSpringTestNGTest {
         head.setDeviceId(deviceId);
         request.setHead(head);
         request.setBody(body);
-        BaseRestResponse<LoginRestResponseBody> result = userServiceRest.login(request);
+        BaseResponse<LoginRestResponseBody> result = userServiceRest
+                .login(request);
         JSONObject jsonObject = JSONObject.fromObject(result);
         log.info(jsonObject);
 
     }
 
     @Test
-    public void testAutoLogin10() {
-        BaseRestRequest<AutoLoginRestRequestBody> request = new BaseRestRequest<AutoLoginRestRequestBody>();
-        BaseRestRequestHead head = new BaseRestRequestHead();
+    public void testAutoLogin() {
+        BaseAppRequest<AutoLoginRestRequestBody> request = new BaseAppRequest<AutoLoginRestRequestBody>();
+        BaseAppRequestHead head = new BaseAppRequestHead();
         AutoLoginRestRequestBody body = new AutoLoginRestRequestBody();
-        body.setUuidOld("ceb848e116674cad8a710070e807e108");
+        body.setUuidOld("2651bdafa4234ee4b9f629125416c7ca");
         String deviceId = "servicetest";
         head.setDeviceId(deviceId);
         request.setHead(head);
         request.setBody(body);
-        BaseRestResponse<AutoLoginRestResponseBody> result = userServiceRest.autoLogin(request);
+        BaseResponse<LoginRestResponseBody> result = userServiceRest
+                .autoLogin(request);
         JSONObject jsonObject = JSONObject.fromObject(result);
         log.info(jsonObject);
 
