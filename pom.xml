@@ -240,6 +240,16 @@
 				<artifactId>quartz</artifactId>
 				<version>${quartz.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${swagger2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml</groupId>
+				<artifactId>classmate</artifactId>
+                <version>${classmate.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -345,6 +355,8 @@
 		<freemarker.version>2.3.22</freemarker.version>
 		<hibernate-validator.version>5.1.3.Final</hibernate-validator.version>
 		<quartz.version>2.2.1</quartz.version>
+		<swagger2.version>2.6.1</swagger2.version>
+        <classmate.version>1.2.0</classmate.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<modules>
@@ -357,7 +369,7 @@
 		<module>Batch</module>
 		<module>Rest/Config</module>
 		<module>Rest/Main</module>
-        <module>Web/Config</module>
-        <module>Web/Main</module>
+		<module>Web/Config</module>
+		<module>Web/Main</module>
 	</modules>
 </project>
