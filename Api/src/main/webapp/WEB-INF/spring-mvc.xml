@@ -35,5 +35,7 @@
 		<context:include-filter type="annotation"
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
+	
+	<mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger-ui/"/>
 
 </beans>
