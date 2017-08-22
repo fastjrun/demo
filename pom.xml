@@ -353,7 +353,7 @@
 		<mail.version>1.5.0-b01</mail.version>
 		<commons-codec.version>1.9</commons-codec.version>
 		<commons-lang3.version>3.5</commons-lang3.version>
-		<swagger2.version>2.6.1</swagger2.version>
+		<swagger2.version>2.7.0</swagger2.version>
 		<classmate.version>1.2.0</classmate.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

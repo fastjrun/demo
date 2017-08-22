@@ -139,7 +139,7 @@
 	<profiles>
 		<!-- 测试需要带参数 -DskipTests=false -->
 		<profile>
-			<id>local</id>
+			<id>local-buffle</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -149,10 +149,22 @@
 				<demo.appVersion>1.0.0</demo.appVersion>
 				<demo.appSource>ios</demo.appSource>
 				<demo.deviceId>yifanmobile</demo.deviceId>
-				<demo.appUrlPre>http://localhost:8080/demo-api</demo.appUrlPre>
-				<envName>local</envName>
+				<demo.appUrlPre>http://localhost:8080/demo-buffle</demo.appUrlPre>
+				<envName>local-buffle</envName>
 			</properties>
 		</profile>
+        <profile>
+            <id>local</id>
+            <properties>
+                <!-- src/main/resources/demo-sdk.properties -->
+                <demo.appKey>app000001</demo.appKey>
+                <demo.appVersion>1.0.0</demo.appVersion>
+                <demo.appSource>ios</demo.appSource>
+                <demo.deviceId>yifanmobile</demo.deviceId>
+                <demo.appUrlPre>http://localhost:8080/demo-api</demo.appUrlPre>
+                <envName>local</envName>
+            </properties>
+        </profile>
 		<profile>
 			<id>env-test</id>
 			<properties>
@@ -161,10 +173,22 @@
 				<demo.appVersion>1.0.0</demo.appVersion>
 				<demo.appSource>ios</demo.appSource>
 				<demo.deviceId>yifanmobile</demo.deviceId>
-				<demo.appUrlPre>http://www.mycompany.com/demo-api</demo.appUrlPre>
+				<demo.appUrlPre>http://192.168.5.240:8082/demo-api</demo.appUrlPre>
 				<envName>env-test</envName>
 			</properties>
 		</profile>
+        <profile>
+            <id>test-buffle</id>
+            <properties>
+                <!-- src/main/resources/demo-sdk.properties -->
+                <demo.appKey>app000001</demo.appKey>
+                <demo.appVersion>1.0.0</demo.appVersion>
+                <demo.appSource>ios</demo.appSource>
+                <demo.deviceId>yifanmobile</demo.deviceId>
+                <demo.appUrlPre>http://192.168.5.240:8082/demo-buffle</demo.appUrlPre>
+                <envName>test-buffle</envName>
+            </properties>
+        </profile>
 		<profile>
 			<id>env-prod</id>
 			<properties>

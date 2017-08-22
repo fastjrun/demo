@@ -157,7 +157,6 @@
 								</filter>
 							</filters>
 						</configuration>
-
 					</execution>
 				</executions>
 			</plugin>
@@ -212,7 +211,6 @@
 				<userService.invalidDays>30</userService.invalidDays>
 				<userService.errLimits>5</userService.errLimits>
 				<userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
-
 			</properties>
 		</profile>
 		<profile>
