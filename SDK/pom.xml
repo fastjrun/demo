@@ -201,6 +201,18 @@
 				<envName>env-prod</envName>
 			</properties>
 		</profile>
+        <profile>
+            <id>prod-buffle</id>
+            <properties>
+                <!-- src/main/resources/demo-sdk.properties -->
+                <demo.appKey>app000001</demo.appKey>
+                <demo.appVersion>1.0.0</demo.appVersion>
+                <demo.appSource>ios</demo.appSource>
+                <demo.deviceId>yifanmobile</demo.deviceId>
+                <demo.appUrlPre>http://demo.fastjrun.cn/demo-buffle</demo.appUrlPre>
+                <envName>prod-buffle</envName>
+            </properties>
+        </profile>
 	</profiles>
 	<properties>
 		<apiWorld>demo</apiWorld>
