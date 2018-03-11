@@ -1,0 +1,1 @@
+mvn clean install -pl .,Common,Util,Base,Bundle,BundleMock,SDK -Dcommongc.skip=false
