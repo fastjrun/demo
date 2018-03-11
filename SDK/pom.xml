@@ -173,7 +173,7 @@
 				<demo.appVersion>1.0.0</demo.appVersion>
 				<demo.appSource>ios</demo.appSource>
 				<demo.deviceId>yifanmobile</demo.deviceId>
-				<demo.appUrlPre>http://192.168.5.240:8082/demo-api</demo.appUrlPre>
+				<demo.appUrlPre>http://192.168.5.217:8082/demo-api</demo.appUrlPre>
 				<envName>env-test</envName>
 			</properties>
 		</profile>
@@ -185,7 +185,7 @@
                 <demo.appVersion>1.0.0</demo.appVersion>
                 <demo.appSource>ios</demo.appSource>
                 <demo.deviceId>yifanmobile</demo.deviceId>
-                <demo.appUrlPre>http://192.168.5.240:8082/demo-buffle</demo.appUrlPre>
+                <demo.appUrlPre>http://192.168.5.217:8082/demo-buffle</demo.appUrlPre>
                 <envName>test-buffle</envName>
             </properties>
         </profile>
