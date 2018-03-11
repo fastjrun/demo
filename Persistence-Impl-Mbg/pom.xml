@@ -8,7 +8,7 @@
 		<artifactId>demo-parent</artifactId>
 		<version>1.6-SNAPSHOT</version>
 	</parent>
-	<artifactId>demo-persistence-impl</artifactId>
+	<artifactId>demo-persistence-impl-mbg</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
@@ -54,11 +54,11 @@
 			<groupId>com.fastjrun.share</groupId>
 			<artifactId>base-common</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.fastjrun.share</groupId>
-			<artifactId>demo-base</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>com.fastjrun.share</groupId>
+            <artifactId>demo-mbg</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
 			<artifactId>base-test</artifactId>

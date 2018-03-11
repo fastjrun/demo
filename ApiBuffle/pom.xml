@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
 		<artifactId>demo-parent</artifactId>
-		<version>1.5-SNAPSHOT</version>
+		<version>1.6-SNAPSHOT</version>
 	</parent>
 	<artifactId>demo-buffle</artifactId>
 	<packaging>war</packaging>
@@ -72,7 +72,7 @@
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

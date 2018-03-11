@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
 		<artifactId>demo-parent</artifactId>
-		<version>1.5-SNAPSHOT</version>
+		<version>1.6-SNAPSHOT</version>
 	</parent>
 	<artifactId>demo-api</artifactId>
 	<name>demo-api</name>
@@ -88,16 +88,8 @@
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -131,10 +123,10 @@
 			<artifactId>json-lib</artifactId>
 			<classifier>jdk15</classifier>
 		</dependency>
-        <dependency>
-            <groupId>com.fastjrun.share</groupId>
-            <artifactId>base-common</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.fastjrun.share</groupId>
+			<artifactId>base-common</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.fastjrun.share</groupId>
 			<artifactId>base-test</artifactId>
@@ -154,7 +146,7 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
-                    <include>applicationContext.xml</include>
+					<include>applicationContext.xml</include>
 				</includes>
 			</resource>
 		</resources>
@@ -180,7 +172,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0.0</version>
 				<configuration>
 					<files>
 						<file>src/main/profiles/${runtime.env}/jdbc.properties</file>
@@ -214,9 +205,9 @@
 				<runtime.env>local</runtime.env>
 				<!-- src/main/resources/jdbc.properties -->
 				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
-                <jdbc.username>demo</jdbc.username>
-                <jdbc.password>123456</jdbc.password>
+				<jdbc.url>jdbc:mysql://mysqlhost:3306/fast_demo</jdbc.url>
+				<jdbc.username>demo</jdbc.username>
+				<jdbc.password>123456</jdbc.password>
 				<jdbc.initialSize>2</jdbc.initialSize>
 				<jdbc.maxIdle>5</jdbc.maxIdle>
 				<jdbc.minIdle>3</jdbc.minIdle>
@@ -234,10 +225,10 @@
 				<jdbc.timeBetweenEvictionRunsMillis>180000</jdbc.timeBetweenEvictionRunsMillis>
 				<jdbc.numTestsPerEvictionRun>20</jdbc.numTestsPerEvictionRun>
 				<jdbc.minEvictableIdleTimeMillis>180000</jdbc.minEvictableIdleTimeMillis>
-                <!-- src/main/config/service.properties -->
-                <userService.invalidDays>30</userService.invalidDays>
-                <userService.errLimits>5</userService.errLimits>
-                <userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
+				<!-- src/main/config/service.properties -->
+				<userService.invalidDays>30</userService.invalidDays>
+				<userService.errLimits>5</userService.errLimits>
+				<userService.clearPwdLockErrIntervalInHours>2</userService.clearPwdLockErrIntervalInHours>
 			</properties>
 		</profile>
 		<profile>
@@ -252,17 +243,17 @@
 				<runtime.env>env-test</runtime.env>
 			</properties>
 		</profile>
-        <profile>
-            <!-- 生产环境 -->
-            <id>env-prod</id>
-            <properties>
-                <!--src/main/resources/log4j.xml -->
+		<profile>
+			<!-- 生产环境 -->
+			<id>env-prod</id>
+			<properties>
+				<!--src/main/resources/log4j.xml -->
 				<mainlog>com.fastjrun.demo</mainlog>
 				<level.mainlog>debug</level.mainlog>
 				<commonlogFile>/app/demo/logs/api.log</commonlogFile>
 				<errorlogFile>/app/demo/logs/api_error.log</errorlogFile>
 				<runtime.env>env-prod</runtime.env>
-            </properties>
-        </profile>
+			</properties>
+		</profile>
 	</profiles>
 </project>

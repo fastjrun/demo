@@ -2,7 +2,7 @@ package com.fastjrun.demo.service;
 
 import java.util.Date;
 
-import com.fastjrun.demo.entity.User;
+import com.fastjrun.demo.bean.User;
 
 public interface CoreUserService {
 

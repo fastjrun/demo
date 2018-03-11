@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
 		<artifactId>demo-parent</artifactId>
-		<version>1.5-SNAPSHOT</version>
+		<version>1.6-SNAPSHOT</version>
 	</parent>
 	<artifactId>demo-batch</artifactId>
 	<dependencies>
@@ -97,7 +97,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0.0</version>
 				<configuration>
 					<files>
 						<file>src/main/profiles/${runtime.env}/jdbc.properties</file>
@@ -117,7 +116,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>

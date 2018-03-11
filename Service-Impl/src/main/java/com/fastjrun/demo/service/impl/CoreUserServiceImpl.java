@@ -10,13 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.fastjrun.common.ServiceException;
 import com.fastjrun.dao.CommonDao;
-import com.fastjrun.demo.entity.User;
-import com.fastjrun.demo.entity.UserExample;
-import com.fastjrun.demo.entity.UserExample.Criteria;
-import com.fastjrun.demo.entity.UserLogin;
-import com.fastjrun.demo.entity.UserLoginExample;
-import com.fastjrun.demo.mapper.UserLoginMapper;
-import com.fastjrun.demo.mapper.UserMapper;
+import com.fastjrun.demo.bean.User;
+import com.fastjrun.demo.bean.UserLogin;
+import com.fastjrun.demo.dao.BaseUserDao;
+import com.fastjrun.demo.dao.BaseUserLoginDao;
 import com.fastjrun.demo.service.CoreUserService;
 import com.fastjrun.helper.Check;
 import com.fastjrun.helper.TimeHelper;
@@ -26,9 +23,9 @@ import com.fastjrun.service.impl.BaseService;
 @Service
 public class CoreUserServiceImpl extends BaseService implements CoreUserService {
     @Autowired
-    private UserMapper userMapper;
+    private BaseUserDao baseUserDao;
     @Autowired
-    private UserLoginMapper userLoginMapper;
+    private BaseUserLoginDao baseUserLoginDao;
     @Autowired
     private CommonDao commonDao;
 
@@ -55,14 +52,11 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
 
     @Override
     public void checkLoign(String uuid, String deviceId) {
-        UserLoginExample example = new UserLoginExample();
-        com.fastjrun.demo.entity.UserLoginExample.Criteria criteria = example
-                .createCriteria();
-        criteria.andLogincredentialEqualTo(uuid);
-        criteria.andDeviceidEqualTo(deviceId);
-        criteria.andStatusEqualTo("1");
+        String condition = " and `loginCredential`='" + uuid + "' and `deviceId`='"
+                + deviceId + "' and `status`='1'";
 
-        List<UserLogin> userLogins = userLoginMapper.selectByExample(example);
+        List<UserLogin> userLogins = baseUserLoginDao
+                .queryForListCondition(condition);
         if (!Check.isEmpty(userLogins) && userLogins.size() > 0) {
             throw new ServiceException(USER_NOT_LOGON,
                     this.serviceMessageSource.getMessage(USER_NOT_LOGON, null,
@@ -73,32 +67,29 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
     @Override
     public User login(String loginName, String loginPwd, String deviceId,
             String uuid) {
-        UserExample example = new UserExample();
-        Criteria criteria = example.createCriteria();
-        criteria.andLoginnameEqualTo(loginName);
-        criteria.andLoginpwdEqualTo(loginPwd);
-        criteria.andStatusEqualTo("1");
-        criteria.andLoginerrcountLessThan(Short.valueOf((short) 5));
-        List<User> users = userMapper.selectByExample(example);
+
+        String condition = " and `loginName`='" + loginName + "' and `loginPwd`='"
+                + loginPwd + "' and `status`='1' and `loginErrCount`<5";
+
+        List<User> users = baseUserDao.queryForListCondition(condition);
         if (!Check.isEmpty(users) && users.size() > 0) {
             User user = users.get(0);
             String curTime = TimeHelper.getCurrentTime(TimeHelper.DF17);
-            user.setLastlogintime(curTime);
-            user.setLastrecordloginerrtime(null);
-            user.setLoginerrcount(Short.valueOf((short) 0));
-            userMapper.updateByPrimaryKey(user);
+            user.setLastLoginTime(curTime);
+            user.setLastRecordLoginErrTime(null);
+            user.setLoginErrCount(Integer.valueOf(0));
+            baseUserDao.updateByPK(user);
             this.auditLogin(user.getId(), deviceId, uuid);
             return user;
         } else {
-            example = new UserExample();
-            criteria = example.createCriteria();
-            criteria.andLoginnameEqualTo(loginName);
-            List<User> userWithLoginNames = userMapper.selectByExample(example);
+            condition = " and `loginName`=\"" + loginName+"\"";
+            List<User> userWithLoginNames = baseUserDao
+                    .queryForListCondition(condition);
             if (!Check.isEmpty(userWithLoginNames)
                     && userWithLoginNames.size() > 0) {
                 User user = userWithLoginNames.get(0);
                 String curTime = TimeHelper.getCurrentTime(TimeHelper.DF17);
-                user.setLastrecordloginerrtime(curTime);
+                user.setLastRecordLoginErrTime(curTime);
                 final String status = user.getStatus();
                 if (!"1".equals(status)) {
                     log.warn(loginName
@@ -107,12 +98,12 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
                             this.serviceMessageSource.getMessage(USER_LOCKED,
                                     new Object[] { status }, null));
                 }
-                short loginErrCount = user.getLoginerrcount().shortValue();
-                user.setLoginerrcount(Short.valueOf((short) (++loginErrCount)));
+                int loginErrCount = user.getLoginErrCount().intValue();
+                user.setLoginErrCount(Integer.valueOf(++loginErrCount));
                 log.warn(loginName + " login error counts: " + loginErrCount);
                 if (loginErrCount >= this.errLimits) {
                     user.setStatus("2");
-                    userMapper.updateByPrimaryKey(user);
+                    baseUserDao.updateByPK(user);
                     throw new ServiceException(
                             PWDERR_INPUT_EXCEED_LIMIT,
                             this.serviceMessageSource
@@ -121,7 +112,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
                                             new Object[] { clearPwdLockErrIntervalInHours },
                                             null));
                 } else {
-                    userMapper.updateByPrimaryKey(user);
+                    baseUserDao.updateByPK(user);
                     throw new ServiceException(PWDERR_INPUT_REMAIN,
                             this.serviceMessageSource.getMessage(
                                     PWDERR_INPUT_REMAIN,
@@ -144,33 +135,30 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
         String inValidateTime = TimeHelper.getFormatDate(inValidateDate,
                 TimeHelper.DF17);
         UserLogin userLogin = new UserLogin();
-        userLogin.setUserid(userId);
-        userLogin.setCreatetime(createTime);
-        userLogin.setInvalidatetime(inValidateTime);
-        userLogin.setLogincredential(uuid);
-        userLogin.setDeviceid(deviceId);
+        userLogin.setUserId(userId);
+        userLogin.setCreateTime(createTime);
+        userLogin.setInValidateTime(inValidateTime);
+        userLogin.setLoginCredential(uuid);
+        userLogin.setDeviceId(deviceId);
         userLogin.setStatus("1");
-        userLoginMapper.insert(userLogin);
+        baseUserLoginDao.insert(userLogin);
 
     }
 
     @Override
     public void logOut(String uuid, String deviceId) {
         String key = getLoginToken(uuid, deviceId);
+        String condition = " and `loginCredential`='" + uuid + "' and `deviceId`='"
+                + deviceId+"'";
 
-        UserLoginExample example = new UserLoginExample();
-        com.fastjrun.demo.entity.UserLoginExample.Criteria criteria = example
-                .createCriteria();
-        criteria.andLogincredentialEqualTo(uuid);
-        criteria.andDeviceidEqualTo(deviceId);
-
-        List<UserLogin> userLogins = userLoginMapper.selectByExample(example);
+        List<UserLogin> userLogins = baseUserLoginDao
+                .queryForListCondition(condition);
         if (!Check.isEmpty(userLogins) && userLogins.size() > 0) {
             UserLogin userLogin = userLogins.get(0);
             String logOutTime = TimeHelper.getCurrentTime(TimeHelper.DF17);
-            userLogin.setLogouttime(logOutTime);
+            userLogin.setLogOutTime(logOutTime);
             userLogin.setStatus("2");
-            userLoginMapper.updateByPrimaryKey(userLogin);
+            baseUserLoginDao.updateByPK(userLogin);
         }
 
     }
@@ -182,22 +170,19 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
     @Override
     public User autoLogin(String deviceId, String uuidOld, String uuidNew) {
 
-        UserLoginExample example = new UserLoginExample();
-        com.fastjrun.demo.entity.UserLoginExample.Criteria criteria = example
-                .createCriteria();
-        criteria.andLogincredentialEqualTo(uuidOld);
-        criteria.andStatusEqualTo("1");
-        criteria.andDeviceidEqualTo(deviceId);
+        String condition = " and `loginCredential`='" + uuidOld + "' and `deviceId`='"
+                + deviceId + "' and `status`='1'";
 
-        List<UserLogin> userLogins = userLoginMapper.selectByExample(example);
+        List<UserLogin> userLogins = baseUserLoginDao
+                .queryForListCondition(condition);
         if (!Check.isEmpty(userLogins) && userLogins.size() > 0) {
             UserLogin userLogin = userLogins.get(0);
-            User user = userMapper.selectByPrimaryKey(userLogin.getUserid());
+            User user = baseUserDao.selectByPK(userLogin.getUserId());
             String curTime = TimeHelper.getCurrentTime(TimeHelper.DF17);
-            user.setLastlogintime(curTime);
-            user.setLastrecordloginerrtime(null);
-            user.setLoginerrcount(Short.valueOf((short) 0));
-            userMapper.updateByPrimaryKey(user);
+            user.setLastLoginTime(curTime);
+            user.setLastRecordLoginErrTime(null);
+            user.setLoginErrCount(Integer.valueOf(0));
+            baseUserDao.updateByPK(user);
             this.logOut(uuidOld, deviceId);
             this.auditLogin(user.getId(), deviceId, uuidNew);
             return user;
@@ -210,7 +195,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
 
     @Override
     public void unlockUserPwd(Date date) {
-        String sql = "update  t_user set loginErrCount =0,status='1' where status='2'";
+        String sql = "update t_user set loginErrCount =0,status='1' where status='2'";
         int res = commonDao.update(new Declare(sql));
         log.debug(res);
 
@@ -222,7 +207,7 @@ public class CoreUserServiceImpl extends BaseService implements CoreUserService 
                 Calendar.DAY_OF_MONTH, this.invalidDays);
         String invalidDateStr = TimeHelper.getFormatDate(invalidDate,
                 TimeHelper.DF17);
-        String sql = "update  t_user_login set status ='2' where inValidateTime>='"
+        String sql = "update t_user_login set status ='2' where inValidateTime>='"
                 + invalidDateStr + "' and status='1'";
         int res = commonDao.update(new Declare(sql));
         log.debug(res);

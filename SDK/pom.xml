@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
 		<artifactId>demo-parent</artifactId>
-		<version>1.5-SNAPSHOT</version>
+		<version>1.6-SNAPSHOT</version>
 	</parent>
 	<artifactId>demo-sdk</artifactId>
 	<name>demo-sdk</name>
@@ -187,30 +187,6 @@
                 <demo.deviceId>yifanmobile</demo.deviceId>
                 <demo.appUrlPre>http://192.168.5.240:8082/demo-buffle</demo.appUrlPre>
                 <envName>test-buffle</envName>
-            </properties>
-        </profile>
-		<profile>
-			<id>env-prod</id>
-			<properties>
-				<!-- src/main/resources/demo-sdk.properties -->
-				<demo.appKey>app000001</demo.appKey>
-				<demo.appVersion>1.0.0</demo.appVersion>
-				<demo.appSource>ios</demo.appSource>
-				<demo.deviceId>yifanmobile</demo.deviceId>
-				<demo.appUrlPre>http://demo.fastjrun.cn/demo-api</demo.appUrlPre>
-				<envName>env-prod</envName>
-			</properties>
-		</profile>
-        <profile>
-            <id>prod-buffle</id>
-            <properties>
-                <!-- src/main/resources/demo-sdk.properties -->
-                <demo.appKey>app000001</demo.appKey>
-                <demo.appVersion>1.0.0</demo.appVersion>
-                <demo.appSource>ios</demo.appSource>
-                <demo.deviceId>yifanmobile</demo.deviceId>
-                <demo.appUrlPre>http://demo.fastjrun.cn/demo-buffle</demo.appUrlPre>
-                <envName>prod-buffle</envName>
             </properties>
         </profile>
 	</profiles>

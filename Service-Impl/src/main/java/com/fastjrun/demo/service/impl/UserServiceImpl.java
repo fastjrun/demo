@@ -13,13 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fastjrun.common.ServiceException;
+import com.fastjrun.demo.bean.User;
 import com.fastjrun.demo.dao.BaseUserDao;
 import com.fastjrun.demo.dao.UserDao;
-import com.fastjrun.demo.entity.User;
-import com.fastjrun.demo.entity.UserExample;
-import com.fastjrun.demo.entity.UserExample.Criteria;
-import com.fastjrun.demo.mapper.UserLoginMapper;
-import com.fastjrun.demo.mapper.UserMapper;
 import com.fastjrun.demo.packet.app.AutoLoginRestRequestBody;
 import com.fastjrun.demo.packet.app.LoginRestRequestBody;
 import com.fastjrun.demo.packet.app.LoginRestResponseBody;
@@ -44,10 +40,6 @@ public class UserServiceImpl extends BaseService implements UserServiceRest,
     @Autowired
     private BaseUserDao baseUserDao;
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private UserLoginMapper userLoginMapper;
-    @Autowired
     private CoreUserService coreUserService;
 
     private final static String USER_ALREADY_EXISTS = "0001";
@@ -70,14 +62,12 @@ public class UserServiceImpl extends BaseService implements UserServiceRest,
         String loginPwd = request.getBody().getLoginpwd();
         String loginName = request.getBody().getLoginId();
         String nickName = request.getBody().getNickName();
-        Short sex = Short.valueOf(request.getBody().getSex());
+        Integer sex = Integer.valueOf(request.getBody().getSex());
         String mobileNo = request.getBody().getMobileNo();
         String email = request.getBody().getEmail();
-        UserExample example = new UserExample();
-        Criteria criteria = example.createCriteria();
-        criteria.andLoginnameEqualTo(loginName);
-        criteria.andMobilenoEqualTo(mobileNo);
-        List<User> users = userMapper.selectByExample(example);
+        String condition = " and `loginName`='" + loginName + "' and `mobileNo`='"
+                + mobileNo + "'";
+        List<User> users = baseUserDao.queryForListCondition(condition);
         if (!users.isEmpty()) {
             throw new ServiceException(USER_ALREADY_EXISTS,
                     serviceMessageSource.getMessage(USER_ALREADY_EXISTS, null,
@@ -85,18 +75,18 @@ public class UserServiceImpl extends BaseService implements UserServiceRest,
         } else {
             Timestamp curTimestamp = new Timestamp(System.currentTimeMillis());
             User user = new User();
-            user.setCreatetime(curTimestamp);
+            user.setCreateTime(curTimestamp);
             user.setEmail(email);
-            user.setLastmodifytime(curTimestamp);
-            user.setLoginname(loginName);
-            user.setLoginpwd(loginPwd);
-            user.setMobileno(mobileNo);
-            user.setNickname(nickName);
+            user.setLastModifyTime(curTimestamp);
+            user.setLoginName(loginName);
+            user.setLoginPwd(loginPwd);
+            user.setMobileNo(mobileNo);
+            user.setNickName(nickName);
             user.setSex(sex);
             user.setStatus("1");
-            user.setLastrecordloginerrtime(null);
-            user.setLoginerrcount(new Short("0"));
-            userMapper.insert(user);
+            user.setLastRecordLoginErrTime(null);
+            user.setLoginErrCount(new Integer("0"));
+            baseUserDao.insert(user);
             return BaseResponseHelper.getSuccessResult();
         }
     }
@@ -117,10 +107,10 @@ public class UserServiceImpl extends BaseService implements UserServiceRest,
         response.setHead(responseHead);
         LoginRestResponseBody responseBody = new LoginRestResponseBody();
         responseBody.setUuid(uuid);
-        responseBody.setNickName(user.getNickname());
+        responseBody.setNickName(user.getNickName());
         responseBody.setEmail(user.getEmail());
         responseBody.setSex(String.valueOf(user.getSex()));
-        responseBody.setMobileNo(user.getMobileno());
+        responseBody.setMobileNo(user.getMobileNo());
         response.setBody(responseBody);
         return response;
     }
@@ -142,10 +132,10 @@ public class UserServiceImpl extends BaseService implements UserServiceRest,
         response.setHead(responseHead);
         LoginRestResponseBody responseBody = new LoginRestResponseBody();
         responseBody.setUuid(uuid);
-        responseBody.setNickName(user.getNickname());
+        responseBody.setNickName(user.getNickName());
         responseBody.setEmail(user.getEmail());
         responseBody.setSex(String.valueOf(user.getSex()));
-        responseBody.setMobileNo(user.getMobileno());
+        responseBody.setMobileNo(user.getMobileNo());
         response.setBody(responseBody);
         return response;
     }
@@ -166,58 +156,56 @@ public class UserServiceImpl extends BaseService implements UserServiceRest,
         response.setHead(responseHead);
         LoginRestResponseBody responseBody = new LoginRestResponseBody();
         responseBody.setUuid(uuidNew);
-        responseBody.setNickName(user.getNickname());
+        responseBody.setNickName(user.getNickName());
         responseBody.setEmail(user.getEmail());
         responseBody.setSex(String.valueOf(user.getSex()));
-        responseBody.setMobileNo(user.getMobileno());
+        responseBody.setMobileNo(user.getMobileNo());
         response.setBody(responseBody);
         return response;
     }
 
     @Override
     public int updateById(User user) {
-        return userMapper.updateByPrimaryKey(user);
+        return baseUserDao.updateByPK(user);
 
     }
 
     @Override
     public int insert(User user) {
-        return userMapper.insert(user);
+        return baseUserDao.insert(user);
     }
 
     @Override
     public User selectById(Integer id) {
-        return userMapper.selectByPrimaryKey(id);
+        return baseUserDao.selectByPK(id);
     }
 
     @Override
     public int deleteById(Integer id) {
-        return userMapper.deleteByPrimaryKey(id);
+        return baseUserDao.deleteByPK(id);
     }
 
     @Override
     public List<Map<String, Object>> queryForLimitList(RowBounds rowBounds) {
-        UserExample example = new UserExample();
-        List<User> list = userMapper.selectByExampleWithRowbounds(example,
-                rowBounds);
+        List<User> list = baseUserDao.queryForLimitList(rowBounds);
         List<Map<String, Object>> restList = new ArrayList<Map<String, Object>>();
         Iterator<User> itera = list.iterator();
         while (itera.hasNext()) {
             User user = itera.next();
             Map<String, Object> restMap = new HashMap<String, Object>();
-            restMap.put("loginPwd", user.getLoginpwd());
-            restMap.put("nickName", user.getNickname());
+            restMap.put("loginPwd", user.getLoginPwd());
+            restMap.put("nickName", user.getNickName());
             restMap.put("sex", user.getSex());
-            restMap.put("mobileNo", user.getMobileno());
-            restMap.put("loginErrCount", user.getLoginerrcount());
-            restMap.put("lastLoginTime", user.getLastlogintime());
-            restMap.put("createTime", user.getCreatetime());
-            restMap.put("loginName", user.getLoginname());
-            restMap.put("lastModifyTime", user.getLastmodifytime());
+            restMap.put("mobileNo", user.getMobileNo());
+            restMap.put("loginErrCount", user.getLoginErrCount());
+            restMap.put("lastLoginTime", user.getLastLoginTime());
+            restMap.put("createTime", user.getCreateTime());
+            restMap.put("loginName", user.getLoginName());
+            restMap.put("lastModifyTime", user.getLastModifyTime());
             restMap.put("id", user.getId());
             restMap.put("email", user.getEmail());
             restMap.put("lastRecordLoginErrTime",
-                    user.getLastrecordloginerrtime());
+                    user.getLastRecordLoginErrTime());
             restMap.put("status", user.getStatus());
             restList.add(restMap);
         }

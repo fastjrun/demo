@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.fastjrun.share</groupId>
 		<artifactId>demo-parent</artifactId>
-		<version>1.5-SNAPSHOT</version>
+		<version>1.6-SNAPSHOT</version>
 	</parent>
 	<artifactId>demo-base</artifactId>
 	<dependencies>
@@ -30,11 +30,11 @@
 			<groupId>com.fastjrun.share</groupId>
 			<artifactId>base-common</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 
-import com.fastjrun.demo.entity.User;
+import com.fastjrun.demo.bean.User;
 
 public interface UserServiceAjax {
 
