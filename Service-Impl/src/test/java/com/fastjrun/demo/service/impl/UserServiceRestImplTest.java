@@ -36,9 +36,11 @@ public class UserServiceRestImplTest extends BaseSpringTestNGTest {
         head.setDeviceId(deviceId);
         request.setHead(head);
         request.setBody(body);
+        JSONObject jsonObject = JSONObject.fromObject(request);
+        log.info(jsonObject);
         BaseResponse<BaseDefaultResponseBody> result = userServiceRest
                 .register(request);
-        JSONObject jsonObject = JSONObject.fromObject(result);
+        jsonObject = JSONObject.fromObject(result);
         log.info(jsonObject);
     }
 

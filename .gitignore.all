@@ -2,6 +2,13 @@
 *.log.*
 pom.xml.versionsBackup
 .project
+Base/src/main/java
+Mbg/src/main/java
+Mbg/src/main/resources/mappers
+Bundle/src
+BundleMock/src
+SDK/src/main/java
+SDK/src/test/java
 SDK/src/test/resources/*.properties
 /.settings
 */*.log
