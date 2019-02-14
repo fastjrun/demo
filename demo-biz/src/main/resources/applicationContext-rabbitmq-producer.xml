@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2019 Fastjrun, Inc. All Rights Reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/rabbit
+        http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+	<bean id="serializerMessageConverter"
+		  class="org.springframework.amqp.support.converter.SerializerMessageConverter"></bean>
+
+	<!-- spring template声明 -->
+	<rabbit:template id="rabbitTemplate" exchange="demo.queue.exchange"
+					 routing-key="${rabbitmq.RegisterSuccessNotifyKey}" connection-factory="connectionFactory"
+					 message-converter="serializerMessageConverter" />
+
+	<import resource="applicationContext-rabbitmq.xml"/>
+</beans>

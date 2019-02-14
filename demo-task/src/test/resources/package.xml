@@ -1,0 +1,31 @@
+<!--
+  ~ Copyright (C) 2019 Fastjrun, Inc. All Rights Reserved.
+  -->
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>package</id>
+    <formats>
+        <format>${assembly.format}</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>src/main/bin</directory>
+            <includes>
+                <include>*.sh</include>
+                <include>*.bat</include>
+            </includes>
+            <filtered>true</filtered>
+            <outputDirectory></outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
+    </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <scope>runtime</scope>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+    </dependencySets>
+</assembly>

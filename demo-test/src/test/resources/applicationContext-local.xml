@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2019 Fastjrun, Inc. All Rights Reserved.
+  -->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <import resource="classpath*:applicationContext-rabbitmq-producer.xml"/>
+    <import resource="classpath*:applicationContext-jedis.xml"/>
+</beans>

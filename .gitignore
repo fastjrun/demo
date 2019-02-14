@@ -1,21 +1,30 @@
-*.log
-*.log.*
-pom.xml.versionsBackup
+# idea ignore
+.idea/
+*.iml
+*/*.iml
+
+# eclipse ignore
 .project
-SDK/src/test/resources/*.properties
+.classpath
 /.settings
-*/*.log
-*/*.log.*
-*/logs
-*/target
-*/test*
-*/.settings
-*/.classpath
+target
+*/.gitigore
 */.project
+*/.classpath
+*/.settings
+*/target
+
+# mvn ignore
+pom.xml.versionsBackup
 */pom.xml.versionsBackup
-*/*/target
-*/*/.settings
-*/*/.classpath
-*/*/.project
-*/*/pom.xml.versionsBackup
+
+demo-api/src
+demo-api-test/src/main
+demo-api-test/src/test/data
+demo-api-test/src/test/java
+demo-api-test/src/test/resources/testng.xml
+demo-base/src
+demo-bundle/src
+demo-bundle-mock/src
+
 

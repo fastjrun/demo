@@ -13,20 +13,22 @@ drop table if exists t_user_login;
 /*==============================================================*/
 create table t_user
 (
-   id                   int not null auto_increment comment 'Ö÷¼ü',
+   id                   int not null auto_increment comment 'ä¸»é”®',
    loginName            varchar(50) default NULL,
    loginPwd             char(32),
-   mobileNo             varchar(20) comment 'ÊÖ»úºÅ',
-   nickName             varchar(20) comment 'êÇ³Æ',
-   sex                  smallint default 1 comment '1£ºÄĞ£»2£ºÅ®£º3£»Î´Öª',
-   email                char(30) comment 'ÓÊ¼ş',
+   mobileNo             varchar(20) comment 'æ‰‹æœºå·',
+   nickName             varchar(20) comment 'æ˜µç§°',
+   sex                  smallint default 1 comment '1ï¼šç”·ï¼›2ï¼šå¥³ï¼š3ï¼›æœªçŸ¥',
+   email                char(30) comment 'é‚®ä»¶',
    createTime           datetime,
    lastModifyTime       datetime,
    lastLoginTime        char(17),
    loginErrCount        smallint default 0,
    lastRecordLoginErrTime char(17),
-   status               char(1) default '1' comment '1£ºÕı³££»2£ºÃÜÂëËø¶¨£»3£ºÈË¹¤Ëø¶¨',
-   primary key (id)
+   status               char(1) default '1' comment '1ï¼šæ­£å¸¸ï¼›2ï¼šå¯†ç é”å®šï¼›3ï¼šäººå·¥é”å®š',
+   primary key (id),
+   UNIQUE KEY `loginName_UNIQUE` (`loginName`),
+   UNIQUE KEY `mobileNo_UNIQUE` (`mobileNo`)
 );
 
 /*==============================================================*/
@@ -34,14 +36,13 @@ create table t_user
 /*==============================================================*/
 create table t_user_login
 (
-   id                   int not null auto_increment comment 'Ö÷¼ü',
+   id                   int not null auto_increment comment 'ä¸»é”®',
    userId               int not null,
    deviceId             char(32),
    loginCredential      char(32),
    createTime           char(17),
-   logOutTime           char(17) comment 'Æ¾Ö¤Êµ¼Ê×¢ÏúÊ±¼ä',
-   inValidateTime       char(17) comment '°´ÕÕÏµÍ³ÉèÖÃ£¬Æ¾Ö¤Ó¦¸ÃÊ§Ğ§µÄÊ±¼ä',
-   status               char(1) default '1' comment '1£ºÕı³££»2£ºÎŞĞ§',
+   logOutTime           char(17) comment 'å‡­è¯å®é™…æ³¨é”€æ—¶é—´',
+   inValidateTime       char(17) comment 'æŒ‰ç…§ç³»ç»Ÿè®¾ç½®ï¼Œå‡­è¯åº”è¯¥å¤±æ•ˆçš„æ—¶é—´',
+   status               char(1) default '1' comment '1ï¼šæ­£å¸¸ï¼›2ï¼šæ— æ•ˆ',
    primary key (id)
 );
-

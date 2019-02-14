@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="unLockUserPwdJob" class="com.fastjrun.job.DefaultSimpleJob">
+        <property name="baseSimpleJobExecutor" ref="unlockUserPwdExecutor"></property>
+    </bean>
+
+    <bean id="unLockUserPwdJobDetail"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="unLockUserPwdJob"/>
+        <property name="targetMethod" value="execute"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="unLockUserPwdTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="unLockUserPwdJobDetail"/>
+        <property name="cronExpression" value="${unLockUserPwdTask.cronExpression}"/>
+    </bean>
+</beans>

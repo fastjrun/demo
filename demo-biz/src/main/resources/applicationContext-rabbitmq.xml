@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2019 Fastjrun, Inc. All Rights Reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/rabbit
+        http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+    <!-- 连接服务配置 -->
+    <rabbit:connection-factory id="connectionFactory"
+                               host="${rabbitmq.host}" username="${rabbitmq.userName}" password="${rabbitmq.password}"
+                               port="${rabbitmq.port}" virtual-host="/" channel-cache-size="5"/>
+
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <!-- queue 队列声明 -->
+    <rabbit:queue name="RegisterSuccessNotify.queue"/>
+
+    <!-- exchange queue binging key 绑定 -->
+    <rabbit:direct-exchange name="demo.queue.exchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="RegisterSuccessNotify.queue"
+                            key="${rabbitmq.RegisterSuccessNotifyKey}"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+</beans>
