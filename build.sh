@@ -9,29 +9,25 @@ elif [ "provider_mock" = $1 ] ; then
 elif [ "package_api_test" = $1 ] ; then
     mvn clean package -pl demo-api-test -am -Dclientgc.skip=false
 elif [ "unitTest" = $1 ] ; then
-    mvn clean verify -PunitTest
+    mvn clean verify -pl demo-test -PunitTest -am
 elif [ "mock_test" = $1 ] ; then
     mvn clean package -pl demo-api-test -Dclientgc.skip=false -Pmock
 elif [ "package_provider" = $1 ] ; then
-    mvn clean install -pl demo-base -am -Dbasegc.skip=false
-    mvn clean package -pl demo-bundle,demo-biz,demo-provider -Dbdgc.skip=false -P$2
+    mvn clean package -pl demo-provider -am -Dbasegc.skip=false -Dbdgc.skip=false -P$2
     cp demo-provider/target/demo-provider.war /d/server/apache-tomcat-8.0.30/webapps/demo-provider.war
 elif [ "api_test" = $1 ] ; then
     mvn clean package -pl demo-api-test -Dclientgc.skip=false -P$2
-elif [ "local_task" = $1 ] ; then
-    mvn clean install -pl demo-base -am -Dbasegc.skip=false
-    mvn clean package -pl demo-bundle,demo-biz,demo-task -Dbdgc.skip=false -Plocal
+elif [ "package_task" = $1 ] ; then
+    mvn clean package -pl demo-task -am -Dbasegc.skip=false -Dbdgc.skip=false -P$2
     rm -rf /d/app/demo/demo-task
     cp -r demo-task/target/demo-task/demo-task /d/app/demo
-elif [ "local_ci" = $1 ] ; then
-    mvn clean install -pl demo-base -am -Dbasegc.skip=false
-    mvn clean install -pl demo-bundle -Dbdgc.skip=false
-    mvn clean install -pl demo-api-test -Dclientgc.skip=false -Dmaven.test.skip=true
-    mvn clean install -pl demo-bundle-mock -Dbdmgc.skip=false
-    mvn clean install -pl demo-api -Dapigc.skip=false
+elif [ "package_ci" = $1 ] ; then
+    mvn clean package -pl demo-base -am -Dbasegc.skip=false
+    mvn clean package -pl demo-bundle -am -Dbdgc.skip=false
+    mvn clean package -pl demo-api-test -am -Dclientgc.skip=false -Dmaven.test.skip=true
+    mvn clean package -pl demo-bundle-mock -am -Dbdmgc.skip=false
+    mvn clean package -pl demo-api -am -Dapigc.skip=false
 elif [ "service_ut" = $1 ] ; then
-    mvn clean install -pl demo-base -am -Dbasegc.skip=false
-    mvn clean install -pl demo-bundle -Dbdgc.skip=false
-    mvn clean verify -pl demo-biz,demo-test -P$2
+    mvn clean package -pl demo-test -am -Dbasegc.skip=false -Dbdgc.skip=false -P$2
 fi
 echo "build done."
