@@ -4,8 +4,8 @@
   -->
 <!DOCTYPE suite PUBLIC "SYSTEM" "http://testng.org/testng-1.0.dtd">
 
-<suite name="unitTest">
-    <test name="ut_${envName}" parallel="classes" thread-count="5">
+<suite name="unitTest_service">
+    <test name="ut_service" parallel="classes" thread-count="5">
         <parameter name="envName" value="${envName}"/>
         <packages>
             <package name="com.fastjrun.share.demo.dao"/>
