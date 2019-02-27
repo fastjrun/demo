@@ -426,8 +426,8 @@
         </profile>
     </profiles>
     <properties>
-        <bundleFiles>demo_user.xml</bundleFiles>
-        <sqlFile>fast_demo.sql</sqlFile>
+        <bundleFiles>demo_api.xml</bundleFiles>
+        <sqlFile>demo.sql</sqlFile>
         <packagePrefix>com.fastjrun.share.demo.</packagePrefix>
         <mycompany-nexus>http://www.mycompany.com</mycompany-nexus>
         <mycompany-snapshots-url-suffix>/repository/maven-snapshots/</mycompany-snapshots-url-suffix>
@@ -480,7 +480,7 @@
         <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
-        <sdkg.version>2.0</sdkg.version>
+        <sdkg.version>2.0.1</sdkg.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
