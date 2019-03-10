@@ -20,7 +20,7 @@ elif [ "api_test" = $1 ] ; then
 elif [ "package_task" = $1 ] ; then
     mvn clean package -pl demo-task -am -Dbasegc.skip=false -Dbdgc.skip=false -P$2
     rm -rf ~/app/demo/demo-task
-    cp -r demo-task/target/demo-task/demo-task ~/app/demo
+    cp -r demo-task/target/demo-task/demo-task ~/app/demo/demo-task
 elif [ "package_ci" = $1 ] ; then
     mvn clean package -pl demo-base -am -Dbasegc.skip=false
     mvn clean package -pl demo-bundle -am -Dbdgc.skip=false
