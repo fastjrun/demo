@@ -3,36 +3,24 @@
  */
 package com.fastjrun.share.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Test;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fastjrun.common.ServiceException;
 import com.fastjrun.share.demo.entity.User;
 import com.fastjrun.test.AbstractAdVancedTestNGSpringContextTest;
 import com.fastjrun.utils.JacksonUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.Test;
 
 public class CoreUserServiceTest extends AbstractAdVancedTestNGSpringContextTest {
 
     @Autowired
     CoreUserService coreUserService;
 
-    @BeforeTest
-    @org.testng.annotations.Parameters({
-            "envName"
-    })
-    protected void init(@Optional("unitTest") String envName) {
-        this.initParam(envName);
-    }
-
     @Test(dataProvider = "loadParam")
-    public void testCheckLoign(String reqParamsJsonStrAndAssert) {
-        String[] reqParamsJsonStrAndAssertArray = reqParamsJsonStrAndAssert.split(",assert=");
-        String reqParamsJsonStr = reqParamsJsonStrAndAssertArray[0];
-        log.debug(reqParamsJsonStr);
-        JsonNode reqParamsJson = JacksonUtils.toJsonNode(reqParamsJsonStr);
+    public void testCheckLogin(String reqParamsJsonStrAndAssert) {
+        JsonNode[] jsonNodes = parseStr2JsonArray(reqParamsJsonStrAndAssert);
+        JsonNode reqParamsJson = jsonNodes[ 0 ];
+        JsonNode assertJson = jsonNodes[ 1 ];
         String uuid = null;
         JsonNode uuidjSon = reqParamsJson.get("uuid");
         if (uuidjSon != null) {
@@ -43,10 +31,6 @@ public class CoreUserServiceTest extends AbstractAdVancedTestNGSpringContextTest
         if (deviceIdjSon != null) {
             deviceId = deviceIdjSon.asText();
         }
-        JsonNode assertJson = null;
-        if (reqParamsJsonStrAndAssertArray.length == 2) {
-            assertJson = JacksonUtils.toJsonNode(reqParamsJsonStrAndAssertArray[1]);
-        }
         if (assertJson != null) {
             JsonNode codeNode = assertJson.get("code");
             if (codeNode != null) {
@@ -54,8 +38,7 @@ public class CoreUserServiceTest extends AbstractAdVancedTestNGSpringContextTest
                     coreUserService.checkLogin(uuid, deviceId);
                 } catch (ServiceException e) {
                     org.testng.Assert.assertEquals(e.getCode(), codeNode.asText(),
-                            ("返回消息码不是指定消息码:" + codeNode
-                                    .asText()));
+                      ("返回消息码不是指定消息码:" + codeNode.asText()));
                 }
             } else {
                 coreUserService.checkLogin(uuid, deviceId);
@@ -68,10 +51,9 @@ public class CoreUserServiceTest extends AbstractAdVancedTestNGSpringContextTest
 
     @Test(dataProvider = "loadParam")
     public void testAutoLogin(String reqParamsJsonStrAndAssert) {
-        String[] reqParamsJsonStrAndAssertArray = reqParamsJsonStrAndAssert.split(",assert=");
-        String reqParamsJsonStr = reqParamsJsonStrAndAssertArray[0];
-        log.debug(reqParamsJsonStr);
-        JsonNode reqParamsJson = JacksonUtils.toJsonNode(reqParamsJsonStr);
+        JsonNode[] jsonNodes = parseStr2JsonArray(reqParamsJsonStrAndAssert);
+        JsonNode reqParamsJson = jsonNodes[ 0 ];
+        JsonNode assertJson = jsonNodes[ 1 ];
         String deviceId = null;
         JsonNode deviceIdjSon = reqParamsJson.get("deviceId");
         if (deviceIdjSon != null) {
@@ -87,10 +69,6 @@ public class CoreUserServiceTest extends AbstractAdVancedTestNGSpringContextTest
         if (uuidNewjSon != null) {
             uuidNew = uuidNewjSon.asText();
         }
-        JsonNode assertJson = null;
-        if (reqParamsJsonStrAndAssertArray.length == 2) {
-            assertJson = JacksonUtils.toJsonNode(reqParamsJsonStrAndAssertArray[1]);
-        }
         User response = null;
         if (assertJson != null) {
             JsonNode codeNode = assertJson.get("code");
@@ -99,8 +77,7 @@ public class CoreUserServiceTest extends AbstractAdVancedTestNGSpringContextTest
                     coreUserService.autoLogin(deviceId, uuidOld, uuidNew);
                 } catch (ServiceException e) {
                     org.testng.Assert.assertEquals(e.getCode(), codeNode.asText(),
-                            ("返回消息码不是指定消息码:" + codeNode
-                                    .asText()));
+                      ("返回消息码不是指定消息码:" + codeNode.asText()));
                 }
             } else {
                 response = coreUserService.autoLogin(deviceId, uuidOld, uuidNew);
@@ -108,15 +85,14 @@ public class CoreUserServiceTest extends AbstractAdVancedTestNGSpringContextTest
         } else {
             response = coreUserService.autoLogin(deviceId, uuidOld, uuidNew);
         }
-        log.info(response);
+        log.info("response={}" + response);
     }
 
     @Test(dataProvider = "loadParam")
     public void testLogin(String reqParamsJsonStrAndAssert) {
-        String[] reqParamsJsonStrAndAssertArray = reqParamsJsonStrAndAssert.split(",assert=");
-        String reqParamsJsonStr = reqParamsJsonStrAndAssertArray[0];
-        log.debug(reqParamsJsonStr);
-        JsonNode reqParamsJson = JacksonUtils.toJsonNode(reqParamsJsonStr);
+        JsonNode[] jsonNodes = parseStr2JsonArray(reqParamsJsonStrAndAssert);
+        JsonNode reqParamsJson = jsonNodes[ 0 ];
+        JsonNode assertJson = jsonNodes[ 1 ];
         String deviceId = null;
         JsonNode deviceIdjSon = reqParamsJson.get("deviceId");
         if (deviceIdjSon != null) {
@@ -137,27 +113,22 @@ public class CoreUserServiceTest extends AbstractAdVancedTestNGSpringContextTest
         if (uuidjSon != null) {
             uuid = uuidjSon.asText();
         }
-        JsonNode assertJson = null;
-        if (reqParamsJsonStrAndAssertArray.length == 2) {
-            assertJson = JacksonUtils.toJsonNode(reqParamsJsonStrAndAssertArray[1]);
-        }
         User response = null;
         if (assertJson != null) {
             JsonNode codeNode = assertJson.get("code");
             if (codeNode != null) {
                 try {
-                    coreUserService.login(loginName,loginPwd,deviceId,uuid);
+                    coreUserService.login(loginName, loginPwd, deviceId, uuid);
                 } catch (ServiceException e) {
                     org.testng.Assert.assertEquals(e.getCode(), codeNode.asText(),
-                            ("返回消息码不是指定消息码:" + codeNode
-                                    .asText()));
+                      ("返回消息码不是指定消息码:" + codeNode.asText()));
                 }
             } else {
-                response = coreUserService.login(loginName,loginPwd,deviceId,uuid);
+                response = coreUserService.login(loginName, loginPwd, deviceId, uuid);
             }
         } else {
-            response = coreUserService.login(loginName,loginPwd,deviceId,uuid);
+            response = coreUserService.login(loginName, loginPwd, deviceId, uuid);
         }
-        log.info(response);
+        log.info("response={}" + response);
     }
 }

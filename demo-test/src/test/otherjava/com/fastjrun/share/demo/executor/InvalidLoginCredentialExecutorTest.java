@@ -5,7 +5,9 @@ package com.fastjrun.share.demo.executor;
 
 import javax.annotation.Resource;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
 import com.fastjrun.executor.BaseSimpleJobExecutor;
@@ -15,14 +17,6 @@ public class InvalidLoginCredentialExecutorTest extends AbstractAdVancedTestNGSp
 
     @Resource(name = "invalidLoginCredentialExecutor")
     BaseSimpleJobExecutor invalidLoginCredentialExecutor;
-
-    @BeforeTest
-    @org.testng.annotations.Parameters({
-            "envName"
-    })
-    protected void init(String envName) {
-        this.initParam(envName);
-    }
 
     @Test(priority = 1, dataProvider = "loadParam")
     public void testExecute(String reqParamsJsonStrAndAssert) {

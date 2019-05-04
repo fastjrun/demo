@@ -15,14 +15,6 @@ public class UnlockUserPwdExecutorTest extends AbstractAdVancedTestNGSpringConte
     @Resource(name = "unlockUserPwdExecutor")
     BaseSimpleJobExecutor unlockUserPwdExecutor;
 
-    @BeforeTest
-    @org.testng.annotations.Parameters({
-            "envName"
-    })
-    protected void init(String envName) {
-        this.initParam(envName);
-    }
-
     @Test(dataProvider = "loadParam",priority = 2)
     public void testExecute(String reqParamsJsonStrAndAssert) {
         this.unlockUserPwdExecutor.execute();

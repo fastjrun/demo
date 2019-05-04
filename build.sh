@@ -3,9 +3,9 @@
 echo "build ..."
 if [ "local_bundle_mock" = $1 ] ; then
     mvn clean package -pl demo-bundle-mock -am -Dbdmgc.skip=false
-elif [ "provider_mock" = $1 ] ; then
-    mvn clean package -pl demo-provider-mock -am -Dbdmgc.skip=false
-    cp demo-provider-mock/target/demo-provider-mock.war ~/server/tomcat8/webapps/demo-provider-mock.war
+elif [ "mock_server" = $1 ] ; then
+    mvn clean package -pl demo-mock-server -am -Dbdmgc.skip=false
+    cp demo-mock-server/target/demo-mock-server.war ~/server/tomcat8/webapps/demo-mock-server.war
 elif [ "package_api_test" = $1 ] ; then
     mvn clean package -pl demo-api-test -am -Dclientgc.skip=false
 elif [ "unitTest" = $1 ] ; then
@@ -29,5 +29,7 @@ elif [ "package_ci" = $1 ] ; then
     mvn clean package -pl demo-api -am -Dapigc.skip=false
 elif [ "service_ut" = $1 ] ; then
     mvn clean package -pl demo-test -am -Dbasegc.skip=false -Dbdgc.skip=false -P$2
+elif [ "local_install" = $1 ] ; then
+    mvn clean verify -pl demo-biz -PunitTest -am
 fi
 echo "build done."

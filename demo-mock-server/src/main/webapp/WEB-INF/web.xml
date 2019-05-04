@@ -3,10 +3,10 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-	<display-name>demo-provider-mock</display-name>
+	<display-name>demo-mock-server</display-name>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>demo-provider-mock.root</param-value>
+		<param-value>demo-mock-server.root</param-value>
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

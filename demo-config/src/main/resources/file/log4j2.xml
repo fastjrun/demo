@@ -11,9 +11,9 @@
             <PatternLayout
                     pattern="[%d{MM-dd HH:mm:ss S}] %p[%5t][%c{1.}.%M][%L] %m%n"/>
         </Console>
-        <RollingFile name="RollingFile"
-                     fileName="${log4j2.rollingFile.fileName}.log"
-                     filePattern="${log4j2.rollingFile.fileName}.%d{yyyy-MM-dd-}-%i.log.gz">
+        <RollingFile name="rollingFile"
+                     fileName="${sys:user.home}/logs/demo/${log4j2.rollingFile.fileName}.log"
+                     filePattern="${sys:user.home}/demo/logs/${log4j2.rollingFile.fileName}.%d{yyyy-MM-dd-}-%i.log.gz">
 
             <PatternLayout alwaysWriteExceptions="true" charset="UTF-8">
                 <Pattern>[%d{MM-dd HH:mm:ss S}] %p[%5t][%c{1.}.%M][%L] %m%n</Pattern>
@@ -28,15 +28,19 @@
     <Loggers>
         <logger name="org" level="warn" additivity="false">
             <appender-ref ref="Console"/>
+            <appender-ref ref="rollingFile"/>
         </logger>
         <logger name="com" level="warn" additivity="false">
             <appender-ref ref="Console"/>
+            <appender-ref ref="rollingFile"/>
         </logger>
         <logger name="com.fastjrun" level="${sys:logLevel}" additivity="false">
             <appender-ref ref="Console"/>
+            <appender-ref ref="rollingFile"/>
         </logger>
         <Root level="${root.level}">
             <AppenderRef ref="Console"/>
+            <appender-ref ref="rollingFile"/>
         </Root>
     </Loggers>
 </configuration>

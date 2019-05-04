@@ -2,7 +2,7 @@
 <bundle xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         name="快嘉接口定义规范" xsi:noNamespaceSchemaLocation="fastjrun-schema.xsd">
     <packets>
-        <packet class="packet.app.RegistserRestRequestBody" parent="com.fastjrun.packet.BaseRequestBody">
+        <packet class="packet.app.RegistserRestRequestBody">
             <field name="loginId" dataType="String" length="12"
                    canBeNull="false" remark="登录名"/>
             <field name="loginpwd" dataType="String" length="64"
@@ -16,13 +16,14 @@
             <field name="email" dataType="String" length="30"
                    canBeNull="true" remark="手机号"/>
         </packet>
-        <packet class="packet.app.LoginRestRequestBody" parent="com.fastjrun.packet.BaseRequestBody">
+        <packet class="packet.app.LoginRestRequestBody">
             <field name="loginName" dataType="String" length="12"
                    canBeNull="false" remark="登录名"/>
             <field name="loginpwd" dataType="String" length="64"
                    canBeNull="false" remark="密码"/>
+            <field name="deviceId" dataType="String" length="64" canBeNull="false" remark="设备ID"/>
         </packet>
-        <packet class="packet.app.LoginRestResponseBody" parent="com.fastjrun.packet.BaseResponseBody">
+        <packet class="packet.app.LoginRestResponseBody">
             <field name="uuid" dataType="String" length="64"
                    canBeNull="false" remark="登录凭证"/>
             <field name="sex" dataType="String" length="1"
@@ -34,9 +35,10 @@
             <field name="email" dataType="String" length="30"
                    canBeNull="true" remark="邮箱"/>
         </packet>
-        <packet class="packet.app.AutoLoginRestRequestBody" parent="com.fastjrun.packet.BaseRequestBody">
+        <packet class="packet.app.AutoLoginRestRequestBody">
             <field name="uuidOld" dataType="String" length="64"
                    canBeNull="false" remark="旧登录凭证"/>
+            <field name="deviceId" dataType="String" length="64" canBeNull="false" remark="设备ID"/>
         </packet>
     </packets>
     <services>
@@ -45,23 +47,14 @@
                 <request class="packet.app.RegistserRestRequestBody"/>
             </method>
             <method name="login" version="" path="login" remark="登录">
-                <extraParameters>
-                    <parameter name="deviceId" dataType="String" length="64" remark="设备ID"/>
-                </extraParameters>
                 <request class="packet.app.LoginRestRequestBody"/>
                 <response class="packet.app.LoginRestResponseBody"/>
             </method>
             <method name="login" version="v1_1" path="login" remark="登录v1.1">
-                <extraParameters>
-                    <parameter name="deviceId" dataType="String" length="64" remark="设备ID"/>
-                </extraParameters>
                 <request class="packet.app.LoginRestRequestBody"/>
                 <response class="packet.app.LoginRestResponseBody"/>
             </method>
             <method name="autoLogin" version="" path="autoLogin" remark="自动登录">
-                <extraParameters>
-                    <parameter name="deviceId" dataType="String" length="64" remark="设备ID"/>
-                </extraParameters>
                 <request class="packet.app.AutoLoginRestRequestBody"/>
                 <response class="packet.app.LoginRestResponseBody"/>
             </method>

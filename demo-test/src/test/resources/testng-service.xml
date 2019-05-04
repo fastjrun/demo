@@ -8,8 +8,8 @@
     <test name="ut_service" parallel="classes" thread-count="5">
         <parameter name="envName" value="${envName}"/>
         <packages>
-            <package name="com.fastjrun.share.demo.dao"/>
             <package name="com.fastjrun.share.demo.service"/>
+            <package name="com.fastjrun.share.demo.app.service"/>
         </packages>
     </test>
 </suite>

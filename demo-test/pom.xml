@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.fastjrun.share</groupId>
         <artifactId>demo-parent</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>2.1-SNAPSHOT</version>
     </parent>
     <artifactId>demo-test</artifactId>
     <dependencies>
@@ -45,18 +45,72 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.fastjrun.share</groupId>
+            <artifactId>demo-base</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fastjrun.share</groupId>
+            <artifactId>demo-bundle</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>byte-buddy-agent</artifactId>
+                    <groupId>net.bytebuddy</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-testng</artifactId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
+            <artifactId>powermock-module-testng</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.sdrss</groupId>
+            <artifactId>reportng</artifactId>
+            <version>2.2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 依赖Guice -->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>3.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -107,21 +161,64 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <properties>
+                        <property>
+                            <name>usedefaultlisteners</name>
+                            <value>false</value>
+                        </property>
+                        <property>
+                            <name>listener</name>
+                            <value>org.uncommons.reportng.HTMLReporter</value>
+                        </property>
+                    </properties>
                     <skipTests>false</skipTests>
                     <reuseForks>true</reuseForks>
-                    <argLine>${argLine} -Dfile.encoding=UTF-8</argLine>
+                    <argLine>${argLine} -Dfile.encoding=UTF-8 -DlogLevel=${logLevel}</argLine>
                     <suiteXmlFiles>
-                        <suiteXmlFile>${project.build.testOutputDirectory}/testng-1.xml</suiteXmlFile>
-                        <suiteXmlFile>${project.build.testOutputDirectory}/testng-2.xml</suiteXmlFile>
+                        <suiteXmlFile>${project.build.testOutputDirectory}/testng-executor.xml</suiteXmlFile>
+                        <suiteXmlFile>${project.build.testOutputDirectory}/testng-service.xml</suiteXmlFile>
+                        <suiteXmlFile>${project.build.testOutputDirectory}/testng-dao.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <testFailureIgnore>true</testFailureIgnore>
                     <reportsDirectory>${project.basedir}/../target/surefire-reports</reportsDirectory>
                 </configuration>
             </plugin>
+            <!-- 指定多个源代码目录、多个资源文件目录 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/test/otherjava</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <executions>
+                    <execution>
+                        <id>default-instrument</id>
+                        <goals>
+                            <goal>instrument</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-restore-instrumented-classes</id>
+                        <goals>
+                            <goal>restore-instrumented-classes</goal>
+                        </goals>
+                    </execution>
                     <execution>
                         <id>default-prepare-agent</id>
                         <goals>
@@ -133,12 +230,37 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>default-prepare-agent-integration</id>
+                        <goals>
+                            <goal>prepare-agent-integration</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report-integration</id>
+                        <goals>
+                            <goal>report-integration</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${project.build.directory}/jacoco.exec</dataFile>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>default</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>report-aggregate</goal>
                         </goals>
                         <configuration>
+                            <excludes>
+                                <exclude></exclude>
+                            </excludes>
                             <outputDirectory>${project.basedir}/../target/site/jacoco</outputDirectory>
                         </configuration>
                     </execution>
@@ -146,4 +268,13 @@
             </plugin>
         </plugins>
     </build>
+    <properties>
+        <maven.install.skip>true</maven.install.skip>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <powermock.version>2.0.2</powermock.version>
+        <bytebuddy.version>1.9.10</bytebuddy.version>
+        <mockito.version>2.27.0</mockito.version>
+        <mockito-testng.version>0.1.1</mockito-testng.version>
+        <logLevel>debug</logLevel>
+    </properties>
 </project>
