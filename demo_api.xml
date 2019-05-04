@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bundle xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        name="快嘉接口定义规范" xsi:noNamespaceSchemaLocation="fastjrun-schema.xsd">
+<bundle xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="fastjrun-example-schema.xsd">
     <packets>
         <packet class="packet.app.RegistserRestRequestBody">
             <field name="loginId" dataType="String" length="12"
