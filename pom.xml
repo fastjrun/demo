@@ -478,8 +478,8 @@
         <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
-        <sdkg.version>2.1.4</sdkg.version>
-        <sdkg-example.version>2.1.4</sdkg-example.version>
+        <sdkg.version>2.1.5</sdkg.version>
+        <sdkg-example.version>2.1.5</sdkg-example.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
